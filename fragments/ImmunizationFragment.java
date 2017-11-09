@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import edu.cnm.deepdive.healthtracker.R;
 
 /**
@@ -16,7 +17,7 @@ import edu.cnm.deepdive.healthtracker.R;
  * events. Use the {@link ImmunizationFragment#newInstance} factory method to create an instance of
  * this fragment.
  */
-public class ImmunizationFragment extends Fragment {
+public class ImmunizationFragment extends Fragment implements Button.OnClickListener{
 
   // TODO: Rename parameter arguments, choose names that match
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -89,6 +90,21 @@ public class ImmunizationFragment extends Fragment {
   public void onDetach() {
     super.onDetach();
     mListener = null;
+  }
+
+  @Override
+  public void onClick(View view) {
+    switch (view.getId()) {
+      case R.id.save_immunization_record:
+        //TODO pop up add chart record
+        break;
+      case R.id.delete_immunization_record:
+        //TODO pop up message "Are you sure?"
+        break;
+      case R.id.cancel_immunization_record:
+        //TODO return to former screen
+        break;
+    }
   }
 
   /**

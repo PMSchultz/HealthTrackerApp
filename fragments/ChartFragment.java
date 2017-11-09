@@ -4,10 +4,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
+
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import edu.cnm.deepdive.healthtracker.R;
 
 /**
@@ -15,7 +18,7 @@ import edu.cnm.deepdive.healthtracker.R;
  * {@link ChartFragment.OnFragmentInteractionListener} interface to handle interaction events. Use
  * the {@link ChartFragment#newInstance} factory method to create an instance of this fragment.
  */
-public class ChartFragment extends Fragment {
+public class ChartFragment extends Fragment implements Button.OnClickListener {
 
   // TODO: Rename parameter arguments, choose names that match
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,20 +53,17 @@ public class ChartFragment extends Fragment {
     return fragment;
   }
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    if (getArguments() != null) {
-      mParam1 = getArguments().getString(ARG_PARAM1);
-      mParam2 = getArguments().getString(ARG_PARAM2);
-    }
-  }
 
+
+//TODO attach onClick Listeners to buttons
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_chart, container, false);
+    View inflate = inflater.inflate(R.layout.fragment_chart, container, false);
+    Button addButton = inflate.findViewById(R.id.add_chart_record);
+    addButton.setOnClickListener(this);
+    return inflate;
   }
 
   // TODO: Rename method, update argument and hook method into UI event
@@ -88,6 +88,32 @@ public class ChartFragment extends Fragment {
   public void onDetach() {
     super.onDetach();
     mListener = null;
+  }
+
+  @Override
+  public void onClick(View view) {
+    int navigationClicked = getArguments().getInt("Record Type");
+    switch(view.getId()){
+      case R.id.add_chart_record:
+        switch(navigationClicked){
+          case R.id.nav_medications:
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_panel, new MedicationFragment())
+                .commit();
+            break;
+
+
+            //TODO repeat for all cases
+        }
+        //TODO pop up add chart record
+        break;
+      case R.id.edit_chart_record:
+        //TODO pop up message "Are you sure?"
+        break;
+      case R.id.cancel_chart_record:
+        //TODO return to former screen
+        break;
+    }
   }
 
   /**

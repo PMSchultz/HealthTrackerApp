@@ -97,26 +97,36 @@ public class MainActivity extends AppCompatActivity
     // Handle navigation view item clicks here.
     int id = item.getItemId();
 
-    if (id == R.id.nav_allergies) {
-      FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-      ft.replace(R.id.content_panel, new ChartFragment());
-      ft.commit();
-    } else if (id == R.id.nav_immunizations) {
+    ChartFragment fragment = new ChartFragment();
+    Bundle bundle = new Bundle();
+    bundle.putInt("Record Type", id);
+    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+    fragment.setArguments(bundle);
+    ft.replace(R.id.content_panel, fragment);
+    ft.commit();
 
-    } else if (id == R.id.nav_medications) {
-      FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-      ft.replace(R.id.content_panel, new ChartFragment());
-      ft.commit();
-
-    } else if (id == R.id.nav_office_visits) {
-
-    } else if (id == R.id.nav_lab_results) {
-
-    } else if (id == R.id.nav_imaging_results) {
-
-    } else if (id == R.id.nav_hospitalizations) {
-
-    }
+//    if (id == R.id.nav_allergies) {
+//      FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//
+//      ft.replace(R.id.content_panel, fragment);
+//      ft.commit();
+//    } else if (id == R.id.nav_immunizations) {
+//
+//    } else if (id == R.id.nav_medications) {
+//      FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//
+//      ft.replace(R.id.content_panel, fragment);
+//      ft.commit();
+//
+//    } else if (id == R.id.nav_office_visits) {
+//
+//    } else if (id == R.id.nav_lab_results) {
+//
+//    } else if (id == R.id.nav_imaging_results) {
+//
+//    } else if (id == R.id.nav_hospitalizations) {
+//
+//    }
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);
@@ -157,15 +167,6 @@ public class MainActivity extends AppCompatActivity
 
   public void cancelRecordActivity(View view) {
     //TODO return user to list view without adding or editing a record
-  }
-
-  public void showDatePickerDialog(View view){
-    DatePickerFragment datePickerFragment = new DatePickerFragment();
-    Bundle bundle = new Bundle();
-    bundle.putInt(DatePickerFragment.DATE_PICKER_FIELD_ID, view.getId());
-
-    datePickerFragment.setArguments(bundle);
-    datePickerFragment.show(getSupportFragmentManager(), "date");
   }
 
 

@@ -4,10 +4,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import edu.cnm.deepdive.healthtracker.R;
 
 /**
@@ -15,7 +18,7 @@ import edu.cnm.deepdive.healthtracker.R;
  * {@link MedicationFragment.OnFragmentInteractionListener} interface to handle interaction events. Use
  * the {@link MedicationFragment#newInstance} factory method to create an instance of this fragment.
  */
-public class MedicationFragment extends Fragment {
+public class MedicationFragment extends Fragment implements Button.OnClickListener{
 
   // TODO: Rename parameter arguments, choose names that match
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -89,6 +92,22 @@ public class MedicationFragment extends Fragment {
     super.onDetach();
     mListener = null;
   }
+
+  @Override
+  public void onClick(View view) {
+    switch (view.getId()) {
+      case R.id.save_medication_record:
+        //TODO pop up add chart record
+        break;
+      case R.id.delete_medication_record:
+        //TODO pop up message "Are you sure?"
+        break;
+      case R.id.cancel_medication_record:
+        //TODO return to former screen
+        break;
+    }
+  }
+
 
   /**
    * This interface must be implemented by activities that contain this fragment to allow an
