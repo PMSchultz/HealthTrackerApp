@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.healthtracker.fragments;
+package edu.cnm.deepdive.healthtracker.mainfragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -13,11 +13,11 @@ import edu.cnm.deepdive.healthtracker.R;
 
 /**
  * A simple {@link Fragment} subclass. Activities that contain this fragment must implement the
- * {@link HospitalizationFragment.OnFragmentInteractionListener} interface to handle interaction
+ * {interface to handle interaction
  * events. Use the {@link HospitalizationFragment#newInstance} factory method to create an instance
  * of this fragment.
  */
-public class HospitalizationFragment extends Fragment implements Button.OnClickListener{
+public class HospitalizationFragment extends Fragment implements Button.OnClickListener {
 
   // TODO: Rename parameter arguments, choose names that match
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,7 +28,7 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
   private String mParam1;
   private String mParam2;
 
-  private OnFragmentInteractionListener mListener;
+  //private OnFragmentInteractionListener mListener;
 
   public HospitalizationFragment() {
     // Required empty public constructor
@@ -65,32 +65,29 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_hospitalization, container, false);
+    View inflate = inflater.inflate(R.layout.fragment_hospitalization, container, false);
+    inflate.findViewById(R.id.admit_date).setOnClickListener(this);
+    inflate.findViewById(R.id.discharge_date).setOnClickListener(this);
+    return inflate;
   }
 
-  // TODO: Rename method, update argument and hook method into UI event
-  public void onButtonPressed(Uri uri) {
-    if (mListener != null) {
-      mListener.onFragmentInteraction(uri);
-    }
-  }
+//  // TODO: Rename method, update argument and hook method into UI event
+//  public void onButtonPressed(Uri uri) {
+//    if (mListener != null) {
+//      mListener.onFragmentInteraction(uri);
+//    }
+  //}
 
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
-    if (context instanceof OnFragmentInteractionListener) {
-      mListener = (OnFragmentInteractionListener) context;
-    } else {
-      throw new RuntimeException(context.toString()
-          + " must implement OnFragmentInteractionListener");
-    }
   }
 
-  @Override
-  public void onDetach() {
-    super.onDetach();
-    mListener = null;
-  }
+//  @Override
+//  public void onDetach() {
+//    super.onDetach();
+//    mListener = null;
+//  }
 
   @Override
   public void onClick(View view) {
@@ -104,8 +101,17 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
       case R.id.cancel_hospital_record:
         //TODO return to former screen
         break;
+      case R.id.admit_date:
+      case R.id.discharge_date:
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(DatePickerFragment.DATE_PICKER_FIELD_ID, view.getId());
+        datePickerFragment.setArguments(bundle);
+        datePickerFragment.show(getFragmentManager(), "datePicker");
+        break;
     }
   }
+}
 
   /**
    * This interface must be implemented by activities that contain this fragment to allow an
@@ -114,9 +120,9 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
    * "http://developer.android.com/training/basics/fragments/communicating.html" >Communicating with
    * Other Fragments</a> for more information.
    */
-  public interface OnFragmentInteractionListener {
-
-    // TODO: Update argument type and name
-    void onFragmentInteraction(Uri uri);
-  }
-}
+//  public interface OnFragmentInteractionListener {
+//
+//    // TODO: Update argument type and name
+//    void onFragmentInteraction(Uri uri);
+//  }
+//}

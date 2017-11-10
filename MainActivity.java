@@ -1,7 +1,6 @@
 package edu.cnm.deepdive.healthtracker;
 
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.v4.app.FragmentTransaction;
@@ -18,14 +17,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import edu.cnm.deepdive.healthtracker.fragments.ChartFragment;
-import edu.cnm.deepdive.healthtracker.fragments.DatePickerFragment;
-import edu.cnm.deepdive.healthtracker.fragments.MedicationFragment;
+import edu.cnm.deepdive.healthtracker.mainfragments.ChartFragment;
+import edu.cnm.deepdive.healthtracker.mainfragments.MedicationFragment;
 
 
 public class MainActivity extends AppCompatActivity
-    implements OnNavigationItemSelectedListener, OnItemSelectedListener,
-    ChartFragment.OnFragmentInteractionListener {
+    implements OnNavigationItemSelectedListener, OnItemSelectedListener{
 
 
   @Override
@@ -144,10 +141,7 @@ public class MainActivity extends AppCompatActivity
 
   }
 
-  @Override
-  public void onFragmentInteraction(Uri uri) {
 
-  }
 
   public void openRecord(View view) {
     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

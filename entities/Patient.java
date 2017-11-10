@@ -4,8 +4,6 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @DatabaseTable(tableName = "PATIENT")
 
@@ -25,6 +23,7 @@ public class Patient {
   @DatabaseField(columnName = "CREATED", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
       format = "yyyy-MM-dd HH:mm:ss", canBeNull = false, readOnly = true)
   private Timestamp created;
+
 
   public int getId() {
     return id;
@@ -50,5 +49,13 @@ public class Patient {
     return created;
   }
 
-  //TODO  override toString method using a abstract map
+  @Override
+  public String toString() {
+    return "Patient{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", dateOfBirth=" + dateOfBirth +
+        ", created=" + created +
+        '}';
+  }
 }

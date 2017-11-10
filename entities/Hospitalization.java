@@ -13,6 +13,12 @@ public class Hospitalization {
   @DatabaseField(columnName = "HOSPITALIZATION_ID", generatedId = true)
   private int id;
 
+  @DatabaseField(columnName = "HOSPITAL", canBeNull = false)
+  private String hospital;
+
+  @DatabaseField(columnName = "PATIENT_ID", canBeNull = false, foreign = true, foreignAutoRefresh = true)
+  private Patient patient;
+
   @DatabaseField(columnName = "DATE", columnDefinition = "ADMIT_DATE",
       format = "yyyy-MM-dd", canBeNull = false)
   private Date admitDate;
@@ -32,6 +38,14 @@ public class Hospitalization {
 
   public int getId() {
     return id;
+  }
+
+  public String getHospital() {
+    return hospital;
+  }
+
+  public void setHospital(String hospital) {
+    this.hospital = hospital;
   }
 
   public Date getAdmitDate() {
@@ -74,5 +88,24 @@ public class Hospitalization {
     this.notes = notes;
   }
 
-  //TODO generate toString
+  public Patient getPatient() {
+    return patient;
+  }
+
+  public void setPatient(Patient patient) {
+    this.patient = patient;
+  }
+
+  @Override
+  public String toString() {
+    return "Hospitalization{" +
+        "id=" + id +
+        ", patient=" + patient +
+        ", admitDate=" + admitDate +
+        ", dischargeDate=" + dischargeDate +
+        ", reason='" + reason + '\'' +
+        ", provider='" + provider + '\'' +
+        ", notes='" + notes + '\'' +
+        '}';
+  }
 }

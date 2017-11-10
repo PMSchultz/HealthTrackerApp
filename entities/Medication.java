@@ -8,8 +8,15 @@ import java.util.Date;
 
 public class Medication {
 
-  @DatabaseField(columnName = "MEDICATION", generatedId = true)
+  @DatabaseField(columnName = "MEDICATION_ID", generatedId = true)
   private int id;
+
+  @DatabaseField(columnName = "MEDICATION", canBeNull = false)
+  private String medicationName;
+
+
+  @DatabaseField(columnName = "PATIENT_ID", canBeNull = false, foreign = true, foreignAutoRefresh = true)
+  private Patient patient;
 
   @DatabaseField(columnName = "DATE", columnDefinition = "START_DATE",
       format = "yyyy-MM-dd", canBeNull = false)
@@ -26,8 +33,18 @@ public class Medication {
   @DatabaseField(columnName = "NOTES", canBeNull = true)
   private String notes;
 
+
+
   public int getId() {
     return id;
+  }
+
+  public String getMedicationName() {
+    return medicationName;
+  }
+
+  public void setMedicationName(String medicationName) {
+    this.medicationName = medicationName;
   }
 
   public Date getStartDate() {
@@ -62,5 +79,23 @@ public class Medication {
     this.notes = notes;
   }
 
-  //TODO generate toString
+  public Patient getPatient() {
+    return patient;
+  }
+
+  public void setPatient(Patient patient) {
+    this.patient = patient;
+  }
+
+  @Override
+  public String toString() {
+    return "Medication{" +
+        "id=" + id +
+        ", patient=" + patient +
+        ", startDate=" + startDate +
+        ", stopDate=" + stopDate +
+        ", provider='" + provider + '\'' +
+        ", notes='" + notes + '\'' +
+        '}';
+  }
 }

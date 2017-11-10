@@ -15,6 +15,9 @@ public class OfficeVisit {
   @DatabaseField(columnName = "OFFICE_VISIT_ID", generatedId = true)
   private int id;
 
+  @DatabaseField(columnName = "PATIENT_ID", canBeNull = false, foreign = true, foreignAutoRefresh = true)
+  private Patient patient;
+
   @DatabaseField(columnName = "DATE", columnDefinition = "DATE OF OFFICE VISIT",
       format = "yyyy-MM-dd", canBeNull = false)
   private Date date;
@@ -83,12 +86,12 @@ public class OfficeVisit {
     this.weight = weight;
   }
 
-  public String getBlood_pressure() {
+  public String getBloodPressure() {
     return bloodPressure;
   }
 
-  public void setBlood_pressure(String blood_pressure) {
-    this.bloodPressure = blood_pressure;
+  public void setBloodPressure(String bloodPressure) {
+    this.bloodPressure = bloodPressure;
   }
 
   public String getNotes() {
@@ -99,10 +102,19 @@ public class OfficeVisit {
     this.notes = notes;
   }
 
+  public Patient getPatient() {
+    return patient;
+  }
+
+  public void setPatient(Patient patient) {
+    this.patient = patient;
+  }
+
   @Override
   public String toString() {
     return "OfficeVisit{" +
         "id=" + id +
+        ", patient=" + patient +
         ", date=" + date +
         ", reason='" + reason + '\'' +
         ", provider='" + provider + '\'' +
@@ -112,19 +124,4 @@ public class OfficeVisit {
         ", notes='" + notes + '\'' +
         '}';
   }
-//override toString method using a abstract map
-//  @Override
-//  public String toString() {
-//    Map<String, Object> map = new HashMap<>();
-//    map.put("id", id);
-//    map.put("date", date);
-//    map.put("reason", reason);
-//    map.put("provider", provider);
-//    map.put("height", height);
-//    map.put("weight", weight);
-//    map.put("blood_pressure", bloodPressure);
-//    map.put("notes", notes);
-//    return map.toString();
-//  }
-
 }

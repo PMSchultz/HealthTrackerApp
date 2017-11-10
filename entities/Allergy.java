@@ -12,10 +12,13 @@ public class Allergy {
   @DatabaseField(columnName = "ALLERGY_ID", generatedId = true)
   private int id;
 
-  @DatabaseField(columnName = "DRUG_ALLERGY", canBeNull = true)
-  private String drugAllergy;
+  @DatabaseField(columnName = "PATIENT_ID", canBeNull = false, foreign = true, foreignAutoRefresh = true)
+  private Patient patient;
 
-  @DatabaseField(columnName = "FOOD_ALLERGY", canBeNull = false)
+  @DatabaseField(columnName = "MEDICATION_ALLERGY",foreign = true, canBeNull = true)
+  private Medication medAllergy;
+
+  @DatabaseField(columnName = "FOOD_ALLERGY", canBeNull = true)
   private String foodAllergy;
 
   @DatabaseField(columnName = "SEASONAL_ALLERGY", canBeNull = true)
@@ -25,7 +28,7 @@ public class Allergy {
   private String animalAllergy;
 
   @DatabaseField(columnName = "LATEX_ALLERGY", canBeNull = true)
-  private String latexAllergy;
+  private Boolean latexAllergy;
 
   @DatabaseField(columnName = "NOTES", canBeNull = true)
   private String notes;
@@ -34,12 +37,12 @@ public class Allergy {
     return id;
   }
 
-  public String getDrugAllergy() {
-    return drugAllergy;
+  public Medication getMedAllergy() {
+    return medAllergy;
   }
 
-  public void setDrugAllergy(String drugAllergy) {
-    this.drugAllergy = drugAllergy;
+  public void setMedAllergy(Medication medAllergy) {
+    this.medAllergy = medAllergy;
   }
 
   public String getFoodAllergy() {
@@ -66,12 +69,20 @@ public class Allergy {
     this.animalAllergy = animalAllergy;
   }
 
-  public String getLatexAllergy() {
+  public Boolean getLatexAllergy() {
     return latexAllergy;
   }
 
-  public void setLatexAllergy(String latexAllergy) {
+  public void setLatexAllergy(Boolean latexAllergy) {
     this.latexAllergy = latexAllergy;
+  }
+
+  public Patient getPatient() {
+    return patient;
+  }
+
+  public void setPatient(Patient patient) {
+    this.patient = patient;
   }
 
   public String getNotes() {
@@ -82,5 +93,17 @@ public class Allergy {
     this.notes = notes;
   }
 
-  //TODO generate toString
+  @Override
+  public String toString() {
+    return "Allergy{" +
+        "id=" + id +
+        ", patient=" + patient +
+        ", medAllergy=" + medAllergy +
+        ", foodAllergy='" + foodAllergy + '\'' +
+        ", seasonalAllergy='" + seasonalAllergy + '\'' +
+        ", animalAllergy='" + animalAllergy + '\'' +
+        ", latexAllergy=" + latexAllergy +
+        ", notes='" + notes + '\'' +
+        '}';
+  }
 }

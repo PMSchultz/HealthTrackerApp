@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.healthtracker.fragments;
+package edu.cnm.deepdive.healthtracker.mainfragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,15 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.Button;
 import edu.cnm.deepdive.healthtracker.R;
 
 /**
  * A simple {@link Fragment} subclass. Activities that contain this fragment must implement the
- * {@link AllergyFragment.OnFragmentInteractionListener} interface to handle interaction events. Use
- * the {@link AllergyFragment#newInstance} factory method to create an instance of this fragment.
+ * {@link LabFragment.OnFragmentInteractionListener} interface to handle interaction events.
+ * Use the {@link LabFragment#newInstance} factory method to create an instance of this
+ * fragment.
  */
-public class AllergyFragment extends Fragment implements Button.OnClickListener {
+public class LabFragment extends Fragment {
 
   // TODO: Rename parameter arguments, choose names that match
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,7 +29,7 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
 
   private OnFragmentInteractionListener mListener;
 
-  public AllergyFragment() {
+  public LabFragment() {
     // Required empty public constructor
   }
 
@@ -39,11 +39,11 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
    *
    * @param param1 Parameter 1.
    * @param param2 Parameter 2.
-   * @return A new instance of fragment AllergyFragment.
+   * @return A new instance of fragment LabFragment.
    */
   // TODO: Rename and change types and number of parameters
-  public static AllergyFragment newInstance(String param1, String param2) {
-    AllergyFragment fragment = new AllergyFragment();
+  public static LabFragment newInstance(String param1, String param2) {
+    LabFragment fragment = new LabFragment();
     Bundle args = new Bundle();
     args.putString(ARG_PARAM1, param1);
     args.putString(ARG_PARAM2, param2);
@@ -64,7 +64,7 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_allergy, container, false);
+    return inflater.inflate(R.layout.fragment_lab, container, false);
   }
 
   // TODO: Rename method, update argument and hook method into UI event
@@ -77,33 +77,12 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
-    if (context instanceof OnFragmentInteractionListener) {
-      mListener = (OnFragmentInteractionListener) context;
-    } else {
-      throw new RuntimeException(context.toString()
-          + " must implement OnFragmentInteractionListener");
-    }
   }
 
   @Override
   public void onDetach() {
     super.onDetach();
     mListener = null;
-  }
-
-  @Override
-  public void onClick(View view) {
-    switch(view.getId()){
-      case R.id.save_allergy_record:
-        //TODO pop up add chart record
-        break;
-      case R.id.delete_allergy_record:
-        //TODO pop up message "Are you sure?"
-        break;
-      case R.id.cancel_allergy_record:
-        //TODO return to former screen
-        break;
-  }
   }
 
   /**
