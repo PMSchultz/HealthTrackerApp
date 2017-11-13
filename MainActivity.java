@@ -3,6 +3,8 @@ package edu.cnm.deepdive.healthtracker;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -18,16 +20,32 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
+import edu.cnm.deepdive.healthtracker.entities.Patient;
 import edu.cnm.deepdive.healthtracker.helpers.OrmHelper;
-import edu.cnm.deepdive.healthtracker.mainfragments.ChartFragment;
+import edu.cnm.deepdive.healthtracker.mainfragments.AllergyFragment;
+import edu.cnm.deepdive.healthtracker.mainfragments.HospitalizationFragment;
+import edu.cnm.deepdive.healthtracker.mainfragments.ImagingFragment;
+import edu.cnm.deepdive.healthtracker.mainfragments.ImmunizationFragment;
+import edu.cnm.deepdive.healthtracker.mainfragments.LabFragment;
+import edu.cnm.deepdive.healthtracker.mainfragments.ListImmunizationFragment;
+import edu.cnm.deepdive.healthtracker.mainfragments.ListMedicationFragment;
 import edu.cnm.deepdive.healthtracker.mainfragments.MedicationFragment;
+import edu.cnm.deepdive.healthtracker.mainfragments.ListOfficeVisitFragment;
+import java.sql.SQLException;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity
-    implements OnNavigationItemSelectedListener, OnItemSelectedListener{
+    implements OnNavigationItemSelectedListener, OrmHelper.OrmInteraction {
 
-private OrmHelper helper = null;
-private int patientSelected;
+  public static final String PATIENT_ID_KEY = "patient_id";
+
+  private OrmHelper helper = null;
+  private int patientSelected;
+  private Patient selectedPatient = null;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -40,15 +58,42 @@ private int patientSelected;
 
     //get the spinner from the xml
     Spinner selectExisting = (Spinner) findViewById(R.id.name_spinner);
+    selectExisting.setOnItemSelectedListener(new OnItemSelectedListener() {
+      @Override
+      public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        selectedPatient = (Patient) adapterView.getItemAtPosition(i);
+        if (selectedPatient.getId() == 0) {
+          //TODO display create patient fragment
+        }
+      }
+
+      @Override
+      public void onNothingSelected(AdapterView<?> adapterView) {
+
+      }
+    });
     //create a list of items for the spinner
     //in the future this list will come from the server
-    String[] items = new String[]{"Mickey", "Minnie", "Donald", "Goofy"};
-    //create an adapter to describe how the items are displayed
-    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-        android.R.layout.simple_spinner_dropdown_item, items);
-    //set the spinners adapter to the previously created one.
-    selectExisting.setAdapter(adapter);
-    selectExisting.setOnItemSelectedListener(this);
+
+    try {
+      Dao<Patient, Integer> dao = getHelper().getPatientDao();
+      QueryBuilder<Patient, Integer> builder = dao.queryBuilder();
+      builder.orderBy("NAME", true);
+      List<Patient> patients = dao.query(builder.prepare());
+      Patient addPatient = new Patient();
+      addPatient.setName("Add New Patient");
+      patients.add(addPatient);
+      //create an adapter to describe how the items are displayed
+      ArrayAdapter<Patient> adapter = new ArrayAdapter<>(this,
+          android.R.layout.simple_spinner_dropdown_item, patients);
+      //set the spinners adapter to the previously created one.
+      selectExisting.setAdapter(adapter);
+      if (patients.size() > 0) {
+        selectedPatient = patients.get(0);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -60,10 +105,24 @@ private int patientSelected;
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
   }
+
+  @Override
+  protected void onStart() {
+    super.onStart();
+    getHelper();
+  }
+
+  @Override
+  protected void onStop() {
+    releaseHelper();
+    super.onStop();
+  }
+
   //creates an instance of OrmHelper
-  public synchronized  OrmHelper getHelper(){
-    if (helper == null){
-      helper = OpenHelperManager.getHelper(this,OrmHelper.class);
+  @Override
+  public synchronized OrmHelper getHelper() {
+    if (helper == null) {
+      helper = OpenHelperManager.getHelper(this, OrmHelper.class);
     }
     return helper;
   }
@@ -114,54 +173,55 @@ private int patientSelected;
     // Handle navigation view item clicks here.
     int id = item.getItemId();
 
-    ChartFragment fragment = new ChartFragment();
-    Bundle bundle = new Bundle();
-    bundle.putInt("Record Type", id);
-    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-    fragment.setArguments(bundle);
-    ft.replace(R.id.content_panel, fragment);
-    ft.commit();
 
-//    if (id == R.id.nav_allergies) {
-//      FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//
-//      ft.replace(R.id.content_panel, fragment);
-//      ft.commit();
-//    } else if (id == R.id.nav_immunizations) {
-//
-//    } else if (id == R.id.nav_medications) {
-//      FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//
-//      ft.replace(R.id.content_panel, fragment);
-//      ft.commit();
-//
-//    } else if (id == R.id.nav_office_visits) {
-//
-//    } else if (id == R.id.nav_lab_results) {
-//
-//    } else if (id == R.id.nav_imaging_results) {
-//
-//    } else if (id == R.id.nav_hospitalizations) {
-//
-//    }
+
+    int patientId = (selectedPatient != null) ? selectedPatient.getId() : 0;
+    switch (id) {
+
+      case R.id.nav_medications:
+        loadFragment(new ListMedicationFragment(), patientId );
+        break;
+      case R.id.nav_immunizations:
+        loadFragment(new ListImmunizationFragment(), patientId );
+        break;
+//      case R.id.nav_hospitalizations:
+//        Fragment fragment2 = new HospitalizationFragment();
+//        fragment2.setArguments(args);
+//        fragmentManager.beginTransaction()
+//            .replace(R.id.content_panel, fragment2)
+//            .commit();
+//        break;
+//      case R.id.nav_allergies:
+//        Fragment fragment3 = new AllergyFragment();
+//        fragment3.setArguments(args);
+//        fragmentManager.beginTransaction()
+//            .replace(R.id.content_panel, fragment3)
+//            .commit();
+//        break;
+      case R.id.nav_office_visits:
+        loadFragment(new ListOfficeVisitFragment(), patientId );
+        break;
+//      case R.id.nav_lab_results:
+//        Fragment fragment5 = new LabFragment();
+//        fragment5.setArguments(args);
+//        fragmentManager.beginTransaction()
+//            .replace(R.id.content_panel, fragment5)
+//            .commit();
+//        break;
+//      case R.id.nav_imaging_results:
+//        Fragment fragment6 = new ImagingFragment();
+//        fragment6.setArguments(args);
+//        fragmentManager.beginTransaction()
+//            .replace(R.id.content_panel, fragment6)
+//            .commit();
+//        break;
+    }
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);
     return true;
 
   }
-
-  @Override
-  public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//taking input from spinner and set it to a field
-    patientSelected = i;
-  }
-
-  @Override
-  public void onNothingSelected(AdapterView<?> adapterView) {
-
-  }
-
 
 
   public void openRecord(View view) {
@@ -184,5 +244,16 @@ private int patientSelected;
     //TODO return user to list view without adding or editing a record
   }
 
+  public void loadFragment(Fragment fragment, int patientId) {
+
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    Bundle args = new Bundle(); //how to pass arguments
+    args.putInt(PATIENT_ID_KEY, patientId);
+
+    fragment.setArguments(args);
+    fragmentManager.beginTransaction()
+        .replace(R.id.content_panel, fragment)
+        .commit();
+  }
 
 }

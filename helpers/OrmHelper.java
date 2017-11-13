@@ -59,6 +59,12 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
     patientDao = null;
     super.close();
   }
+  public interface OrmInteraction {
+    OrmHelper getHelper();
+
+  }
+
+  //TODO onStart and onStop methods
 
   public synchronized Dao<Patient, Integer> getPatientDao() throws SQLException {
     if (patientDao == null) {
@@ -199,7 +205,5 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
     }
   }
 
-  public interface OrmInteraction {
 
-  }
 }

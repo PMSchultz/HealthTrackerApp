@@ -95,15 +95,10 @@ public class Allergy {
 
   @Override
   public String toString() {
-    return "Allergy{" +
-        "id=" + id +
-        ", patient=" + patient +
-        ", medAllergy=" + medAllergy +
-        ", foodAllergy='" + foodAllergy + '\'' +
-        ", seasonalAllergy='" + seasonalAllergy + '\'' +
-        ", animalAllergy='" + animalAllergy + '\'' +
-        ", latexAllergy=" + latexAllergy +
-        ", notes='" + notes + '\'' +
-        '}';
+    return medAllergy + ": "+ foodAllergy + ": " +
+        seasonalAllergy + ": " +
+        animalAllergy + ": " +
+        latexAllergy;
+        };
   }
-}
+
