@@ -129,18 +129,24 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
       allergy.setPatient(patient);
       allergy.setLatexAllergy(true);
       getAllergyDao().create(allergy);
+
+      allergy = new Allergy();
+      allergy.setPatient(patient);
       allergy.setAnimalAllergy("cats");
       getAllergyDao().create(allergy);
-     ///allergy.setMedAllergy("C");  ///how to set drug allergy as it is listed in allergy as a medication object
+
+//      allergy = new Allergy()
+//     allergy.setMedAllergy();  ///how to set drug allergy as it is listed in allergy as a medication object
 
 
       Immunization immunization = new Immunization();
       immunization.setPatient(patient);
+      immunization.setDate(new Date());
       immunization.setVaccine("Hepatitis B");
       getImmunizationDao().create(immunization);
 
-      immunization.setVaccine("Flu shot");   //make sure this is ok to create a new type
-      getImmunizationDao().create(immunization);
+//      immunization.setVaccine("Flu shot");   //make sure this is ok to create a new type
+//      getImmunizationDao().create(immunization);
 
       Hospitalization hospitalization = new Hospitalization();
       hospitalization.setPatient(patient);
@@ -183,6 +189,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
       OfficeVisit officeVisit = new OfficeVisit();
       officeVisit.setPatient(patient);
       calendar.set(2017, 6 ,20);
+      officeVisit.setDate(calendar.getTime());
       officeVisit.setBloodPressure("180/100");
       officeVisit.setHeight("5'8");
       officeVisit.setWeight("296 pounds");

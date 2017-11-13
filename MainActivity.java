@@ -17,6 +17,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import edu.cnm.deepdive.healthtracker.helpers.OrmHelper;
 import edu.cnm.deepdive.healthtracker.mainfragments.ChartFragment;
 import edu.cnm.deepdive.healthtracker.mainfragments.MedicationFragment;
 
@@ -24,10 +26,13 @@ import edu.cnm.deepdive.healthtracker.mainfragments.MedicationFragment;
 public class MainActivity extends AppCompatActivity
     implements OnNavigationItemSelectedListener, OnItemSelectedListener{
 
-
+private OrmHelper helper = null;
+private int patientSelected;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    getHelper().getWritableDatabase().close();
     setContentView(R.layout.activity_main);
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -54,6 +59,21 @@ public class MainActivity extends AppCompatActivity
 
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
+  }
+  //creates an instance of OrmHelper
+  public synchronized  OrmHelper getHelper(){
+    if (helper == null){
+      helper = OpenHelperManager.getHelper(this,OrmHelper.class);
+    }
+    return helper;
+  }
+
+  // prevents memory leaks by setting the helper to null when not in use
+  public synchronized void releaseHelper() {
+    if (helper != null) {
+      OpenHelperManager.releaseHelper();
+      helper = null;
+    }
   }
 
   @Override
@@ -133,7 +153,8 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+//taking input from spinner and set it to a field
+    patientSelected = i;
   }
 
   @Override

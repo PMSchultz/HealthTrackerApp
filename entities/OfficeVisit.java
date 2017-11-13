@@ -3,6 +3,8 @@ package edu.cnm.deepdive.healthtracker.entities;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +24,7 @@ public class OfficeVisit {
       format = "yyyy-MM-dd", canBeNull = false)
   private Date date;
 
-  @DatabaseField(columnName = "REASON", canBeNull = true)
+  @DatabaseField(columnName = "REASON", canBeNull = false)
   private String reason;
 
   @DatabaseField(columnName = "PROVIDER", canBeNull = false)
@@ -112,16 +114,9 @@ public class OfficeVisit {
 
   @Override
   public String toString() {
-    return "OfficeVisit{" +
-        "id=" + id +
-        ", patient=" + patient +
-        ", date=" + date +
-        ", reason='" + reason + '\'' +
-        ", provider='" + provider + '\'' +
-        ", height='" + height + '\'' +
-        ", weight='" + weight + '\'' +
-        ", bloodPressure='" + bloodPressure + '\'' +
-        ", notes='" + notes + '\'' +
-        '}';
+    DateFormat format = new SimpleDateFormat("M/d/yy");
+    return format.format(date) +
+        ": " + reason +
+        " (" + provider + ")";
   }
 }

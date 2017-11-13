@@ -15,7 +15,7 @@ public class Allergy {
   @DatabaseField(columnName = "PATIENT_ID", canBeNull = false, foreign = true, foreignAutoRefresh = true)
   private Patient patient;
 
-  @DatabaseField(columnName = "MEDICATION_ALLERGY",foreign = true, canBeNull = true)
+  @DatabaseField(columnName = "MEDICATION_ID",foreign = true, canBeNull = true)
   private Medication medAllergy;
 
   @DatabaseField(columnName = "FOOD_ALLERGY", canBeNull = true)

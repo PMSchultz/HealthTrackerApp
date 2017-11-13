@@ -11,23 +11,23 @@ public class Medication {
   @DatabaseField(columnName = "MEDICATION_ID", generatedId = true)
   private int id;
 
-  @DatabaseField(columnName = "MEDICATION", canBeNull = false)
+  @DatabaseField(columnName = "NAME", canBeNull = false)
   private String medicationName;
 
 
   @DatabaseField(columnName = "PATIENT_ID", canBeNull = false, foreign = true, foreignAutoRefresh = true)
   private Patient patient;
 
-  @DatabaseField(columnName = "DATE", columnDefinition = "START_DATE",
+  @DatabaseField(columnName = "START_DATE",
       format = "yyyy-MM-dd", canBeNull = false)
   private Date startDate;
 
-  @DatabaseField(columnName = "DATE", columnDefinition = "STOP_DATE",
-      format = "yyyy-MM-dd", canBeNull = false)
+  @DatabaseField(columnName = "STOP_DATE",
+      format = "yyyy-MM-dd", canBeNull = true)
   private Date stopDate;
 
 
-  @DatabaseField(columnName = "PROVIDER", canBeNull = false)
+  @DatabaseField(columnName = "PROVIDER", canBeNull = true)
   private String provider;
 
   @DatabaseField(columnName = "NOTES", canBeNull = true)

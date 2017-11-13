@@ -8,20 +8,20 @@ import java.util.Date;
 
 public class Immunization {
 
-  //Links database table name to OFFICE VISIT class
+  //Links database table name to IMMUNIZATION class
   @DatabaseField(columnName = "IMMUNIZATION_ID", generatedId = true)
   private int id;
   @DatabaseField(columnName = "PATIENT_ID", canBeNull = false, foreign = true, foreignAutoRefresh = true)
   private Patient patient;
 
-  @DatabaseField(columnName = "DATE", columnDefinition = "DATE OF IMMUNIZATION",
+  @DatabaseField(columnName = "DATE",
       format = "yyyy-MM-dd", canBeNull = false)
   private Date date;
 
   @DatabaseField(columnName = "VACCINE", canBeNull = false)
   private String vaccine;
 
-  @DatabaseField(columnName = "PROVIDER", canBeNull = false)
+  @DatabaseField(columnName = "PROVIDER", canBeNull = true)
   private String provider;
 
   @DatabaseField(columnName = "NOTES", canBeNull = true)
@@ -43,7 +43,7 @@ public class Immunization {
     return vaccine;
   }
 
-  public void setVaccine(String reason) {
+  public void setVaccine(String vaccine) {
     this.vaccine = vaccine;
   }
 

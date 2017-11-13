@@ -16,7 +16,7 @@ public class Patient {
   @DatabaseField(columnName = "NAME", canBeNull = false)
   private String name;
 
-  @DatabaseField(columnName = "DATE", columnDefinition = "DATE_OF_BIRTH",
+  @DatabaseField(columnName = "DOB_DATE",
       format = "yyyy-MM-dd", canBeNull = false)
   private Date dateOfBirth;
 

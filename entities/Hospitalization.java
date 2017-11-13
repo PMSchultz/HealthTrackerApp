@@ -5,11 +5,11 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import java.util.Date;
 
-@DatabaseTable(tableName = "Hospitalization")
+@DatabaseTable(tableName = "HOSPITALIZATION")
 
 public class Hospitalization {
 
-  //Links database table name to OFFICE VISIT class
+  //Links database table name to HOSPITALIZATION class
   @DatabaseField(columnName = "HOSPITALIZATION_ID", generatedId = true)
   private int id;
 
@@ -19,18 +19,18 @@ public class Hospitalization {
   @DatabaseField(columnName = "PATIENT_ID", canBeNull = false, foreign = true, foreignAutoRefresh = true)
   private Patient patient;
 
-  @DatabaseField(columnName = "DATE", columnDefinition = "ADMIT_DATE",
+  @DatabaseField(columnName = "ADMIT_DATE",
       format = "yyyy-MM-dd", canBeNull = false)
   private Date admitDate;
 
-  @DatabaseField(columnName = "DATE", columnDefinition = "DISCHARGE_DATE",
+  @DatabaseField(columnName = "DISCHARGE_DATE",
       format = "yyyy-MM-dd", canBeNull = false)
   private Date dischargeDate;
 
   @DatabaseField(columnName = "REASON", canBeNull = false)
   private String reason;
 
-  @DatabaseField(columnName = "PROVIDER", canBeNull = false)
+  @DatabaseField(columnName = "PROVIDER", canBeNull = true)
   private String provider;
 
   @DatabaseField(columnName = "NOTES", canBeNull = true)
