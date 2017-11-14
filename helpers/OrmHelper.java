@@ -59,7 +59,9 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
     patientDao = null;
     super.close();
   }
+
   public interface OrmInteraction {
+
     OrmHelper getHelper();
 
   }
@@ -141,9 +143,25 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
       allergy.setAnimalAllergy("cats");
       getAllergyDao().create(allergy);
 
-//      allergy = new Allergy()
-//     allergy.setMedAllergy();  ///how to set drug allergy as it is listed in allergy as a medication object
+      allergy = new Allergy();
+      allergy.setPatient(patient);
+      allergy.setAnimalAllergy("dogs");
+      getAllergyDao().create(allergy);
 
+      allergy = new Allergy();
+      allergy.setPatient(patient);
+      allergy.setFoodAllergy("peanut");
+      getAllergyDao().create(allergy);
+
+//      allergy = new Allergy();
+//      allergy.setPatient(patient);      //TODO how to set medication allergy???
+//      allergy.setMedAllergy(medication);
+//      getAllergyDao().create(allergy);
+
+      allergy = new Allergy();
+      allergy.setPatient(patient);
+      allergy.setLatexAllergy(true);
+      getAllergyDao().create(allergy);
 
       Immunization immunization = new Immunization();
       immunization.setPatient(patient);
@@ -151,12 +169,15 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
       immunization.setVaccine("Hepatitis B");
       getImmunizationDao().create(immunization);
 
-//      immunization.setVaccine("Flu shot");   //make sure this is ok to create a new type
-//      getImmunizationDao().create(immunization);
+
+      immunization.setDate(new Date());
+      immunization.setVaccine("Flu shot");
+      getImmunizationDao().create(immunization);
+
 
       Hospitalization hospitalization = new Hospitalization();
       hospitalization.setPatient(patient);
-      calendar.set(2017,7,14);
+      calendar.set(2017, 7, 14);
       hospitalization.setAdmitDate(calendar.getTime());
       hospitalization.setHospital("Mercy General");
       hospitalization.setReason("Pneumonia");
@@ -184,7 +205,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
 
       Hospitalization hospitalization = new Hospitalization();
       hospitalization.setPatient(patient);
-      calendar.set(2017,6,12);
+      calendar.set(2017, 6, 12);
       hospitalization.setAdmitDate(calendar.getTime());
       hospitalization.setHospital("Lovelace");
       hospitalization.setReason("Cardiac Arrest");
@@ -194,7 +215,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
 
       OfficeVisit officeVisit = new OfficeVisit();
       officeVisit.setPatient(patient);
-      calendar.set(2017, 6 ,20);
+      calendar.set(2017, 6, 20);
       officeVisit.setDate(calendar.getTime());
       officeVisit.setBloodPressure("180/100");
       officeVisit.setHeight("5'8");

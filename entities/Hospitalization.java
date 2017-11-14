@@ -3,6 +3,8 @@ package edu.cnm.deepdive.healthtracker.entities;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @DatabaseTable(tableName = "HOSPITALIZATION")
@@ -98,14 +100,8 @@ public class Hospitalization {
 
   @Override
   public String toString() {
-    return "Hospitalization{" +
-        "id=" + id +
-        ", patient=" + patient +
-        ", admitDate=" + admitDate +
-        ", dischargeDate=" + dischargeDate +
-        ", reason='" + reason + '\'' +
-        ", provider='" + provider + '\'' +
-        ", notes='" + notes + '\'' +
-        '}';
+    DateFormat format = new SimpleDateFormat("M/d/yy");
+    return format.format(admitDate) +  ": "  + hospital +  ":  Reason:" + reason +  ": "
+        + ((dischargeDate != null) ? ("Discharge date: " + format.format(dischargeDate)) : "");
   }
 }

@@ -95,10 +95,11 @@ public class Allergy {
 
   @Override
   public String toString() {
-    return medAllergy + ": "+ foodAllergy + ": " +
-        seasonalAllergy + ": " +
-        animalAllergy + ": " +
-        latexAllergy;
-        };
+    return ((medAllergy!= null) ?  ("Medication Allergy: " + medAllergy + " ") : "") +
+        ((foodAllergy != null) ?  ("Food Allergy: " + foodAllergy + " ") : "") +
+        ((seasonalAllergy != null) ?  ("Seasonal Allergy: " + seasonalAllergy + " ") : "") +
+        ((animalAllergy != null) ?  ("Animal Allergy: " + animalAllergy + " ") : " ");
+     //  ((latexAllergy ?  "Latex Allergy": ""));
+  }
   }
 
