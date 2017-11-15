@@ -79,6 +79,7 @@ public class ListHospitalizationFragment extends Fragment implements View.OnClic
         List<Hospitalization> visits = dao.query(builder.prepare());
         chart.setAdapter(new ArrayAdapter<Hospitalization>(getActivity(), R.layout.list_item,
             visits));
+        chart.setOnItemClickListener(this);
       } catch (SQLException e) {
         e.printStackTrace();
       }
@@ -120,7 +121,11 @@ public class ListHospitalizationFragment extends Fragment implements View.OnClic
 
   @Override
   public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+    hospitalization = (Hospitalization) adapterView.getItemAtPosition(i);
+    Button editButton = getActivity().findViewById(R.id.edit_record);
+    editButton.setEnabled(true);
+    Button deleteButton = getActivity().findViewById(R.id.delete_record);
+    deleteButton.setEnabled(true);
   }
 }
 

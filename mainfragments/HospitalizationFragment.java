@@ -35,7 +35,8 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
   private Button dischargeDate;
   private EditText note;
   private EditText hospital;
-
+  private Patient patient = null;
+  private Hospitalization hospitalization = null;
 
 
   public HospitalizationFragment() {
@@ -46,6 +47,23 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    int patientId;
+    int hospitalizationId;
+    if (getArguments() != null
+        && (patientId = getArguments().getInt(MainActivity.PATIENT_ID_KEY, 0)) != 0) {
+      try {
+
+        patient = ((OrmInteraction) getActivity()).getHelper().getPatientDao()
+            .queryForId(patientId);
+        hospitalizationId = getArguments().getInt(HOSPITALIZATION_ID_KEY, 0);
+        if (hospitalizationId > 0) {
+         hospitalization = ((OrmInteraction) getActivity()).getHelper().getHospitalizationDao()
+              .queryForId(hospitalizationId);
+        }
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
+    }
   }
 
   @Override
@@ -67,13 +85,24 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
     dischargeDate = view.findViewById(R.id.discharge_date);
     admitDate.setOnClickListener(this);
     dischargeDate.setOnClickListener(this);
+    if (hospitalization != null) {
+      hospital.setText(emptyNullString(hospitalization.getHospital()));
+      reason.setText(emptyNullString(hospitalization.getReason()));
+      provider.setText(emptyNullString(hospitalization.getProvider()));
+      note.setText(emptyNullString(hospitalization.getNotes()));
+      admitDate.setText(DateFormat.getDateInstance().format(hospitalization.getAdmitDate()));
+      if (hospitalization.getDischargeDate() != null) {
+        dischargeDate.setText(DateFormat.getDateInstance()
+            .format(hospitalization.getDischargeDate()));
+      }
+    }
     return view;
   }
 
 
-
   @Override
-  public void onAttach(Context context) {
+  public void onAttach(Context context)
+  {
     super.onAttach(context);
   }
 
@@ -108,9 +137,9 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
           hospitalization.setNotes(nullifyEmptyString(note.getText().toString()));
           DateFormat format = DateFormat.getDateInstance();
           hospitalization.setAdmitDate(format.parse(admitDate.getText().toString()));
-          try{
+          try {
             hospitalization.setDischargeDate(format.parse(dischargeDate.getText().toString()));
-          } catch (ParseException e){
+          } catch (ParseException e) {
             e.printStackTrace();
           }
 
@@ -123,7 +152,7 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
 
         } catch (SQLException e) {
           throw new RuntimeException(e);
-        } catch (ParseException e){
+        } catch (ParseException e) {
           throw new RuntimeException(e);
         }
 
@@ -137,22 +166,15 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
         break;
     }
   }
-  public static String nullifyEmptyString(String string){
-    return  (string.equals("") ? null: string);
 
+  public static String nullifyEmptyString(String string) {
+    return (string.equals("") ? null : string);
+
+  }
+
+  public static String emptyNullString(String string) {
+    return (string == null) ? "" : string;
   }
 }
 
-  /**
-   * This interface must be implemented by activities that contain this fragment to allow an
-   * interaction in this fragment to be communicated to the activity and potentially other fragments
-   * contained in that activity. <p> See the Android Training lesson <a href=
-   * "http://developer.android.com/training/basics/fragments/communicating.html" >Communicating with
-   * Other Fragments</a> for more information.
-   */
-//  public interface OnFragmentInteractionListener {
-//
-//    // TODO: Update argument type and name
-//    void onFragmentInteraction(Uri uri);
-//  }
-//}
+
