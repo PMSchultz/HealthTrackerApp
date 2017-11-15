@@ -9,6 +9,7 @@ import android.view.View;
 
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -29,10 +30,12 @@ import java.util.List;
  * {@link  interface to handle interaction events. Use the factory method to create an instance of
  * this fragment.
  */
-public class ListOfficeVisitFragment extends Fragment implements View.OnClickListener {
+public class ListOfficeVisitFragment extends Fragment implements View.OnClickListener,
+    AdapterView.OnItemClickListener {
 
 
   private Patient patient = null;
+  private OfficeVisit officeVisit = null;
 
   public ListOfficeVisitFragment() {
     // Required empty public constructor
@@ -76,8 +79,10 @@ public class ListOfficeVisitFragment extends Fragment implements View.OnClickLis
     addButton.setOnClickListener(this);
     Button editButton = rootView.findViewById(R.id.edit_record);
     editButton.setOnClickListener(this);
+    editButton.setEnabled(false);
     Button deleteButton = rootView.findViewById(R.id.delete_record);
     deleteButton.setOnClickListener(this);
+    deleteButton.setEnabled(false);
   }
 
   private void setupList(View inflate) {
@@ -96,6 +101,7 @@ public class ListOfficeVisitFragment extends Fragment implements View.OnClickLis
         List<OfficeVisit> visits = dao.query(builder.prepare());
         chart.setAdapter(new ArrayAdapter<OfficeVisit>(getActivity(), R.layout.list_item,
             visits));
+        chart.setOnItemClickListener(this);
       } catch (SQLException e) {
         e.printStackTrace();
       }
@@ -110,12 +116,24 @@ public class ListOfficeVisitFragment extends Fragment implements View.OnClickLis
             .loadFragment(new OfficeVisitFragment(), patient.getId(), true);
         break;
       case R.id.edit_record:
-        //TODO display Hospitalization record fragment populating fields with item selected
+        Bundle args = new Bundle();
+        args.putInt(MainActivity.PATIENT_ID_KEY, patient.getId());
+        args.putInt(OfficeVisitFragment.OFFICE_VISIT_ID_KEY, officeVisit.getId());
+        ((MainActivity)getActivity()).loadFragment(new OfficeVisitFragment(), args,true);
         break;
       case R.id.delete_record:
         //TODO display Hospitalization record fragment populating fields with item selected and
         //popup with "are you sure you want to delete this record"
         break;
     }
+  }
+
+  @Override
+  public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    officeVisit = (OfficeVisit) adapterView.getItemAtPosition(i);
+    Button editButton = getActivity().findViewById(R.id.edit_record);
+    editButton.setEnabled(true);
+    Button deleteButton = getActivity().findViewById(R.id.delete_record);
+    deleteButton.setEnabled(true);
   }
 }

@@ -26,6 +26,8 @@ import java.text.ParseException;
  */
 public class OfficeVisitFragment extends Fragment implements Button.OnClickListener {
 
+  public static final String OFFICE_VISIT_ID_KEY = "officeVisitId";
+
   private EditText reason;
   private Button visitDate;
   private EditText provider;
@@ -33,6 +35,8 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
   private EditText weight;
   private EditText bloodPressure;
   private EditText note;
+  private OfficeVisit officeVisit = null;
+  private Patient patient = null;
 
 
   public OfficeVisitFragment() {
@@ -42,8 +46,24 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-  }
+    int patientId;
+    int officeVisitId;
+    if (getArguments() != null
+        && (patientId = getArguments().getInt(MainActivity.PATIENT_ID_KEY, 0)) != 0) {
+      try {
 
+        patient = ((OrmInteraction) getActivity()).getHelper().getPatientDao()
+            .queryForId(patientId);
+        officeVisitId = getArguments().getInt(OFFICE_VISIT_ID_KEY, 0);
+        if (officeVisitId > 0) {
+          officeVisit = ((OrmInteraction) getActivity()).getHelper().getOfficeVisitDao()
+              .queryForId(officeVisitId);
+        }
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
+    }
+  }
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -62,11 +82,22 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
     bloodPressure = view.findViewById(R.id.blood_pressure_input);
     visitDate= view.findViewById(R.id.visit_date);
     visitDate.setOnClickListener(this);
+    if (officeVisit != null){
+      reason.setText(emptyNullString(officeVisit.getReason()));
+      visitDate.setText(DateFormat.getDateInstance().format(officeVisit.getDate()));
+      provider.setText(emptyNullString(officeVisit.getProvider()));
+      height.setText(emptyNullString(officeVisit.getHeight()));
+      weight.setText(emptyNullString(officeVisit.getWeight()));
+      bloodPressure.setText(emptyNullString(officeVisit.getBloodPressure()));
+      note.setText(emptyNullString(officeVisit.getNotes()));
+
+  }
     return view;
   }
 
   @Override
-  public void onAttach(Context context) {
+  public void onAttach(Context context)
+    {
     super.onAttach(context);
   }
 
@@ -122,4 +153,10 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
     return (string.equals("") ? null : string);
 
   }
+
+  public static String emptyNullString(String string) {
+    return (string == null) ? "" : string;
+  }
+
+
 }

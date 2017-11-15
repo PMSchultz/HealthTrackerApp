@@ -23,18 +23,20 @@ import java.text.SimpleDateFormat;
 
 /**
  * A simple {@link Fragment} subclass. Activities that contain this fragment must implement the
- * {@lerface to handle interaction events. Use
- * the  factory method to create an instance of this fragment.
+ * {@lerface to handle interaction events. Use the  factory method to create an instance of this
+ * fragment.
  */
 public class AllergyFragment extends Fragment implements Button.OnClickListener {
 
+  public static final String ALLERGY_ID_KEY = "allergy_id";
   // the fragment initialization parameters,
   private EditText drugAllergy;
   private EditText foodAllergy;
   private EditText seasonalAllergy;
   private EditText animalAllergy;
   private CheckBox latexAllergy;
-
+  private Allergy allergy = null;
+  private Patient patient = null;
 
 //  private OnFragmentInteractionListener mListener;
 
@@ -46,9 +48,24 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-//    if (getArguments() != null) {
-//
-//    }
+    int patientId;
+    int allergyId;
+    if (getArguments() != null
+        && (patientId = getArguments().getInt(MainActivity.PATIENT_ID_KEY, 0)) != 0) {
+      try {
+
+        patient = ((OrmInteraction) getActivity()).getHelper().getPatientDao()
+            .queryForId(patientId);
+        allergyId = getArguments().getInt(ALLERGY_ID_KEY, 0);
+        if (allergyId > 0) {
+          allergy = ((OrmInteraction) getActivity()).getHelper().getAllergyDao()
+              .queryForId(allergyId);
+        }
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
+
+    }
   }
 
   @Override
@@ -67,15 +84,16 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
     seasonalAllergy = view.findViewById(R.id.seasonal_allergy);
     animalAllergy = view.findViewById(R.id.animal_allergy);
     latexAllergy = view.findViewById(R.id.latex_allergy);
+    if (allergy != null){
+      drugAllergy.setText(emptyNullString(allergy.getMedAllergy()));
+      foodAllergy.setText(emptyNullString(allergy.getFoodAllergy()));
+      animalAllergy.setText(emptyNullString(allergy.getAnimalAllergy()));
+      seasonalAllergy.setText(emptyNullString(allergy.getSeasonalAllergy()));
+      latexAllergy.setChecked(allergy.getLatexAllergy());
+    }
     return view;
   }
 
-//  // TODO: Rename method, update argument and hook method into UI event
-//  public void onButtonPressed(Uri uri) {
-//    if (mListener != null) {
-//      mListener.onFragmentInteraction(uri);
-//    }
-//  }
 
   @Override
   public void onAttach(Context context) {
@@ -85,7 +103,6 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
   @Override
   public void onDetach() {
     super.onDetach();
-    //mListener = null;
   }
 
   @Override
@@ -101,9 +118,6 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
           allergy.setSeasonalAllergy(nullifyEmptyString(seasonalAllergy.getText().toString()));
           allergy.setLatexAllergy(latexAllergy.isChecked());
           Bundle args = getArguments();
-          int patientID = args.getInt(MainActivity.PATIENT_ID_KEY);
-          Patient patient = ((OrmInteraction) getActivity()).getHelper().getPatientDao()
-                  .queryForId(patientID);
           allergy.setPatient(patient);
           helper.getAllergyDao().create(allergy);
 
@@ -123,20 +137,12 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
     }
   }
 
-  public static String nullifyEmptyString(String string){
-    return  (string.equals("") ? null: string);
+  public static String nullifyEmptyString(String string) {
+    return (string.equals("") ? null : string);
 
   }
-  /**
-   * This interface must be implemented by activities that contain this fragment to allow an
-   * interaction in this fragment to be communicated to the activity and potentially other fragments
-   * contained in that activity. <p> See the Android Training lesson <a href=
-   * "http://developer.android.com/training/basics/fragments/communicating.html" >Communicating with
-   * Other Fragments</a> for more information.
-   */
-//  public interface OnFragmentInteractionListener {
-//
-//    // TODO: Update argument type and name
-//    void onFragmentInteraction(Uri uri);
-//  }
+
+  public static String emptyNullString(String string) {
+    return (string == null) ? "" : string;
+  }
 }

@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -22,9 +23,11 @@ import edu.cnm.deepdive.healthtracker.helpers.OrmHelper.OrmInteraction;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ListAllergyFragment extends Fragment implements View.OnClickListener {
+public class ListAllergyFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
 
   private Patient patient = null;
+  private Allergy allergy = null;
+
 
   public ListAllergyFragment() {
     // Required empty public constructor
@@ -75,6 +78,7 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
         List<Allergy> visits = dao.query(builder.prepare());
         chart.setAdapter(new ArrayAdapter<Allergy>(getActivity(), R.layout.list_item,
             visits));
+        chart.setOnItemClickListener(this);
       } catch (SQLException e) {
         e.printStackTrace();
       }
@@ -87,8 +91,10 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
     addButton.setOnClickListener(this);
     Button editButton = rootView.findViewById(R.id.edit_record);
     editButton.setOnClickListener(this);
+    editButton.setEnabled(false);
     Button deleteButton = rootView.findViewById(R.id.delete_record);
     deleteButton.setOnClickListener(this);
+    deleteButton.setEnabled(false);
   }
 
   @Override
@@ -99,6 +105,10 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
         ((MainActivity)getActivity()).loadFragment(new AllergyFragment(), patient.getId(),true);
         break;
       case R.id.edit_record:
+        Bundle args = new Bundle();
+        args.putInt(MainActivity.PATIENT_ID_KEY, patient.getId());
+        args.putInt(AllergyFragment.ALLERGY_ID_KEY, allergy.getId());
+        ((MainActivity)getActivity()).loadFragment(new AllergyFragment(), args,true);
         //TODO display Allergy record fragment populating fields with item selected
         break;
       case R.id.delete_record:
@@ -107,6 +117,17 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
         break;
     }
 
+  }
+
+
+
+  @Override
+  public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    allergy = (Allergy) adapterView.getItemAtPosition(i);
+    Button editButton = getActivity().findViewById(R.id.edit_record);
+    editButton.setEnabled(true);
+    Button deleteButton = getActivity().findViewById(R.id.delete_record);
+    deleteButton.setEnabled(true);
   }
 }
 

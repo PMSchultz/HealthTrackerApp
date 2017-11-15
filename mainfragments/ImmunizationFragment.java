@@ -24,21 +24,19 @@ import java.text.ParseException;
 
 /**
  *
- * .
+ *
  */
 public class ImmunizationFragment extends Fragment implements Button.OnClickListener {
+
+  public static final String IMMUNIZATION_ID_KEY = "immunizationId";
 
   private AutoCompleteTextView vaccine;
   private EditText provider;
   private EditText note;
   private Button dateAdministered;
+  private Immunization immunization = null;
+  private Patient patient = null;
 
-
-  // TODO: Rename and change types of parameters
-  private String mParam1;
-  private String mParam2;
-
-//  private OnFragmentInteractionListener mListener;
 
   public ImmunizationFragment() {
     // Required empty public constructor
@@ -49,6 +47,23 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    int patientId;
+    int immunizationId;
+    if (getArguments() != null
+        && (patientId = getArguments().getInt(MainActivity.PATIENT_ID_KEY, 0)) != 0) {
+      try {
+
+        patient = ((OrmInteraction) getActivity()).getHelper().getPatientDao()
+            .queryForId(patientId);
+        immunizationId = getArguments().getInt(IMMUNIZATION_ID_KEY, 0);
+        if (immunizationId> 0) {
+          immunization = ((OrmInteraction) getActivity()).getHelper().getImmunizationDao()
+              .queryForId(immunizationId);
+        }
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
+    }
   }
 
   @Override
@@ -65,19 +80,18 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
     cancelButton.setOnClickListener(this);
     dateAdministered = view.findViewById(R.id.date_administered);
     dateAdministered.setOnClickListener(this);
-    vaccine= view.findViewById(R.id.vaccine);
+    vaccine = view.findViewById(R.id.vaccine);
     provider = view.findViewById(R.id.provider);
     note = view.findViewById(R.id.note);
+    if (immunization != null) {
+      vaccine.setText(emptyNullString(immunization.getVaccine()));
+      dateAdministered.setText(DateFormat.getDateInstance().format(immunization.getDate()));
+      provider.setText(emptyNullString(immunization.getProvider()));
+      note.setText(emptyNullString(immunization.getNotes()));
 
+    }
     return view;
   }
-
-//  // TODO: Rename method, update argument and hook method into UI event
-//  public void onButtonPressed(Uri uri) {
-//    if (mListener != null) {
-//      mListener.onFragmentInteraction(uri);
-//    }
-//  }
 
   @Override
   public void onAttach(Context context) {
@@ -134,6 +148,11 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
     return  (string.equals("") ? null: string);
 
   }
+
+  public static String emptyNullString(String string) {
+    return (string == null) ? "" : string;
+  }
+
 }
 
 

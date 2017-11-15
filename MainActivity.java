@@ -248,4 +248,16 @@ public class MainActivity extends AppCompatActivity
      transaction.commit();
   }
 
+  public void loadFragment(Fragment fragment, Bundle args, boolean addToBackstack) {
+
+    FragmentManager fragmentManager = getSupportFragmentManager();
+
+    fragment.setArguments(args);
+    FragmentTransaction transaction = fragmentManager.beginTransaction()
+        .replace(R.id.content_panel, fragment);
+    if (addToBackstack){
+      transaction.addToBackStack(fragment.getClass().getSimpleName());
+    }
+    transaction.commit();
+  }
 }
