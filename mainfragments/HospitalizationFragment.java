@@ -26,6 +26,9 @@ import java.text.ParseException;
  */
 public class HospitalizationFragment extends Fragment implements Button.OnClickListener {
 
+
+  public static final String HOSPITALIZATION_ID_KEY = "hospitalizationId";
+
   private EditText reason;
   private EditText provider;
   private Button admitDate;
@@ -105,7 +108,12 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
           hospitalization.setNotes(nullifyEmptyString(note.getText().toString()));
           DateFormat format = DateFormat.getDateInstance();
           hospitalization.setAdmitDate(format.parse(admitDate.getText().toString()));
-          hospitalization.setDischargeDate(format.parse(dischargeDate.getText().toString()));
+          try{
+            hospitalization.setDischargeDate(format.parse(dischargeDate.getText().toString()));
+          } catch (ParseException e){
+            e.printStackTrace();
+          }
+
           Bundle args = getArguments();
           int patientID = args.getInt(MainActivity.PATIENT_ID_KEY);
           Patient patient = ((OrmInteraction) getActivity()).getHelper().getPatientDao()

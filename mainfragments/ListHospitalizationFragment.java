@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -21,8 +22,11 @@ import edu.cnm.deepdive.healthtracker.helpers.OrmHelper.OrmInteraction;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ListHospitalizationFragment extends Fragment implements View.OnClickListener {
+public class ListHospitalizationFragment extends Fragment implements View.OnClickListener,
+    AdapterView.OnItemClickListener{
+
   private Patient patient = null;
+  private Hospitalization hospitalization = null;
 
   public ListHospitalizationFragment() {
     // Required empty public constructor
@@ -101,7 +105,10 @@ public class ListHospitalizationFragment extends Fragment implements View.OnClic
         ((MainActivity)getActivity()).loadFragment(new HospitalizationFragment(), patient.getId(),true);
         break;
       case R.id.edit_record:
-        //TODO display Hospitalization record fragment populating fields with item selected
+        Bundle args = new Bundle();
+        args.putInt(MainActivity.PATIENT_ID_KEY, patient.getId());
+        args.putInt(HospitalizationFragment.HOSPITALIZATION_ID_KEY, hospitalization.getId());
+        ((MainActivity)getActivity()).loadFragment(new HospitalizationFragment(), args,true);
         break;
       case R.id.delete_record:
         //TODO display Hospitalization record fragment populating fields with item selected and
@@ -111,6 +118,10 @@ public class ListHospitalizationFragment extends Fragment implements View.OnClic
 
   }
 
+  @Override
+  public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+  }
 }
 
 

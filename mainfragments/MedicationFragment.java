@@ -23,10 +23,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 
 /**
- * A simple {@linknterface to handle interaction events.
- * Use the {@linthod to create an instance of this fragment.
+ *
  */
 public class MedicationFragment extends Fragment implements Button.OnClickListener {
+
+  public static final String MEDICATION_ID_KEY = "medicationId";
 
   private EditText medicationName;
   private EditText dose;
@@ -34,23 +35,36 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
   private EditText note;
   private Button dateStarted;
   private Button dateEnded;
-
+  private Patient patient = null;
+  private Medication medication = null;
 
 
   public MedicationFragment() {
     // Required empty public constructor
   }
 
-//  public static MedicationFragment newInstance(String param1, String param2) {
-//    MedicationFragment fragment = new MedicationFragment();
-//    Bundle args = new Bundle();
-//    fragment.setArguments(args);
-//    return fragment;
-//  }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
+
     super.onCreate(savedInstanceState);
+    int patientId;
+    int medicationId;
+    if (getArguments() != null
+        && (patientId = getArguments().getInt(MainActivity.PATIENT_ID_KEY, 0)) != 0) {
+      try {
+
+        patient = ((OrmInteraction) getActivity()).getHelper().getPatientDao()
+            .queryForId(patientId);
+        medicationId = getArguments().getInt(MEDICATION_ID_KEY, 0);
+        if (medicationId > 0) {
+          medication = ((OrmInteraction) getActivity()).getHelper().getMedicationDao()
+              .queryForId(medicationId);
+        }
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
+    }
   }
 
   @Override
@@ -72,25 +86,28 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
     dateEnded = view.findViewById(R.id.date_ended);
     dateStarted.setOnClickListener(this);
     dateEnded.setOnClickListener(this);
+    if (medication != null) {
+      medicationName.setText(emptyNullString(medication.getMedicationName()));
+      provider.setText(emptyNullString(medication.getProvider()));
+      note.setText(emptyNullString(medication.getNotes()));
+      dose.setText(emptyNullString(medication.getDose()));
+      dateStarted.setText(DateFormat.getDateInstance().format(medication.getStartDate()));
+      if(medication.getStopDate() != null){
+      dateEnded.setText(DateFormat.getDateInstance().format(medication.getStopDate()));
+      }
+
+
+
+    }
+
     return view;
+
   }
 
-//  // TODO: Rename method, update argument and hook method into UI event
-//  public void onButtonPressed(Uri uri) {
-//    if (mListener != null) {
-//      mListener.onFragmentInteraction(uri);
-//    }
-//  }
 
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
-//    if (context instanceof OnFragmentInteractionListener) {
-//      mListener = (OnFragmentInteractionListener) context;
-//    } else {
-//      throw new RuntimeException(context.toString()
-//          + " must implement OnFragmentInteractionListener");
-//    }
   }
 
   @Override
@@ -128,9 +145,9 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
           medication.setNotes(nullifyEmptyString(note.getText().toString()));
           DateFormat format = DateFormat.getDateInstance();
           medication.setStartDate(format.parse(dateStarted.getText().toString()));
-          try{
+          try {
             medication.setStopDate(format.parse(dateEnded.getText().toString()));
-          } catch (ParseException e){
+          } catch (ParseException e) {
             e.printStackTrace();
           }
 
@@ -161,6 +178,10 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
   public static String nullifyEmptyString(String string) {
     return (string.equals("") ? null : string);
 
+  }
+
+  public static String emptyNullString(String string) {
+    return (string == null) ? "" : string;
   }
 
 
