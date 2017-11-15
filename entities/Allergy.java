@@ -15,8 +15,8 @@ public class Allergy {
   @DatabaseField(columnName = "PATIENT_ID", canBeNull = false, foreign = true, foreignAutoRefresh = true)
   private Patient patient;
 
-  @DatabaseField(columnName = "MEDICATION_ID",foreign = true, canBeNull = true)
-  private Medication medAllergy;
+  @DatabaseField(columnName = "MEDICATION_ID",foreign = false, canBeNull = true)
+  private String medAllergy;
 
   @DatabaseField(columnName = "FOOD_ALLERGY", canBeNull = true)
   private String foodAllergy;
@@ -28,7 +28,7 @@ public class Allergy {
   private String animalAllergy;
 
   @DatabaseField(columnName = "LATEX_ALLERGY", canBeNull = true)
-  private Boolean latexAllergy;
+  private boolean latexAllergy;
 
   @DatabaseField(columnName = "NOTES", canBeNull = true)
   private String notes;
@@ -37,11 +37,11 @@ public class Allergy {
     return id;
   }
 
-  public Medication getMedAllergy() {
+  public String getMedAllergy() {
     return medAllergy;
   }
 
-  public void setMedAllergy(Medication medAllergy) {
+  public void setMedAllergy(String medAllergy) {
     this.medAllergy = medAllergy;
   }
 
@@ -98,8 +98,8 @@ public class Allergy {
     return ((medAllergy!= null) ?  ("Medication Allergy: " + medAllergy + " ") : "") +
         ((foodAllergy != null) ?  ("Food Allergy: " + foodAllergy + " ") : "") +
         ((seasonalAllergy != null) ?  ("Seasonal Allergy: " + seasonalAllergy + " ") : "") +
-        ((animalAllergy != null) ?  ("Animal Allergy: " + animalAllergy + " ") : " ");
-     //  ((latexAllergy ?  "Latex Allergy": ""));
+        ((animalAllergy != null) ?  ("Animal Allergy: " + animalAllergy + " ") : " ") +
+     ((latexAllergy ?  "Latex Allergy" : ""));
   }
   }
 

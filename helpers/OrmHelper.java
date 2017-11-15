@@ -119,19 +119,19 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
       patient.setDateOfBirth(calendar.getTime());
       getPatientDao().create(patient);
 
-      Medication medication = new Medication();
-      medication.setPatient(patient);
-      medication.setMedicationName("Amoxicillin");
-      calendar.set(2017, 10, 7);
-      medication.setStartDate(new Date());
-      getMedicationDao().create(medication);
+//      Medication medication = new Medication();
+//      medication.setPatient(patient);
+//      medication.setMedicationName("Amoxicillin");
+//      calendar.set(2017, 10, 7);
+//      medication.setStartDate(new Date());
+//      getMedicationDao().create(medication);
 
-      medication = new Medication();
-      medication.setPatient(patient);
-      medication.setMedicationName("Penicillin");
-      calendar.set(2017, 10, 2);
-      medication.setStartDate(new Date());
-      getMedicationDao().create(medication);
+//      medication = new Medication();
+//      medication.setPatient(patient);
+//      medication.setMedicationName("Penicillin");
+//      calendar.set(2017, 10, 2);
+//      medication.setStartDate(new Date());
+//      getMedicationDao().create(medication);
 
       Allergy allergy = new Allergy();
       allergy.setPatient(patient);
@@ -194,14 +194,14 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
       patient.setDateOfBirth(calendar.getTime());
       getPatientDao().create(patient);
 
-      Medication medication = new Medication();
-      medication.setPatient(patient);
-      medication.setMedicationName("Gabapentin");
-      calendar.set(2017, 8, 15);
-      medication.setStartDate(calendar.getTime());
-      calendar.add(Calendar.DAY_OF_MONTH, 30);
-      medication.setStopDate(calendar.getTime());
-      getMedicationDao().create(medication);
+//      Medication medication = new Medication();
+//      medication.setPatient(patient);
+//      medication.setMedicationName("Gabapentin");
+//      calendar.set(2017, 8, 15);
+//      medication.setStartDate(calendar.getTime());
+//      calendar.add(Calendar.DAY_OF_MONTH, 30);
+//      medication.setStopDate(calendar.getTime());
+//      getMedicationDao().create(medication);
 
       Hospitalization hospitalization = new Hospitalization();
       hospitalization.setPatient(patient);

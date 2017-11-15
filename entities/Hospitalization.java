@@ -26,7 +26,7 @@ public class Hospitalization {
   private Date admitDate;
 
   @DatabaseField(columnName = "DISCHARGE_DATE",
-      format = "yyyy-MM-dd", canBeNull = false)
+      format = "yyyy-MM-dd", canBeNull = true)
   private Date dischargeDate;
 
   @DatabaseField(columnName = "REASON", canBeNull = false)

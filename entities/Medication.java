@@ -16,6 +16,10 @@ public class Medication {
   @DatabaseField(columnName = "NAME", canBeNull = false)
   private String medicationName;
 
+  @DatabaseField(columnName = "DOSE", canBeNull = false)
+  private String dose;
+
+
 
   @DatabaseField(columnName = "PATIENT_ID", canBeNull = false, foreign = true, foreignAutoRefresh = true)
   private Patient patient;
@@ -47,6 +51,14 @@ public class Medication {
 
   public void setMedicationName(String medicationName) {
     this.medicationName = medicationName;
+  }
+
+  public String getDose() {
+    return dose;
+  }
+
+  public void setDose(String dose) {
+    this.dose = dose;
   }
 
   public Date getStartDate() {

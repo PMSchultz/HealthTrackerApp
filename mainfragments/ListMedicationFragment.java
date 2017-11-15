@@ -22,7 +22,7 @@ import edu.cnm.deepdive.healthtracker.helpers.OrmHelper.OrmInteraction;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ListMedicationFragment extends Fragment {
+public class ListMedicationFragment extends Fragment implements View.OnClickListener{
 
   private Patient patient = null;
 
@@ -47,13 +47,7 @@ public class ListMedicationFragment extends Fragment {
     }
   }
 
-  //TODO attach onClick Listeners to buttons
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
-    View inflate = inflater.inflate(R.layout.fragment_list, container, false);
-    Button addButton = inflate.findViewById(R.id.add_record);
+  private void setupList(View inflate) {
     if (patient != null) {
 
       try {
@@ -73,8 +67,48 @@ public class ListMedicationFragment extends Fragment {
         e.printStackTrace();
       }
     }
+  }
+
+
+  //TODO attach onClick Listeners to buttons
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    // Inflate the layout for this fragment
+    View inflate = inflater.inflate(R.layout.fragment_list, container, false);
+
+    setupList(inflate);
+    setupButtons(inflate);
 
     return inflate;
+  }
+
+
+  public void onClick(View view) {
+
+    switch (view.getId()){
+      case R.id.add_record:
+        ((MainActivity)getActivity()).loadFragment(new MedicationFragment(), patient.getId(),true);
+        break;
+      case R.id.edit_record:
+        //TODO display Medication record fragment populating fields with item selected
+        break;
+      case R.id.delete_record:
+        //TODO display Medication record fragment populating fields with item selected and
+        //popup with "are you sure you want to delete this record"
+        break;
+    }
+
+  }
+
+  //set OnClickListener to buttons
+  private void setupButtons(View rootView) {
+    Button addButton = rootView.findViewById(R.id.add_record);
+    addButton.setOnClickListener(this);
+    Button editButton = rootView.findViewById(R.id.edit_record);
+    editButton.setOnClickListener(this);
+    Button deleteButton = rootView.findViewById(R.id.delete_record);
+    deleteButton.setOnClickListener(this);
   }
 
 }

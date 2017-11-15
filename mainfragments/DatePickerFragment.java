@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import java.text.DateFormat;
 import java.util.Calendar;
 
 
@@ -22,7 +23,7 @@ public class DatePickerFragment extends DialogFragment implements
 
   public static final String DATE_PICKER_FIELD_ID = "button_id";
   public static final String DATE_PICKER_TAG = "date_picker";
-private int fieldId;
+  private int fieldId;
 
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     //use the current date as the default date
@@ -33,7 +34,7 @@ private int fieldId;
     fieldId = getArguments().getInt(DATE_PICKER_FIELD_ID);
 
     //create a new instance of DatePickerDialog and return it
-    return new DatePickerDialog(getActivity(), this,year, month, day);
+    return new DatePickerDialog(getActivity(), this, year, month, day);
   }
 
   @Override
@@ -45,8 +46,13 @@ private int fieldId;
 
   @Override
   public void onDateSet(DatePicker view, int year, int month, int day) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.set(Calendar.YEAR, year);
+    calendar.set(Calendar.MONTH, month);
+    calendar.set(Calendar.DAY_OF_MONTH, day);
+    DateFormat format = DateFormat.getDateInstance();
 
-    ((Button)getActivity().findViewById(fieldId)).setText((month + 1) + "/" + day + "/" + year);
+    ((Button) getActivity().findViewById(fieldId)).setText(format.format(calendar.getTime()));
   }
 
   public static void showDialog(AppCompatActivity context, View view) {

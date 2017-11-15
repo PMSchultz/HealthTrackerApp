@@ -187,19 +187,19 @@ public class MainActivity extends AppCompatActivity
     switch (id) {
 
       case R.id.nav_medications:
-        loadFragment(new ListMedicationFragment(), patientId );
+        loadFragment(new ListMedicationFragment(), patientId, false );
         break;
       case R.id.nav_immunizations:
-        loadFragment(new ListImmunizationFragment(), patientId );
+        loadFragment(new ListImmunizationFragment(), patientId, false );
         break;
       case R.id.nav_hospitalizations:
-        loadFragment(new ListHospitalizationFragment(), patientId );
+        loadFragment(new ListHospitalizationFragment(), patientId, false );
         break;
       case R.id.nav_allergies:
-        loadFragment(new ListAllergyFragment(), patientId );
+        loadFragment(new ListAllergyFragment(), patientId, false);
         break;
       case R.id.nav_office_visits:
-        loadFragment(new ListOfficeVisitFragment(), patientId );
+        loadFragment(new ListOfficeVisitFragment(), patientId, false );
         break;
 //
     }
@@ -233,16 +233,19 @@ public class MainActivity extends AppCompatActivity
     //TODO return user to list view without adding or editing a record
   }
 
-  public void loadFragment(Fragment fragment, int patientId) {
+  public void loadFragment(Fragment fragment, int patientId, boolean addToBackstack) {
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     Bundle args = new Bundle(); //how to pass arguments
     args.putInt(PATIENT_ID_KEY, patientId);
 
     fragment.setArguments(args);
-    fragmentManager.beginTransaction()
-        .replace(R.id.content_panel, fragment)
-        .commit();
+    FragmentTransaction transaction = fragmentManager.beginTransaction()
+        .replace(R.id.content_panel, fragment);
+    if (addToBackstack){
+      transaction.addToBackStack(fragment.getClass().getSimpleName());
+    }
+     transaction.commit();
   }
 
 }

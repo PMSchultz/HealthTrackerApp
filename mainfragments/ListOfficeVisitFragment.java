@@ -16,6 +16,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import edu.cnm.deepdive.healthtracker.MainActivity;
 import edu.cnm.deepdive.healthtracker.R;
+import edu.cnm.deepdive.healthtracker.entities.Hospitalization;
 import edu.cnm.deepdive.healthtracker.entities.OfficeVisit;
 import edu.cnm.deepdive.healthtracker.entities.Patient;
 import edu.cnm.deepdive.healthtracker.helpers.OrmHelper;
@@ -28,7 +29,7 @@ import java.util.List;
  * {@link  interface to handle interaction events. Use the factory method to create an instance of
  * this fragment.
  */
-public class ListOfficeVisitFragment extends Fragment {
+public class ListOfficeVisitFragment extends Fragment implements View.OnClickListener {
 
 
   private Patient patient = null;
@@ -59,8 +60,27 @@ public class ListOfficeVisitFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     // Inflate the layout for this fragment
+
     View inflate = inflater.inflate(R.layout.fragment_list, container, false);
-    Button addButton = inflate.findViewById(R.id.add_record);
+
+    setupList(inflate);
+    setupButtons(inflate);
+
+    return inflate;
+
+  }
+
+  //set OnClickListener to buttons
+  private void setupButtons(View rootView) {
+    Button addButton = rootView.findViewById(R.id.add_record);
+    addButton.setOnClickListener(this);
+    Button editButton = rootView.findViewById(R.id.edit_record);
+    editButton.setOnClickListener(this);
+    Button deleteButton = rootView.findViewById(R.id.delete_record);
+    deleteButton.setOnClickListener(this);
+  }
+
+  private void setupList(View inflate) {
     if (patient != null) {
 
       try {
@@ -80,9 +100,22 @@ public class ListOfficeVisitFragment extends Fragment {
         e.printStackTrace();
       }
     }
-
-    return inflate;
   }
 
-
+  @Override
+  public void onClick(View view) {
+    switch (view.getId()) {
+      case R.id.add_record:
+        ((MainActivity) getActivity())
+            .loadFragment(new OfficeVisitFragment(), patient.getId(), true);
+        break;
+      case R.id.edit_record:
+        //TODO display Hospitalization record fragment populating fields with item selected
+        break;
+      case R.id.delete_record:
+        //TODO display Hospitalization record fragment populating fields with item selected and
+        //popup with "are you sure you want to delete this record"
+        break;
+    }
+  }
 }

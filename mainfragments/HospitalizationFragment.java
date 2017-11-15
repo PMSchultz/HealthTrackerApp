@@ -9,91 +9,117 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.Button;
+import android.widget.EditText;
+import edu.cnm.deepdive.healthtracker.MainActivity;
 import edu.cnm.deepdive.healthtracker.R;
+import edu.cnm.deepdive.healthtracker.entities.Allergy;
+import edu.cnm.deepdive.healthtracker.entities.Hospitalization;
+import edu.cnm.deepdive.healthtracker.entities.Patient;
+import edu.cnm.deepdive.healthtracker.helpers.OrmHelper;
+import edu.cnm.deepdive.healthtracker.helpers.OrmHelper.OrmInteraction;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
 
 /**
- * A simple {@link Fragment} subclass. Activities that contain this fragment must implement the
- * {interface to handle interaction
- * events. Use the {@link HospitalizationFragment#newInstance} factory method to create an instance
- * of this fragment.
+ *
  */
 public class HospitalizationFragment extends Fragment implements Button.OnClickListener {
 
-  // TODO: Rename parameter arguments, choose names that match
-  // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-  private static final String ARG_PARAM1 = "param1";
-  private static final String ARG_PARAM2 = "param2";
+  private EditText reason;
+  private EditText provider;
+  private Button admitDate;
+  private Button dischargeDate;
+  private EditText note;
+  private EditText hospital;
 
-  // TODO: Rename and change types of parameters
-  private String mParam1;
-  private String mParam2;
 
-  //private OnFragmentInteractionListener mListener;
 
   public HospitalizationFragment() {
     // Required empty public constructor
   }
 
-  /**
-   * Use this factory method to create a new instance of this fragment using the provided
-   * parameters.
-   *
-   * @param param1 Parameter 1.
-   * @param param2 Parameter 2.
-   * @return A new instance of fragment HospitalizationFragment.
-   */
-  // TODO: Rename and change types and number of parameters
-  public static HospitalizationFragment newInstance(String param1, String param2) {
-    HospitalizationFragment fragment = new HospitalizationFragment();
-    Bundle args = new Bundle();
-    args.putString(ARG_PARAM1, param1);
-    args.putString(ARG_PARAM2, param2);
-    fragment.setArguments(args);
-    return fragment;
-  }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (getArguments() != null) {
-      mParam1 = getArguments().getString(ARG_PARAM1);
-      mParam2 = getArguments().getString(ARG_PARAM2);
-    }
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     // Inflate the layout for this fragment
-    View inflate = inflater.inflate(R.layout.fragment_hospitalization, container, false);
-    inflate.findViewById(R.id.admit_date).setOnClickListener(this);
-    inflate.findViewById(R.id.discharge_date).setOnClickListener(this);
-    return inflate;
+    View view = inflater.inflate(R.layout.fragment_hospitalization, container, false);
+    Button addButton = view.findViewById(R.id.save_hospital_record);
+    addButton.setOnClickListener(this);
+    Button deleteButton = view.findViewById(R.id.delete_hospital_record);
+    deleteButton.setOnClickListener(this);
+    Button cancelButton = view.findViewById(R.id.cancel_hospital_record);
+    cancelButton.setOnClickListener(this);
+    reason = view.findViewById(R.id.reason);
+    provider = view.findViewById(R.id.provider);
+    note = view.findViewById(R.id.note);
+    hospital = view.findViewById(R.id.hospital);
+    admitDate = view.findViewById(R.id.admit_date);
+    dischargeDate = view.findViewById(R.id.discharge_date);
+    admitDate.setOnClickListener(this);
+    dischargeDate.setOnClickListener(this);
+    return view;
   }
 
-//  // TODO: Rename method, update argument and hook method into UI event
-//  public void onButtonPressed(Uri uri) {
-//    if (mListener != null) {
-//      mListener.onFragmentInteraction(uri);
-//    }
-  //}
+
 
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
   }
 
-//  @Override
-//  public void onDetach() {
-//    super.onDetach();
-//    mListener = null;
-//  }
 
   @Override
   public void onClick(View view) {
+    DatePickerFragment datePickerFragment;
+    Bundle bundle;
     switch (view.getId()) {
+
+      case R.id.admit_date:
+        datePickerFragment = new DatePickerFragment();
+        bundle = new Bundle();
+        bundle.putInt(DatePickerFragment.DATE_PICKER_FIELD_ID, view.getId());
+        datePickerFragment.setArguments(bundle);
+        datePickerFragment.show(getFragmentManager(), "datePicker");
+        break;
+      case R.id.discharge_date:
+        datePickerFragment = new DatePickerFragment();
+        bundle = new Bundle();
+        bundle.putInt(DatePickerFragment.DATE_PICKER_FIELD_ID, view.getId());
+        datePickerFragment.setArguments(bundle);
+        datePickerFragment.show(getFragmentManager(), "datePicker");
+        break;
       case R.id.save_hospital_record:
-        //TODO pop up add chart record
+        try {
+          OrmHelper helper = ((OrmInteraction) getActivity()).getHelper();
+          Hospitalization hospitalization = new Hospitalization();
+          hospitalization.setReason(nullifyEmptyString(reason.getText().toString()));
+          hospitalization.setHospital(nullifyEmptyString(hospital.getText().toString()));
+          hospitalization.setProvider(nullifyEmptyString(provider.getText().toString()));
+          hospitalization.setNotes(nullifyEmptyString(note.getText().toString()));
+          DateFormat format = DateFormat.getDateInstance();
+          hospitalization.setAdmitDate(format.parse(admitDate.getText().toString()));
+          hospitalization.setDischargeDate(format.parse(dischargeDate.getText().toString()));
+          Bundle args = getArguments();
+          int patientID = args.getInt(MainActivity.PATIENT_ID_KEY);
+          Patient patient = ((OrmInteraction) getActivity()).getHelper().getPatientDao()
+              .queryForId(patientID);
+          hospitalization.setPatient(patient);
+          helper.getHospitalizationDao().create(hospitalization);
+
+        } catch (SQLException e) {
+          throw new RuntimeException(e);
+        } catch (ParseException e){
+          throw new RuntimeException(e);
+        }
+
+        getFragmentManager().popBackStack();
         break;
       case R.id.delete_hospital_record:
         //TODO pop up message "Are you sure?"
@@ -101,15 +127,11 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
       case R.id.cancel_hospital_record:
         //TODO return to former screen
         break;
-      case R.id.admit_date:
-      case R.id.discharge_date:
-        DatePickerFragment datePickerFragment = new DatePickerFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(DatePickerFragment.DATE_PICKER_FIELD_ID, view.getId());
-        datePickerFragment.setArguments(bundle);
-        datePickerFragment.show(getFragmentManager(), "datePicker");
-        break;
     }
+  }
+  public static String nullifyEmptyString(String string){
+    return  (string.equals("") ? null: string);
+
   }
 }
 

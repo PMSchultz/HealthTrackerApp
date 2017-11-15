@@ -22,7 +22,7 @@ import edu.cnm.deepdive.healthtracker.helpers.OrmHelper.OrmInteraction;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ListImmunizationFragment extends Fragment {
+public class ListImmunizationFragment extends Fragment implements View.OnClickListener{
   private Patient patient = null;
 
   public ListImmunizationFragment() {
@@ -52,7 +52,24 @@ public class ListImmunizationFragment extends Fragment {
       Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     View inflate = inflater.inflate(R.layout.fragment_list, container, false);
-    Button addButton = inflate.findViewById(R.id.add_record);
+
+    setupList(inflate);
+    setupButtons(inflate);
+
+    return inflate;
+  }
+
+  //set OnClickListener to buttons
+  private void setupButtons(View rootView) {
+    Button addButton = rootView.findViewById(R.id.add_record);
+    addButton.setOnClickListener(this);
+    Button editButton = rootView.findViewById(R.id.edit_record);
+    editButton.setOnClickListener(this);
+    Button deleteButton = rootView.findViewById(R.id.delete_record);
+    deleteButton.setOnClickListener(this);
+  }
+
+  private void setupList(View inflate) {
     if (patient != null) {
 
       try {
@@ -72,9 +89,21 @@ public class ListImmunizationFragment extends Fragment {
         e.printStackTrace();
       }
     }
-
-    return inflate;
   }
 
-
+  @Override
+  public void onClick(View view) {
+    switch (view.getId()){
+      case R.id.add_record:
+        ((MainActivity)getActivity()).loadFragment(new ImmunizationFragment(), patient.getId(),true);
+        break;
+      case R.id.edit_record:
+        //TODO display Allergy record fragment populating fields with item selected
+        break;
+      case R.id.delete_record:
+        //TODO display Allergy record fragment populating fields with item selected and
+        //popup with "are you sure you want to delete this record"
+        break;
+    }
+  }
 }
