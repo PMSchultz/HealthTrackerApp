@@ -80,9 +80,7 @@ public class ListOfficeVisitFragment extends Fragment implements View.OnClickLis
     Button editButton = rootView.findViewById(R.id.edit_record);
     editButton.setOnClickListener(this);
     editButton.setEnabled(false);
-    Button deleteButton = rootView.findViewById(R.id.delete_record);
-    deleteButton.setOnClickListener(this);
-    deleteButton.setEnabled(false);
+
   }
 
   private void setupList(View inflate) {
@@ -121,10 +119,7 @@ public class ListOfficeVisitFragment extends Fragment implements View.OnClickLis
         args.putInt(OfficeVisitFragment.OFFICE_VISIT_ID_KEY, officeVisit.getId());
         ((MainActivity)getActivity()).loadFragment(new OfficeVisitFragment(), args,true);
         break;
-      case R.id.delete_record:
-        //TODO display Hospitalization record fragment populating fields with item selected and
-        //popup with "are you sure you want to delete this record"
-        break;
+
     }
   }
 
@@ -133,7 +128,6 @@ public class ListOfficeVisitFragment extends Fragment implements View.OnClickLis
     officeVisit = (OfficeVisit) adapterView.getItemAtPosition(i);
     Button editButton = getActivity().findViewById(R.id.edit_record);
     editButton.setEnabled(true);
-    Button deleteButton = getActivity().findViewById(R.id.delete_record);
-    deleteButton.setEnabled(true);
+
   }
 }

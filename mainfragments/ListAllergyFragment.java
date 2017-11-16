@@ -92,9 +92,7 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
     Button editButton = rootView.findViewById(R.id.edit_record);
     editButton.setOnClickListener(this);
     editButton.setEnabled(false);
-    Button deleteButton = rootView.findViewById(R.id.delete_record);
-    deleteButton.setOnClickListener(this);
-    deleteButton.setEnabled(false);
+
   }
 
   @Override
@@ -111,10 +109,7 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
         ((MainActivity)getActivity()).loadFragment(new AllergyFragment(), args,true);
         //TODO display Allergy record fragment populating fields with item selected
         break;
-      case R.id.delete_record:
-        //TODO display Allergy record fragment populating fields with item selected and
-        //popup with "are you sure you want to delete this record"
-        break;
+
     }
 
   }
@@ -126,8 +121,6 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
     allergy = (Allergy) adapterView.getItemAtPosition(i);
     Button editButton = getActivity().findViewById(R.id.edit_record);
     editButton.setEnabled(true);
-    Button deleteButton = getActivity().findViewById(R.id.delete_record);
-    deleteButton.setEnabled(true);
   }
 }
 

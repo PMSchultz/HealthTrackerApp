@@ -98,8 +98,7 @@ public class CreatePatientFragment extends DialogFragment implements OnClickList
         throw new RuntimeException(e);
       }
 
-    }
-    else {
+    } else {
       dismiss();
     }
   }

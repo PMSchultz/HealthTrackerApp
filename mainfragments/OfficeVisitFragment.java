@@ -1,6 +1,10 @@
 package edu.cnm.deepdive.healthtracker.mainfragments;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +14,7 @@ import android.view.ViewGroup;
 
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import edu.cnm.deepdive.healthtracker.MainActivity;
 import edu.cnm.deepdive.healthtracker.R;
 import edu.cnm.deepdive.healthtracker.entities.Hospitalization;
@@ -64,6 +69,7 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
       }
     }
   }
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -72,6 +78,11 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
     addButton.setOnClickListener(this);
     Button deleteButton = view.findViewById(R.id.delete_office_visit_record);
     deleteButton.setOnClickListener(this);
+    if (officeVisit == null){
+      deleteButton.setEnabled(false);
+    }else {
+      deleteButton.setOnClickListener(this);
+    }
     Button cancelButton = view.findViewById(R.id.cancel_office_visit_record);
     cancelButton.setOnClickListener(this);
     reason = view.findViewById(R.id.reason);
@@ -80,9 +91,9 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
     height = view.findViewById(R.id.height_input);
     weight = view.findViewById(R.id.weight_input);
     bloodPressure = view.findViewById(R.id.blood_pressure_input);
-    visitDate= view.findViewById(R.id.visit_date);
+    visitDate = view.findViewById(R.id.visit_date);
     visitDate.setOnClickListener(this);
-    if (officeVisit != null){
+    if (officeVisit != null) {
       reason.setText(emptyNullString(officeVisit.getReason()));
       visitDate.setText(DateFormat.getDateInstance().format(officeVisit.getDate()));
       provider.setText(emptyNullString(officeVisit.getProvider()));
@@ -91,13 +102,12 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
       bloodPressure.setText(emptyNullString(officeVisit.getBloodPressure()));
       note.setText(emptyNullString(officeVisit.getNotes()));
 
-  }
+    }
     return view;
   }
 
   @Override
-  public void onAttach(Context context)
-    {
+  public void onAttach(Context context) {
     super.onAttach(context);
   }
 
@@ -107,10 +117,19 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
     DatePickerFragment datePickerFragment;
     Bundle bundle;
     switch (view.getId()) {
+      case R.id.visit_date:
+        datePickerFragment = new DatePickerFragment();
+        bundle = new Bundle();
+        bundle.putInt(DatePickerFragment.DATE_PICKER_FIELD_ID, view.getId());
+        datePickerFragment.setArguments(bundle);
+        datePickerFragment.show(getFragmentManager(), "datePicker");
+        break;
       case R.id.save_office_visit_record:
         try {
           OrmHelper helper = ((OrmInteraction) getActivity()).getHelper();
-          OfficeVisit officeVisit = new OfficeVisit();
+          if (officeVisit == null) {
+            officeVisit = new OfficeVisit();
+          }
           officeVisit.setReason(nullifyEmptyString(reason.getText().toString()));
           officeVisit.setProvider(nullifyEmptyString(provider.getText().toString()));
           officeVisit.setHeight(nullifyEmptyString(height.getText().toString()));
@@ -124,28 +143,45 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
           Patient patient = ((OrmInteraction) getActivity()).getHelper().getPatientDao()
               .queryForId(patientID);
           officeVisit.setPatient(patient);
-          helper.getOfficeVisitDao().create(officeVisit);
-
+          if (officeVisit.getId() != 0) {
+            helper.getOfficeVisitDao().update(officeVisit);
+          } else {
+            helper.getOfficeVisitDao().create(officeVisit);
+          }
         } catch (SQLException e) {
           throw new RuntimeException(e);
-        } catch (ParseException e){
+        } catch (ParseException e) {
           throw new RuntimeException(e);
         }
         getFragmentManager().popBackStack();
         break;
       case R.id.delete_office_visit_record:
-        //TODO pop up message "Are you sure?"
+        AlertDialog.Builder builder = new Builder(getActivity());
+        builder.setMessage("Permanently delete this record?").setTitle("");
+        builder.setPositiveButton("DELETE RECORD", new OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int i) {
+            OrmHelper helper = ((OrmInteraction) getActivity()).getHelper();
+            try {
+              helper.getOfficeVisitDao().delete(officeVisit);
+            } catch (SQLException e) {
+              Toast.makeText(getContext(), "Unable to delete", Toast.LENGTH_SHORT);
+            }
+          }
+        });
+        builder.setNegativeButton("CANCEL", new OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int i) {
+            //User clicked the Cancel Button
+          }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
         break;
       case R.id.cancel_office_visit_record:
         //TODO return to former screen
         break;
-      case R.id.visit_date:
-        datePickerFragment  = new DatePickerFragment();
-        bundle = new Bundle();
-        bundle.putInt(DatePickerFragment.DATE_PICKER_FIELD_ID, view.getId());
-        datePickerFragment.setArguments(bundle);
-        datePickerFragment.show(getFragmentManager(), "datePicker");
-        break;
+
     }
   }
 

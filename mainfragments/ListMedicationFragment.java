@@ -62,7 +62,8 @@ public class ListMedicationFragment extends Fragment implements View.OnClickList
         Dao<Medication, Integer> dao = helper.getMedicationDao();
         QueryBuilder<Medication, Integer> builder = dao.queryBuilder();
         builder.where().eq("PATIENT_ID", patient.getId());
-        builder.orderBy("NAME", false);
+        builder.orderByRaw("CASE WHEN STOP_DATE IS NULL THEN 0 ELSE 1 END, START_DATE");
+        //builder.orderBy("START_DATE", true).orderBy("STOP_DATE", true);
         List<Medication> visits = dao.query(builder.prepare());
         chart.setAdapter(new ArrayAdapter<Medication>(getActivity(), R.layout.list_item,
             visits));
@@ -100,10 +101,7 @@ public class ListMedicationFragment extends Fragment implements View.OnClickList
         args.putInt(MedicationFragment.MEDICATION_ID_KEY, medication.getId());
         ((MainActivity)getActivity()).loadFragment(new MedicationFragment(), args,true);
         break;
-      case R.id.delete_record:
-        //TODO display Medication record fragment populating fields with item selected and
-        //popup with "are you sure you want to delete this record"
-        break;
+
     }
 
   }
@@ -114,8 +112,7 @@ public class ListMedicationFragment extends Fragment implements View.OnClickList
     addButton.setOnClickListener(this);
     Button editButton = rootView.findViewById(R.id.edit_record);
     editButton.setOnClickListener(this);
-    Button deleteButton = rootView.findViewById(R.id.delete_record);
-    deleteButton.setOnClickListener(this);
+
   }
 
   @Override
@@ -123,7 +120,6 @@ public class ListMedicationFragment extends Fragment implements View.OnClickList
     medication = (Medication) adapterView.getItemAtPosition(i);
     Button editButton = getActivity().findViewById(R.id.edit_record);
     editButton.setEnabled(true);
-    Button deleteButton = getActivity().findViewById(R.id.delete_record);
-    deleteButton.setEnabled(true);
+
   }
 }

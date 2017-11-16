@@ -1,6 +1,10 @@
 package edu.cnm.deepdive.healthtracker.mainfragments;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import edu.cnm.deepdive.healthtracker.MainActivity;
 import edu.cnm.deepdive.healthtracker.R;
 import edu.cnm.deepdive.healthtracker.entities.Hospitalization;
@@ -75,7 +80,12 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
     Button addButton = view.findViewById(R.id.save_medication_record);
     addButton.setOnClickListener(this);
     Button deleteButton = view.findViewById(R.id.delete_medication_record);
-    deleteButton.setOnClickListener(this);
+    if (medication == null){
+      deleteButton.setEnabled(false);
+    }else {
+      deleteButton.setOnClickListener(this);
+    }
+
     Button cancelButton = view.findViewById(R.id.cancel_medication_record);
     cancelButton.setOnClickListener(this);
     medicationName = view.findViewById(R.id.product);
@@ -92,10 +102,9 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
       note.setText(emptyNullString(medication.getNotes()));
       dose.setText(emptyNullString(medication.getDose()));
       dateStarted.setText(DateFormat.getDateInstance().format(medication.getStartDate()));
-      if(medication.getStopDate() != null){
-      dateEnded.setText(DateFormat.getDateInstance().format(medication.getStopDate()));
+      if (medication.getStopDate() != null) {
+        dateEnded.setText(DateFormat.getDateInstance().format(medication.getStopDate()));
       }
-
 
 
     }
@@ -138,7 +147,9 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
       case R.id.save_medication_record:
         try {
           OrmHelper helper = ((OrmInteraction) getActivity()).getHelper();
-          Medication medication = new Medication();
+          if (medication == null) {
+            medication = new Medication();
+          }
           medication.setMedicationName(nullifyEmptyString(medicationName.getText().toString()));
           medication.setDose(nullifyEmptyString(dose.getText().toString()));
           medication.setProvider(nullifyEmptyString(provider.getText().toString()));
@@ -150,14 +161,16 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
           } catch (ParseException e) {
             e.printStackTrace();
           }
-
           Bundle args = getArguments();
           int patientID = args.getInt(MainActivity.PATIENT_ID_KEY);
           Patient patient = ((OrmInteraction) getActivity()).getHelper().getPatientDao()
               .queryForId(patientID);
           medication.setPatient(patient);
-          helper.getMedicationDao().create(medication);
-
+          if (medication.getId() != 0) {
+            helper.getMedicationDao().update(medication);
+          } else {
+            helper.getMedicationDao().create(medication);
+          }
         } catch (SQLException e) {
           throw new RuntimeException(e);
         } catch (ParseException e) {
@@ -166,10 +179,30 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
         getFragmentManager().popBackStack();
         break;
       case R.id.delete_medication_record:
-        //TODO pop up message "Are you sure?"
+        AlertDialog.Builder builder = new Builder(getActivity());
+        builder.setMessage("Permanently delete this record?").setTitle("");
+        builder.setPositiveButton("DELETE RECORD", new OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int i) {
+            OrmHelper helper = ((OrmInteraction) getActivity()).getHelper();
+            try {
+              helper.getMedicationDao().delete(medication);
+            } catch (SQLException e) {
+              Toast.makeText(getContext(), "Unable to delete", Toast.LENGTH_SHORT);
+            }
+          }
+        });
+        builder.setNegativeButton("CANCEL", new OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int i) {
+            //User clicked the Cancel Button
+
+          }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
         break;
       case R.id.cancel_medication_record:
-        //TODO return to former screen
         break;
 
     }

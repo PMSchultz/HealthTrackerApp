@@ -105,6 +105,6 @@ public class Medication {
   public String toString() {
     DateFormat format = new SimpleDateFormat("M/d/yy");
     return medicationName +  " : " + "Start date: " + format.format(startDate)
-    + ((stopDate != null) ? ("Stop date: " + format.format(stopDate)) : "") ;
+    + ((stopDate != null) ? ("    Stop date: " + format.format(stopDate)) : "") ;
   }
 }

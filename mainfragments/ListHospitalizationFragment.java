@@ -92,8 +92,7 @@ public class ListHospitalizationFragment extends Fragment implements View.OnClic
     addButton.setOnClickListener(this);
     Button editButton = rootView.findViewById(R.id.edit_record);
     editButton.setOnClickListener(this);
-    Button deleteButton = rootView.findViewById(R.id.delete_record);
-    deleteButton.setOnClickListener(this);
+
   }
 
 
@@ -111,10 +110,7 @@ public class ListHospitalizationFragment extends Fragment implements View.OnClic
         args.putInt(HospitalizationFragment.HOSPITALIZATION_ID_KEY, hospitalization.getId());
         ((MainActivity)getActivity()).loadFragment(new HospitalizationFragment(), args,true);
         break;
-      case R.id.delete_record:
-        //TODO display Hospitalization record fragment populating fields with item selected and
-        //popup with "are you sure you want to delete this record"
-        break;
+
     }
 
   }
@@ -124,8 +120,7 @@ public class ListHospitalizationFragment extends Fragment implements View.OnClic
     hospitalization = (Hospitalization) adapterView.getItemAtPosition(i);
     Button editButton = getActivity().findViewById(R.id.edit_record);
     editButton.setEnabled(true);
-    Button deleteButton = getActivity().findViewById(R.id.delete_record);
-    deleteButton.setEnabled(true);
+
   }
 }
 

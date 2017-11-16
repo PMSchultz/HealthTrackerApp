@@ -1,6 +1,10 @@
 package edu.cnm.deepdive.healthtracker.mainfragments;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +14,7 @@ import android.view.ViewGroup;
 
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import edu.cnm.deepdive.healthtracker.MainActivity;
 import edu.cnm.deepdive.healthtracker.R;
 import edu.cnm.deepdive.healthtracker.entities.Allergy;
@@ -57,7 +62,7 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
             .queryForId(patientId);
         hospitalizationId = getArguments().getInt(HOSPITALIZATION_ID_KEY, 0);
         if (hospitalizationId > 0) {
-         hospitalization = ((OrmInteraction) getActivity()).getHelper().getHospitalizationDao()
+          hospitalization = ((OrmInteraction) getActivity()).getHelper().getHospitalizationDao()
               .queryForId(hospitalizationId);
         }
       } catch (SQLException e) {
@@ -75,6 +80,11 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
     addButton.setOnClickListener(this);
     Button deleteButton = view.findViewById(R.id.delete_hospital_record);
     deleteButton.setOnClickListener(this);
+    if (hospitalization == null){
+      deleteButton.setEnabled(false);
+    }else {
+      deleteButton.setOnClickListener(this);
+    }
     Button cancelButton = view.findViewById(R.id.cancel_hospital_record);
     cancelButton.setOnClickListener(this);
     reason = view.findViewById(R.id.reason);
@@ -101,8 +111,7 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
 
 
   @Override
-  public void onAttach(Context context)
-  {
+  public void onAttach(Context context) {
     super.onAttach(context);
   }
 
@@ -130,7 +139,9 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
       case R.id.save_hospital_record:
         try {
           OrmHelper helper = ((OrmInteraction) getActivity()).getHelper();
-          Hospitalization hospitalization = new Hospitalization();
+          if (hospitalization == null) {
+            hospitalization = new Hospitalization();
+          }
           hospitalization.setReason(nullifyEmptyString(reason.getText().toString()));
           hospitalization.setHospital(nullifyEmptyString(hospital.getText().toString()));
           hospitalization.setProvider(nullifyEmptyString(provider.getText().toString()));
@@ -142,14 +153,16 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
           } catch (ParseException e) {
             e.printStackTrace();
           }
-
           Bundle args = getArguments();
           int patientID = args.getInt(MainActivity.PATIENT_ID_KEY);
           Patient patient = ((OrmInteraction) getActivity()).getHelper().getPatientDao()
               .queryForId(patientID);
           hospitalization.setPatient(patient);
-          helper.getHospitalizationDao().create(hospitalization);
-
+          if (hospitalization.getId() != 0) {
+            helper.getHospitalizationDao().update(hospitalization);
+          } else {
+            helper.getHospitalizationDao().create(hospitalization);
+          }
         } catch (SQLException e) {
           throw new RuntimeException(e);
         } catch (ParseException e) {
@@ -159,7 +172,27 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
         getFragmentManager().popBackStack();
         break;
       case R.id.delete_hospital_record:
-        //TODO pop up message "Are you sure?"
+        AlertDialog.Builder builder = new Builder(getActivity());
+        builder.setMessage("Permanently delete this record?").setTitle("");
+        builder.setPositiveButton("DELETE RECORD", new OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int i) {
+            OrmHelper helper = ((OrmInteraction) getActivity()).getHelper();
+            try {
+              helper.getHospitalizationDao().delete(hospitalization);
+            } catch (SQLException e) {
+              Toast.makeText(getContext(), "Unable to delete", Toast.LENGTH_SHORT);
+            }
+          }
+        });
+        builder.setNegativeButton("CANCEL", new OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int i) {
+            //User clicked the Cancel Button
+          }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
         break;
       case R.id.cancel_hospital_record:
         //TODO return to former screen

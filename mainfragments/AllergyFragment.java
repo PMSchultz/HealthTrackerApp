@@ -1,6 +1,10 @@
 package edu.cnm.deepdive.healthtracker.mainfragments;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +16,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 import edu.cnm.deepdive.healthtracker.MainActivity;
 import edu.cnm.deepdive.healthtracker.R;
 import edu.cnm.deepdive.healthtracker.entities.Allergy;
@@ -77,6 +82,11 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
     addButton.setOnClickListener(this);
     Button deleteButton = view.findViewById(R.id.delete_allergy_record);
     deleteButton.setOnClickListener(this);
+    if (allergy == null){
+      deleteButton.setEnabled(false);
+    }else {
+      deleteButton.setOnClickListener(this);
+    }
     Button cancelButton = view.findViewById(R.id.cancel_allergy_record);
     cancelButton.setOnClickListener(this);
     drugAllergy = view.findViewById(R.id.drug_allergy);
@@ -84,7 +94,7 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
     seasonalAllergy = view.findViewById(R.id.seasonal_allergy);
     animalAllergy = view.findViewById(R.id.animal_allergy);
     latexAllergy = view.findViewById(R.id.latex_allergy);
-    if (allergy != null){
+    if (allergy != null) {
       drugAllergy.setText(emptyNullString(allergy.getMedAllergy()));
       foodAllergy.setText(emptyNullString(allergy.getFoodAllergy()));
       animalAllergy.setText(emptyNullString(allergy.getAnimalAllergy()));
@@ -111,7 +121,9 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
       case R.id.save_allergy_record:
         try {
           OrmHelper helper = ((OrmInteraction) getActivity()).getHelper();
-          Allergy allergy = new Allergy();
+          if (allergy == null) {
+            allergy = new Allergy();
+          }
           allergy.setMedAllergy(nullifyEmptyString(drugAllergy.getText().toString()));
           allergy.setFoodAllergy(nullifyEmptyString(foodAllergy.getText().toString()));
           allergy.setAnimalAllergy(nullifyEmptyString(animalAllergy.getText().toString()));
@@ -119,16 +131,38 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
           allergy.setLatexAllergy(latexAllergy.isChecked());
           Bundle args = getArguments();
           allergy.setPatient(patient);
-          helper.getAllergyDao().create(allergy);
-
-          //put allergy input into patient chart
+          if (allergy.getId() != 0) {
+            helper.getAllergyDao().update(allergy);
+          } else {
+            helper.getAllergyDao().create(allergy);
+          }
         } catch (SQLException e) {
           e.printStackTrace();
         }
         getFragmentManager().popBackStack();
         break;
       case R.id.delete_allergy_record:
-        //TODO pop up message "Are you sure?"
+        AlertDialog.Builder builder = new Builder(getActivity());
+        builder.setMessage("Permanently delete this record?").setTitle("");
+        builder.setPositiveButton("DELETE RECORD", new OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int i) {
+            OrmHelper helper = ((OrmInteraction) getActivity()).getHelper();
+            try {
+              helper.getAllergyDao().delete(allergy);
+            } catch (SQLException e) {
+              Toast.makeText(getContext(), "Unable to delete", Toast.LENGTH_SHORT);
+            }
+          }
+        });
+        builder.setNegativeButton("CANCEL", new OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int i) {
+            //User clicked the Cancel Button
+          }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
         break;
       case R.id.cancel_allergy_record:
         //TODO return to former screen
