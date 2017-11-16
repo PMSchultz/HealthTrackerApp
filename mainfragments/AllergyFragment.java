@@ -82,9 +82,9 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
     addButton.setOnClickListener(this);
     Button deleteButton = view.findViewById(R.id.delete_allergy_record);
     deleteButton.setOnClickListener(this);
-    if (allergy == null){
+    if (allergy == null) {
       deleteButton.setEnabled(false);
-    }else {
+    } else {
       deleteButton.setOnClickListener(this);
     }
     Button cancelButton = view.findViewById(R.id.cancel_allergy_record);
@@ -163,9 +163,10 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+        //getActivity().getSupportFragmentManager().popBackStack();
         break;
       case R.id.cancel_allergy_record:
-        //TODO return to former screen
+        //getActivity().getSupportFragmentManager().popBackStack();
         break;
 
     }
