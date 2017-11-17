@@ -150,6 +150,10 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
           hospitalization.setAdmitDate(format.parse(admitDate.getText().toString()));
           try {
             hospitalization.setDischargeDate(format.parse(dischargeDate.getText().toString()));
+            if (hospitalization.getAdmitDate().compareTo(hospitalization.getDischargeDate()) > 0){
+              Toast.makeText(getContext(), "Discharge date must be after Admit date", Toast.LENGTH_LONG).show();
+              break;
+            }
           } catch (ParseException e) {
             e.printStackTrace();
           }
@@ -183,6 +187,7 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
             } catch (SQLException e) {
               Toast.makeText(getContext(), "Unable to delete", Toast.LENGTH_SHORT);
             }
+            getActivity().getSupportFragmentManager().popBackStack();
           }
         });
         builder.setNegativeButton("CANCEL", new OnClickListener() {
@@ -195,7 +200,7 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
         dialog.show();
         break;
       case R.id.cancel_hospital_record:
-        //TODO return to former screen
+        getActivity().getSupportFragmentManager().popBackStack();
         break;
     }
   }

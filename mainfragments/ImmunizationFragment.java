@@ -42,14 +42,6 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
   private Immunization immunization = null;
   private Patient patient = null;
 
-  //These values show in Autocomplete
-   String immunizaton [] = {"Hepatitis B (HepB )", "Rotavirus (RV)", "Diptheria, tetanus, acellular pertussis (DtaP)",
-  "Tetanus, diptheria, acellular pertussis (Tdap)", "Haemophilus Influenzae type b (Hib)", "Pneumococcal conjugate (PCV13)",
-  "Pneumococcal polysaccharide (PPSV23)", "Inactivated Poliovirus  (IPV < 18 yrs)", "Influenza (IIV)", "Measles, mumps, rubella (MMR)",
-  "Varicella (VAR)", "Hepatitis A (HepA)", "Human Papillomavirus (HPV)", "Meningococcal (MenACWY)","Meningococcal (MenB)",
-      "Hepatitis A (HepA)", "Herpes zoster (HZV)", "Influenza (LAIV)","Meningococcal (MPSV4)", "Influenza (RIV)",
-  "Tetanus, diptheria (Td)"};
-
 
   public ImmunizationFragment() {
     // Required empty public constructor
@@ -169,6 +161,7 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
             } catch (SQLException e) {
               Toast.makeText(getContext(), "Unable to delete", Toast.LENGTH_SHORT);
             }
+            getActivity().getSupportFragmentManager().popBackStack();
           }
         });
         builder.setNegativeButton("CANCEL", new OnClickListener() {
@@ -181,6 +174,7 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
         dialog.show();
         break;
       case R.id.cancel_immunization_record:
+        getActivity().getSupportFragmentManager().popBackStack();
         break;
     }
   }

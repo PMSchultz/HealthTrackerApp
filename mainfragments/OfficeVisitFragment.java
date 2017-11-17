@@ -167,6 +167,7 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
             } catch (SQLException e) {
               Toast.makeText(getContext(), "Unable to delete", Toast.LENGTH_SHORT);
             }
+            getActivity().getSupportFragmentManager().popBackStack();
           }
         });
         builder.setNegativeButton("CANCEL", new OnClickListener() {
@@ -179,7 +180,7 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
         dialog.show();
         break;
       case R.id.cancel_office_visit_record:
-        //TODO return to former screen
+        getActivity().getSupportFragmentManager().popBackStack();
         break;
 
     }

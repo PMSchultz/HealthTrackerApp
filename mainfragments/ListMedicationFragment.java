@@ -112,6 +112,7 @@ public class ListMedicationFragment extends Fragment implements View.OnClickList
     addButton.setOnClickListener(this);
     Button editButton = rootView.findViewById(R.id.edit_record);
     editButton.setOnClickListener(this);
+    editButton.setEnabled(false);
 
   }
 

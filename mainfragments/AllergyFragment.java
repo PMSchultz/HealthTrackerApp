@@ -129,6 +129,13 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
           allergy.setAnimalAllergy(nullifyEmptyString(animalAllergy.getText().toString()));
           allergy.setSeasonalAllergy(nullifyEmptyString(seasonalAllergy.getText().toString()));
           allergy.setLatexAllergy(latexAllergy.isChecked());
+          //could also test in hashset
+          if (allergy.getAnimalAllergy() == null && allergy.getFoodAllergy() == null && allergy.getSeasonalAllergy() == null
+              && allergy.getMedAllergy() == null && !allergy.getLatexAllergy() == true) {
+            Toast.makeText(getContext(), "At least one allergy type must be entered", Toast.LENGTH_LONG).show();
+            break;
+          }
+
           Bundle args = getArguments();
           allergy.setPatient(patient);
           if (allergy.getId() != 0) {
@@ -153,8 +160,10 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
             } catch (SQLException e) {
               Toast.makeText(getContext(), "Unable to delete", Toast.LENGTH_SHORT);
             }
+            getActivity().getSupportFragmentManager().popBackStack();
           }
         });
+
         builder.setNegativeButton("CANCEL", new OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
@@ -163,10 +172,10 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
         });
         AlertDialog dialog = builder.create();
         dialog.show();
-        //getActivity().getSupportFragmentManager().popBackStack();
+
         break;
       case R.id.cancel_allergy_record:
-        //getActivity().getSupportFragmentManager().popBackStack();
+        getActivity().getSupportFragmentManager().popBackStack();
         break;
 
     }

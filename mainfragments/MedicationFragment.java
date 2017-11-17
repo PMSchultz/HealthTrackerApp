@@ -158,8 +158,16 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
           medication.setStartDate(format.parse(dateStarted.getText().toString()));
           try {
             medication.setStopDate(format.parse(dateEnded.getText().toString()));
+            if(medication.getStartDate().compareTo(medication.getStopDate()) > 0){
+              Toast.makeText(getContext(), "End date must be after start date", Toast.LENGTH_LONG).show();
+              break;
+            }
           } catch (ParseException e) {
             e.printStackTrace();
+          }
+          if (medication.getStartDate() == null || medication.getMedicationName() == null || medication.getDose() == null){
+            Toast.makeText(getContext(), "Required input includes Medication Name, Dose, and Start Date", Toast.LENGTH_LONG).show();
+            break;
           }
           Bundle args = getArguments();
           int patientID = args.getInt(MainActivity.PATIENT_ID_KEY);
@@ -190,6 +198,7 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
             } catch (SQLException e) {
               Toast.makeText(getContext(), "Unable to delete", Toast.LENGTH_SHORT);
             }
+            getActivity().getSupportFragmentManager().popBackStack();
           }
         });
         builder.setNegativeButton("CANCEL", new OnClickListener() {
@@ -203,6 +212,7 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
         dialog.show();
         break;
       case R.id.cancel_medication_record:
+        getActivity().getSupportFragmentManager().popBackStack();
         break;
 
     }
