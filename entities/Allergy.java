@@ -12,23 +12,16 @@ public class Allergy {
   @DatabaseField(columnName = "ALLERGY_ID", generatedId = true)
   private int id;
 
-  @DatabaseField(columnName = "PATIENT_ID", canBeNull = false, foreign = true, foreignAutoRefresh = true)
+  @DatabaseField(columnName = "PATIENT_ID", canBeNull = false, uniqueCombo = true, foreign = true,
+      foreignAutoRefresh = true)
   private Patient patient;
 
-  @DatabaseField(columnName = "MEDICATION_ID",foreign = false, canBeNull = true)
-  private String medAllergy;
 
-  @DatabaseField(columnName = "FOOD_ALLERGY", canBeNull = true)
-  private String foodAllergy;
+  @DatabaseField(columnName = "ALLERGY_TYPE")
+  private String allergyType;
 
-  @DatabaseField(columnName = "SEASONAL_ALLERGY", canBeNull = true)
-  private String seasonalAllergy;
-
-  @DatabaseField(columnName = "ANIMAL_ALLERGY", canBeNull = true)
-  private String animalAllergy;
-
-  @DatabaseField(columnName = "LATEX_ALLERGY", canBeNull = true)
-  private boolean latexAllergy;
+  @DatabaseField(columnName = "ALLERGY_NAME", uniqueCombo = true) //checks database for duplicates
+  private String allergyName; //What user enters into editText field
 
   @DatabaseField(columnName = "NOTES", canBeNull = true)
   private String notes;
@@ -37,45 +30,6 @@ public class Allergy {
     return id;
   }
 
-  public String getMedAllergy() {
-    return medAllergy;
-  }
-
-  public void setMedAllergy(String medAllergy) {
-    this.medAllergy = medAllergy;
-  }
-
-  public String getFoodAllergy() {
-    return foodAllergy;
-  }
-
-  public void setFoodAllergy(String foodAllergy) {
-    this.foodAllergy = foodAllergy;
-  }
-
-  public String getSeasonalAllergy() {
-    return seasonalAllergy;
-  }
-
-  public void setSeasonalAllergy(String seasonalAllergy) {
-    this.seasonalAllergy = seasonalAllergy;
-  }
-
-  public String getAnimalAllergy() {
-    return animalAllergy;
-  }
-
-  public void setAnimalAllergy(String animalAllergy) {
-    this.animalAllergy = animalAllergy;
-  }
-
-  public Boolean getLatexAllergy() {
-    return latexAllergy;
-  }
-
-  public void setLatexAllergy(Boolean latexAllergy) {
-    this.latexAllergy = latexAllergy;
-  }
 
   public Patient getPatient() {
     return patient;
@@ -93,13 +47,28 @@ public class Allergy {
     this.notes = notes;
   }
 
+  public String getAllergyType() {
+    return allergyType;
+  }
+
+  public void setAllergyType(String allergyType) {
+    this.allergyType = allergyType;
+  }
+
+  public String getAllergyName() {
+    return allergyName;
+  }
+
+  public void setAllergyName(String allergyName) {
+    this.allergyName = allergyName;
+  }
+
   @Override
   public String toString() {
-    return ((medAllergy!= null) ?  ("Medication Allergy: " + medAllergy + " ") : "") +
-        ((foodAllergy != null) ?  ("Food Allergy: " + foodAllergy + " ") : "") +
-        ((seasonalAllergy != null) ?  ("Seasonal Allergy: " + seasonalAllergy + " ") : "") +
-        ((animalAllergy != null) ?  ("Animal Allergy: " + animalAllergy + " ") : " ") +
-     ((latexAllergy ?  "Latex Allergy" : ""));
+    return "Allergy{" +
+        "allergyType='" + allergyType + '\'' +
+        ", allergyName='" + allergyName + '\'' +
+        '}';
   }
-  }
+}
 

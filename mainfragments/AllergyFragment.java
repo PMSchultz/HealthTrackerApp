@@ -5,17 +5,15 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 import edu.cnm.deepdive.healthtracker.MainActivity;
 import edu.cnm.deepdive.healthtracker.R;
@@ -24,7 +22,7 @@ import edu.cnm.deepdive.healthtracker.entities.Patient;
 import edu.cnm.deepdive.healthtracker.helpers.OrmHelper;
 import edu.cnm.deepdive.healthtracker.helpers.OrmHelper.OrmInteraction;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
+import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass. Activities that contain this fragment must implement the
@@ -35,13 +33,11 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
 
   public static final String ALLERGY_ID_KEY = "allergy_id";
   // the fragment initialization parameters,
-  private EditText drugAllergy;
-  private EditText foodAllergy;
-  private EditText seasonalAllergy;
-  private EditText animalAllergy;
-  private CheckBox latexAllergy;
   private Allergy allergy = null;
   private Patient patient = null;
+  private Spinner spinner;
+  private EditText allergyText;
+  private String[] allergyTypes;
 
 //  private OnFragmentInteractionListener mListener;
 
@@ -78,6 +74,9 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
       Bundle savedInstanceState) {
 
     View view = inflater.inflate(R.layout.fragment_allergy, container, false);
+    allergyText = view.findViewById(R.id.allergy);
+    allergyTypes = getResources().getStringArray(R.array.allergy_types);
+    spinner = view.findViewById(R.id.allergy_spinner);
     Button addButton = view.findViewById(R.id.save_allergy_record);
     addButton.setOnClickListener(this);
     Button deleteButton = view.findViewById(R.id.delete_allergy_record);
@@ -89,17 +88,10 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
     }
     Button cancelButton = view.findViewById(R.id.cancel_allergy_record);
     cancelButton.setOnClickListener(this);
-    drugAllergy = view.findViewById(R.id.drug_allergy);
-    foodAllergy = view.findViewById(R.id.food_allergy);
-    seasonalAllergy = view.findViewById(R.id.seasonal_allergy);
-    animalAllergy = view.findViewById(R.id.animal_allergy);
-    latexAllergy = view.findViewById(R.id.latex_allergy);
+
     if (allergy != null) {
-      drugAllergy.setText(emptyNullString(allergy.getMedAllergy()));
-      foodAllergy.setText(emptyNullString(allergy.getFoodAllergy()));
-      animalAllergy.setText(emptyNullString(allergy.getAnimalAllergy()));
-      seasonalAllergy.setText(emptyNullString(allergy.getSeasonalAllergy()));
-      latexAllergy.setChecked(allergy.getLatexAllergy());
+      spinner.setSelection(Arrays.asList(allergyTypes).indexOf(allergy.getAllergyType()));
+      allergyText.setText(allergy.getAllergyName());
     }
     return view;
   }
@@ -117,6 +109,7 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
 
   @Override
   public void onClick(View view) {
+
     switch (view.getId()) {
       case R.id.save_allergy_record:
         try {
@@ -124,18 +117,17 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
           if (allergy == null) {
             allergy = new Allergy();
           }
-          allergy.setMedAllergy(nullifyEmptyString(drugAllergy.getText().toString()));
-          allergy.setFoodAllergy(nullifyEmptyString(foodAllergy.getText().toString()));
-          allergy.setAnimalAllergy(nullifyEmptyString(animalAllergy.getText().toString()));
-          allergy.setSeasonalAllergy(nullifyEmptyString(seasonalAllergy.getText().toString()));
-          allergy.setLatexAllergy(latexAllergy.isChecked());
-          //could also test in hashset
-          if (allergy.getAnimalAllergy() == null && allergy.getFoodAllergy() == null && allergy.getSeasonalAllergy() == null
-              && allergy.getMedAllergy() == null && !allergy.getLatexAllergy() == true) {
-            Toast.makeText(getContext(), "At least one allergy type must be entered", Toast.LENGTH_LONG).show();
+          allergy.setAllergyType(spinner.getSelectedItem().toString());
+          if (allergyText.getText().toString().trim().length() == 0) {
+            Toast.makeText(getContext(), "At least one allergy type must be entered",
+                Toast.LENGTH_LONG).show();
             break;
           }
-
+          if (helper.getAllergyDao().queryForEq("ALLERGY_NAME", allergyText.getText().toString()).size() > 0){
+            Toast.makeText(getContext(), "This allergy already exist in the medical record", Toast.LENGTH_LONG);
+            break;
+          }
+          allergy.setAllergyName(allergyText.getText().toString());
           Bundle args = getArguments();
           allergy.setPatient(patient);
           if (allergy.getId() != 0) {
