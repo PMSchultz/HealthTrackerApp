@@ -9,6 +9,7 @@ adding code to compare input with previous chart items.  Allow user to input onl
 * Hospitalizations - verify that code checks for all required items before allowing record to be added
 * Medications - verify that code checks for all required items before allowing record to be added
 * Office Visits- verify that code checks for all required items before allowing record to be added
+* Final test for errors in logic
 
 ## Stretch Goals
 * Immunizations - change existing user input method. Use a check item list of immunizations obtained from a database.  Store each immunization in a separate record for ease of future editing
