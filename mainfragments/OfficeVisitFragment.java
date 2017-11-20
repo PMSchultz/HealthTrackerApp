@@ -137,7 +137,20 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
           officeVisit.setBloodPressure(nullifyEmptyString(bloodPressure.getText().toString()));
           officeVisit.setNotes(nullifyEmptyString(note.getText().toString()));
           DateFormat format = DateFormat.getDateInstance();
-          officeVisit.setDate(format.parse(visitDate.getText().toString()));
+          try {
+            officeVisit.setDate(format.parse(visitDate.getText().toString()));
+            if (officeVisit.getDate().toString().trim().isEmpty()){
+
+            }
+          }catch (ParseException e) {
+            Toast.makeText(getContext(), "Appointment date is required", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+            break;
+          }
+          if(officeVisit.getReason() == null || officeVisit.getProvider() == null){
+            Toast.makeText(getContext(), "Required input includes reason and provider", Toast.LENGTH_LONG).show();
+            break;
+          }
           Bundle args = getArguments();
           int patientID = args.getInt(MainActivity.PATIENT_ID_KEY);
           Patient patient = ((OrmInteraction) getActivity()).getHelper().getPatientDao()
@@ -149,8 +162,6 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
             helper.getOfficeVisitDao().create(officeVisit);
           }
         } catch (SQLException e) {
-          throw new RuntimeException(e);
-        } catch (ParseException e) {
           throw new RuntimeException(e);
         }
         getFragmentManager().popBackStack();

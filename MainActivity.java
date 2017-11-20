@@ -16,9 +16,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
@@ -38,7 +40,7 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity
-    implements OnNavigationItemSelectedListener, OrmHelper.OrmInteraction {
+    implements OnNavigationItemSelectedListener, OrmHelper.OrmInteraction, OnClickListener {
 
   public static final String PATIENT_ID_KEY = "patient_id";
 
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity
   private int patientSelected;
   private Patient selectedPatient = null;
   private Spinner spinner;
+  private Button createPatientButton;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -58,49 +61,38 @@ public class MainActivity extends AppCompatActivity
     setSupportActionBar(toolbar);
 
     //get the spinner from the xml
-    spinner= (Spinner) findViewById(R.id.name_spinner);
-    spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-      @Override
-      public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        selectedPatient = (Patient) adapterView.getItemAtPosition(i);
-        if (selectedPatient.getId() == 0) {
-          DialogFragment dialogFragment = new CreatePatientFragment();
-          dialogFragment.show(getSupportFragmentManager(), "createPatient");
-        }
-
-      }
-
-
-      @Override
-      public void onNothingSelected(AdapterView<?> adapterView) {
-
-      }
-    });
+    spinner = (Spinner) findViewById(R.id.name_spinner);
+    createPatientButton = (Button)findViewById(R.id.createPatientButton);
+    createPatientButton.setOnClickListener(this);
 
 
 
-    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-    ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+
+
+  DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+  ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+      this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
     drawer.setDrawerListener(toggle);
     drawer.openDrawer(GravityCompat.START);//Set the drawer to open at start
     toggle.syncState();
 
-    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+  NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
 
-    addItemsOnSpinner();
-  }
+  addItemsOnSpinner();
 
-  public void addItemsOnSpinner(){
+}
+
+  public void addItemsOnSpinner() {
     try {
       Dao<Patient, Integer> dao = getHelper().getPatientDao();
       QueryBuilder<Patient, Integer> builder = dao.queryBuilder();
       builder.orderBy("NAME", true);
       List<Patient> patients = dao.query(builder.prepare());
       Patient addPatient = new Patient();
-      addPatient.setName("Add New Patient");
-      patients.add(addPatient);
+      addPatient.setName("Select Patient");
+      patients.add(0, addPatient);
       //create an adapter to describe how the items are displayed
       ArrayAdapter<Patient> adapter = new ArrayAdapter<>(this,
           android.R.layout.simple_spinner_dropdown_item, patients);
@@ -180,26 +172,25 @@ public class MainActivity extends AppCompatActivity
   public boolean onNavigationItemSelected(MenuItem item) {
     // Handle navigation view item clicks here.
     int id = item.getItemId();
-
-
+    selectedPatient = (Patient) spinner.getSelectedItem();
 
     int patientId = (selectedPatient != null) ? selectedPatient.getId() : 0;
     switch (id) {
 
       case R.id.nav_medications:
-        loadFragment(new ListMedicationFragment(), patientId, false );
+        loadFragment(new ListMedicationFragment(), patientId, false);
         break;
       case R.id.nav_immunizations:
-        loadFragment(new ListImmunizationFragment(), patientId, false );
+        loadFragment(new ListImmunizationFragment(), patientId, false);
         break;
       case R.id.nav_hospitalizations:
-        loadFragment(new ListHospitalizationFragment(), patientId, false );
+        loadFragment(new ListHospitalizationFragment(), patientId, false);
         break;
       case R.id.nav_allergies:
         loadFragment(new ListAllergyFragment(), patientId, false);
         break;
       case R.id.nav_office_visits:
-        loadFragment(new ListOfficeVisitFragment(), patientId, false );
+        loadFragment(new ListOfficeVisitFragment(), patientId, false);
         break;
 //
     }
@@ -209,8 +200,6 @@ public class MainActivity extends AppCompatActivity
     return true;
 
   }
-
-
 
 
   public void openRecord(View view) {
@@ -242,10 +231,10 @@ public class MainActivity extends AppCompatActivity
     fragment.setArguments(args);
     FragmentTransaction transaction = fragmentManager.beginTransaction()
         .replace(R.id.content_panel, fragment);
-    if (addToBackstack){
+    if (addToBackstack) {
       transaction.addToBackStack(fragment.getClass().getSimpleName());
     }
-     transaction.commit();
+    transaction.commit();
   }
 
   public void loadFragment(Fragment fragment, Bundle args, boolean addToBackstack) {
@@ -255,9 +244,16 @@ public class MainActivity extends AppCompatActivity
     fragment.setArguments(args);
     FragmentTransaction transaction = fragmentManager.beginTransaction()
         .replace(R.id.content_panel, fragment);
-    if (addToBackstack){
+    if (addToBackstack) {
       transaction.addToBackStack(fragment.getClass().getSimpleName());
     }
     transaction.commit();
+  }
+
+  @Override
+  public void onClick(View view) {
+    DialogFragment dialogFragment = new CreatePatientFragment();
+    dialogFragment.show(getSupportFragmentManager(), "createPatient");
+
   }
 }

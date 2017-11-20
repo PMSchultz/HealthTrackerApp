@@ -16,6 +16,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.j256.ormlite.stmt.QueryBuilder;
 import edu.cnm.deepdive.healthtracker.MainActivity;
 import edu.cnm.deepdive.healthtracker.R;
 import edu.cnm.deepdive.healthtracker.entities.Hospitalization;
@@ -134,6 +135,15 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
           int patientID = args.getInt(MainActivity.PATIENT_ID_KEY);
           Patient patient = ((OrmInteraction) getActivity()).getHelper().getPatientDao()
               .queryForId(patientID);
+
+          //check to see if immunization type and date are the same, if so do not add
+          QueryBuilder queryBuilder = helper.getImmunizationDao().queryBuilder();
+          queryBuilder.where().eq("VACCINE",immunization.getVaccine()).and()
+              .eq("DATE", immunization.getDate());
+          if(helper.getImmunizationDao().query(queryBuilder.prepare()).size() > 0){
+            Toast.makeText(getContext(), "This record is already in patient's chart", Toast.LENGTH_LONG).show();
+            return;
+          }
           immunization.setPatient(patient);
           if (immunization.getId() != 0) {
             helper.getImmunizationDao().update(immunization);
@@ -159,7 +169,7 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
             try {
               helper.getImmunizationDao().delete(immunization);
             } catch (SQLException e) {
-              Toast.makeText(getContext(), "Unable to delete", Toast.LENGTH_SHORT);
+              Toast.makeText(getContext(), "Unable to delete", Toast.LENGTH_LONG);
             }
             getActivity().getSupportFragmentManager().popBackStack();
           }

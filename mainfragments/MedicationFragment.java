@@ -16,6 +16,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.j256.ormlite.stmt.QueryBuilder;
 import edu.cnm.deepdive.healthtracker.MainActivity;
 import edu.cnm.deepdive.healthtracker.R;
 import edu.cnm.deepdive.healthtracker.entities.Hospitalization;
@@ -155,7 +156,14 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
           medication.setProvider(nullifyEmptyString(provider.getText().toString()));
           medication.setNotes(nullifyEmptyString(note.getText().toString()));
           DateFormat format = DateFormat.getDateInstance();
-          medication.setStartDate(format.parse(dateStarted.getText().toString()));
+          try {
+            medication.setStartDate(format.parse(dateStarted.getText().toString()));
+          } catch (ParseException e){
+            Toast.makeText(getContext(), "Start date is a required field", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+            break;
+          }
+
           try {
             medication.setStopDate(format.parse(dateEnded.getText().toString()));
             if(medication.getStartDate().compareTo(medication.getStopDate()) > 0){
@@ -165,14 +173,22 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
           } catch (ParseException e) {
             e.printStackTrace();
           }
-          if (medication.getStartDate() == null || medication.getMedicationName() == null || medication.getDose() == null){
-            Toast.makeText(getContext(), "Required input includes Medication Name, Dose, and Start Date", Toast.LENGTH_LONG).show();
+          if (medication.getMedicationName() == null || medication.getDose() == null){
+            Toast.makeText(getContext(), "Required input includes Medication Name and Dose", Toast.LENGTH_LONG).show();
             break;
           }
           Bundle args = getArguments();
           int patientID = args.getInt(MainActivity.PATIENT_ID_KEY);
           Patient patient = ((OrmInteraction) getActivity()).getHelper().getPatientDao()
               .queryForId(patientID);
+          //TODO check to see if medication type and date are the same, if so do not let them add
+          QueryBuilder queryBuilder = helper.getMedicationDao().queryBuilder();
+          queryBuilder.where().eq("NAME",medication.getMedicationName()).and()
+              .eq("START_DATE", medication.getStartDate());
+          if(helper.getMedicationDao().query(queryBuilder.prepare()).size() > 0){
+            Toast.makeText(getContext(), "This record is already in patient's chart", Toast.LENGTH_LONG).show();
+            return;
+          }
           medication.setPatient(patient);
           if (medication.getId() != 0) {
             helper.getMedicationDao().update(medication);
@@ -180,8 +196,6 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
             helper.getMedicationDao().create(medication);
           }
         } catch (SQLException e) {
-          throw new RuntimeException(e);
-        } catch (ParseException e) {
           throw new RuntimeException(e);
         }
         getFragmentManager().popBackStack();

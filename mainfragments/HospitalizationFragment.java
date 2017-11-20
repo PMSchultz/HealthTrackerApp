@@ -80,9 +80,9 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
     addButton.setOnClickListener(this);
     Button deleteButton = view.findViewById(R.id.delete_hospital_record);
     deleteButton.setOnClickListener(this);
-    if (hospitalization == null){
+    if (hospitalization == null) {
       deleteButton.setEnabled(false);
-    }else {
+    } else {
       deleteButton.setOnClickListener(this);
     }
     Button cancelButton = view.findViewById(R.id.cancel_hospital_record);
@@ -147,7 +147,17 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
           hospitalization.setProvider(nullifyEmptyString(provider.getText().toString()));
           hospitalization.setNotes(nullifyEmptyString(note.getText().toString()));
           DateFormat format = DateFormat.getDateInstance();
-          hospitalization.setAdmitDate(format.parse(admitDate.getText().toString()));
+          try {
+            hospitalization.setAdmitDate(format.parse(admitDate.getText().toString()));
+            if (hospitalization.getAdmitDate().toString().trim().isEmpty()){
+
+            }
+          }catch (ParseException e) {
+            Toast.makeText(getContext(), "Admit date is required", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+            break;
+          }
+
           try {
             hospitalization.setDischargeDate(format.parse(dischargeDate.getText().toString()));
             if (hospitalization.getAdmitDate().compareTo(hospitalization.getDischargeDate()) > 0){
@@ -157,7 +167,12 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
           } catch (ParseException e) {
             e.printStackTrace();
           }
+          if(hospitalization.getAdmitDate() == null || hospitalization.getReason() == null || hospitalization.getHospital() == null){
+            Toast.makeText(getContext(), "Required input includes reason, hospital and admit date", Toast.LENGTH_LONG).show();
+            break;
+          }
           Bundle args = getArguments();
+
           int patientID = args.getInt(MainActivity.PATIENT_ID_KEY);
           Patient patient = ((OrmInteraction) getActivity()).getHelper().getPatientDao()
               .queryForId(patientID);
@@ -169,8 +184,8 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
           }
         } catch (SQLException e) {
           throw new RuntimeException(e);
-        } catch (ParseException e) {
-          throw new RuntimeException(e);
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
         }
 
         getFragmentManager().popBackStack();

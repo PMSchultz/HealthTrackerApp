@@ -65,10 +65,8 @@ public class Allergy {
 
   @Override
   public String toString() {
-    return "Allergy{" +
-        "allergyType='" + allergyType + '\'' +
-        ", allergyName='" + allergyName + '\'' +
-        '}';
+    return allergyType + " : " + allergyName;
+
   }
 }
 

@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -29,7 +31,8 @@ import java.util.Arrays;
  * {@lerface to handle interaction events. Use the  factory method to create an instance of this
  * fragment.
  */
-public class AllergyFragment extends Fragment implements Button.OnClickListener {
+public class AllergyFragment extends Fragment implements Button.OnClickListener,
+    OnItemSelectedListener {
 
   public static final String ALLERGY_ID_KEY = "allergy_id";
   // the fragment initialization parameters,
@@ -88,7 +91,7 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
     }
     Button cancelButton = view.findViewById(R.id.cancel_allergy_record);
     cancelButton.setOnClickListener(this);
-
+    spinner.setOnItemSelectedListener(this);
     if (allergy != null) {
       spinner.setSelection(Arrays.asList(allergyTypes).indexOf(allergy.getAllergyType()));
       allergyText.setText(allergy.getAllergyName());
@@ -123,8 +126,10 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
                 Toast.LENGTH_LONG).show();
             break;
           }
-          if (helper.getAllergyDao().queryForEq("ALLERGY_NAME", allergyText.getText().toString()).size() > 0){
-            Toast.makeText(getContext(), "This allergy already exist in the medical record", Toast.LENGTH_LONG);
+          if (helper.getAllergyDao().queryForEq("ALLERGY_NAME", allergyText.getText().toString())
+              .size() > 0) {
+            Toast.makeText(getContext(), "This allergy already exist in the medical record",
+                Toast.LENGTH_LONG).show();
             break;
           }
           allergy.setAllergyName(allergyText.getText().toString());
@@ -180,5 +185,23 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener 
 
   public static String emptyNullString(String string) {
     return (string == null) ? "" : string;
+  }
+
+  @Override
+  public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+    if (spinner.getSelectedItem().toString().equals("Latex")) {
+      allergyText.setText("Latex");
+      allergyText.setEnabled(false); //do not accept any user input in text field
+    } else {
+      allergyText.setEnabled(true);
+      if(allergyText.getText().toString().equals("Latex")){
+        allergyText.setText("");
+      }
+    }
+  }
+
+  @Override
+  public void onNothingSelected(AdapterView<?> adapterView) {
+
   }
 }
