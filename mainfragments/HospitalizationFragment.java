@@ -184,8 +184,6 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
           }
         } catch (SQLException e) {
           throw new RuntimeException(e);
-//        } catch (ParseException e) {
-//            throw new RuntimeException(e);
         }
 
         getFragmentManager().popBackStack();

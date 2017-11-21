@@ -181,10 +181,11 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
           int patientID = args.getInt(MainActivity.PATIENT_ID_KEY);
           Patient patient = ((OrmInteraction) getActivity()).getHelper().getPatientDao()
               .queryForId(patientID);
-          //TODO check to see if medication type and date are the same, if so do not let them add
+          //check to see if medication and start date are the same to avoid duplicate entries
           QueryBuilder queryBuilder = helper.getMedicationDao().queryBuilder();
           queryBuilder.where().eq("NAME",medication.getMedicationName()).and()
-              .eq("START_DATE", medication.getStartDate());
+              .eq("START_DATE", medication.getStartDate()).and()
+              .eq("STOP_DATE", medication.getStopDate());
           if(helper.getMedicationDao().query(queryBuilder.prepare()).size() > 0){
             Toast.makeText(getContext(), "This record is already in patient's chart", Toast.LENGTH_LONG).show();
             return;

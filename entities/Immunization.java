@@ -13,14 +13,14 @@ public class Immunization {
   //Links database table name to IMMUNIZATION class
   @DatabaseField(columnName = "IMMUNIZATION_ID", generatedId = true)
   private int id;
-  @DatabaseField(columnName = "PATIENT_ID", canBeNull = false, foreign = true, foreignAutoRefresh = true)
+  @DatabaseField(columnName = "PATIENT_ID", canBeNull = false, foreign = true, foreignAutoRefresh = true, uniqueCombo = true)
   private Patient patient;
 
   @DatabaseField(columnName = "DATE",
-      format = "yyyy-MM-dd", canBeNull = false)
+      format = "yyyy-MM-dd", canBeNull = false, uniqueCombo = true)
   private Date date;
 
-  @DatabaseField(columnName = "VACCINE", canBeNull = false)
+  @DatabaseField(columnName = "VACCINE", canBeNull = false, uniqueCombo = true)
   private String vaccine;
 
   @DatabaseField(columnName = "PROVIDER", canBeNull = true)

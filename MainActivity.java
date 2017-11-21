@@ -40,7 +40,8 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity
-    implements OnNavigationItemSelectedListener, OrmHelper.OrmInteraction, OnClickListener {
+    implements OnNavigationItemSelectedListener, OrmHelper.OrmInteraction, OnClickListener,
+OnItemSelectedListener {
 
   public static final String PATIENT_ID_KEY = "patient_id";
 
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity
   private Patient selectedPatient = null;
   private Spinner spinner;
   private Button createPatientButton;
+  private NavigationView navigationView;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +79,11 @@ public class MainActivity extends AppCompatActivity
     drawer.openDrawer(GravityCompat.START);//Set the drawer to open at start
     toggle.syncState();
 
-  NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+  navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
 
   addItemsOnSpinner();
+  spinner.setOnItemSelectedListener(this);
 
 }
 
@@ -254,6 +257,20 @@ public class MainActivity extends AppCompatActivity
   public void onClick(View view) {
     DialogFragment dialogFragment = new CreatePatientFragment();
     dialogFragment.show(getSupportFragmentManager(), "createPatient");
+
+  }
+
+  @Override
+  public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+    Menu menu = navigationView.getMenu();
+    for (int i = 0; i < menu.size(); i++){
+      menu.getItem(i).setEnabled(position > 0);
+    }
+
+  }
+
+  @Override
+  public void onNothingSelected(AdapterView<?> adapterView) {
 
   }
 }

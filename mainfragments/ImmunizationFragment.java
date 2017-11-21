@@ -8,6 +8,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,6 +92,13 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
     dateAdministered = view.findViewById(R.id.date_administered);
     dateAdministered.setOnClickListener(this);
     vaccine = view.findViewById(R.id.vaccine);
+    //changing user input to uppercase
+    InputFilter[] oldFilters = vaccine.getFilters();
+    InputFilter[] newFilters = new InputFilter[oldFilters.length + 1];
+    System.arraycopy(oldFilters, 0, newFilters, 0, oldFilters.length);
+    newFilters [oldFilters.length] = new InputFilter.AllCaps();
+    vaccine.setFilters(newFilters);
+
     provider = view.findViewById(R.id.provider);
     note = view.findViewById(R.id.note);
     if (immunization != null) {
@@ -130,7 +138,13 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
           immunization.setProvider(nullifyEmptyString(provider.getText().toString()));
           immunization.setNotes(nullifyEmptyString(note.getText().toString()));
           DateFormat format = DateFormat.getDateInstance();
-          immunization.setDate(format.parse(dateAdministered.getText().toString()));
+          try {
+            immunization.setDate(format.parse(dateAdministered.getText().toString()));
+          } catch (ParseException e){
+            Toast.makeText(getContext(), "Administered date is a required field", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+            break;
+          }
           Bundle args = getArguments();
           int patientID = args.getInt(MainActivity.PATIENT_ID_KEY);
           Patient patient = ((OrmInteraction) getActivity()).getHelper().getPatientDao()
@@ -139,23 +153,21 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
           //check to see if immunization type and date are the same, if so do not add
           QueryBuilder queryBuilder = helper.getImmunizationDao().queryBuilder();
           queryBuilder.where().eq("VACCINE",immunization.getVaccine()).and()
-              .eq("DATE", immunization.getDate());
+              .eq("DATE", immunization.getDate()).and().eq("PATIENT_ID", patientID);
           if(helper.getImmunizationDao().query(queryBuilder.prepare()).size() > 0){
             Toast.makeText(getContext(), "This record is already in patient's chart", Toast.LENGTH_LONG).show();
             return;
           }
           immunization.setPatient(patient);
-          if (immunization.getId() != 0) {
-            helper.getImmunizationDao().update(immunization);
-          } else {
-            helper.getImmunizationDao().create(immunization);
-          }
+          helper.getImmunizationDao().createOrUpdate(immunization);
+//          if (immunization.getId() != 0) {
+//            helper.getImmunizationDao().update(immunization);
+//          } else {
+//            helper.getImmunizationDao().create(immunization);
+//          }
         } catch (SQLException e) {
           throw new RuntimeException(e);
-        } catch (ParseException e) {
-          throw new RuntimeException(e);
         }
-
         getFragmentManager().popBackStack();
         break;
 
