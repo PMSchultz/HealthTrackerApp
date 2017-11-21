@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import com.j256.ormlite.stmt.QueryBuilder;
 import edu.cnm.deepdive.healthtracker.MainActivity;
 import edu.cnm.deepdive.healthtracker.R;
 import edu.cnm.deepdive.healthtracker.entities.Allergy;
@@ -126,14 +127,29 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener,
                 Toast.LENGTH_LONG).show();
             break;
           }
-          if (helper.getAllergyDao().queryForEq("ALLERGY_NAME", allergyText.getText().toString())
-              .size() > 0) {
+          Bundle args = getArguments();
+          int patientID = args.getInt(MainActivity.PATIENT_ID_KEY);
+          Patient patient = ((OrmInteraction) getActivity()).getHelper().getPatientDao()
+              .queryForId(patientID);
+          allergy.setAllergyName(allergyText.getText().toString());
+          QueryBuilder queryBuilder = helper.getAllergyDao().queryBuilder();
+          queryBuilder.where().eq("ALLERGY_NAME",allergy.getAllergyName()).and()
+              .eq("PATIENT_ID", patientID).and()
+              .eq("ALLERGY_TYPE", allergy.getAllergyType());
+          if (helper.getAllergyDao().query(queryBuilder.prepare()).size() > 0){
             Toast.makeText(getContext(), "This allergy already exist in the medical record",
                 Toast.LENGTH_LONG).show();
             break;
           }
-          allergy.setAllergyName(allergyText.getText().toString());
-          Bundle args = getArguments();
+
+
+
+
+
+//          if(helper.getAllergyDao().query(queryBuilder.prepare()).size() > 0){
+//            Toast.makeText(getContext(), "This record is already in patient's chart", Toast.LENGTH_LONG).show();
+//            return;
+//          }
           allergy.setPatient(patient);
           if (allergy.getId() != 0) {
             helper.getAllergyDao().update(allergy);

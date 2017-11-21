@@ -102,6 +102,8 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
       bloodPressure.setText(emptyNullString(officeVisit.getBloodPressure()));
       note.setText(emptyNullString(officeVisit.getNotes()));
 
+    }else {
+      reason.requestFocus();
     }
     return view;
   }

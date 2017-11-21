@@ -17,7 +17,7 @@ public class Allergy {
   private Patient patient;
 
 
-  @DatabaseField(columnName = "ALLERGY_TYPE")
+  @DatabaseField(columnName = "ALLERGY_TYPE", canBeNull = false, uniqueCombo = false)
   private String allergyType;
 
   @DatabaseField(columnName = "ALLERGY_NAME", uniqueCombo = true) //checks database for duplicates

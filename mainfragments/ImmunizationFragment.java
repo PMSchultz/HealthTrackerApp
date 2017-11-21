@@ -107,6 +107,8 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
       provider.setText(emptyNullString(immunization.getProvider()));
       note.setText(emptyNullString(immunization.getNotes()));
 
+    }else {
+      vaccine.requestFocus();
     }
     return view;
   }

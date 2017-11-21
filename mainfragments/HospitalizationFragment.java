@@ -105,6 +105,8 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
         dischargeDate.setText(DateFormat.getDateInstance()
             .format(hospitalization.getDischargeDate()));
       }
+    }else {
+      reason.requestFocus();
     }
     return view;
   }
@@ -174,6 +176,7 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
           Bundle args = getArguments();
 
           int patientID = args.getInt(MainActivity.PATIENT_ID_KEY);
+
           Patient patient = ((OrmInteraction) getActivity()).getHelper().getPatientDao()
               .queryForId(patientID);
           hospitalization.setPatient(patient);

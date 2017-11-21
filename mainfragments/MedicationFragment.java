@@ -8,6 +8,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +91,12 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
     Button cancelButton = view.findViewById(R.id.cancel_medication_record);
     cancelButton.setOnClickListener(this);
     medicationName = view.findViewById(R.id.product);
+    InputFilter[] oldFilters = medicationName.getFilters();
+    InputFilter[] newFilters = new InputFilter[oldFilters.length + 1];
+    System.arraycopy(oldFilters, 0, newFilters, 0, oldFilters.length);
+    newFilters [oldFilters.length] = new InputFilter.AllCaps();
+    medicationName.setFilters(newFilters);
+
     provider = view.findViewById(R.id.provider);
     note = view.findViewById(R.id.note);
     dose = view.findViewById(R.id.dose);
@@ -108,6 +115,8 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
       }
 
 
+    }else {
+      medicationName.requestFocus();
     }
 
     return view;
@@ -185,7 +194,7 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
           QueryBuilder queryBuilder = helper.getMedicationDao().queryBuilder();
           queryBuilder.where().eq("NAME",medication.getMedicationName()).and()
               .eq("START_DATE", medication.getStartDate()).and()
-              .eq("STOP_DATE", medication.getStopDate());
+              .eq("PATIENT_ID", patient).and().eq("DOSE", medication.getDose());
           if(helper.getMedicationDao().query(queryBuilder.prepare()).size() > 0){
             Toast.makeText(getContext(), "This record is already in patient's chart", Toast.LENGTH_LONG).show();
             return;
@@ -211,7 +220,7 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
             try {
               helper.getMedicationDao().delete(medication);
             } catch (SQLException e) {
-              Toast.makeText(getContext(), "Unable to delete", Toast.LENGTH_SHORT);
+              Toast.makeText(getContext(), "Unable to delete", Toast.LENGTH_SHORT).show();
             }
             getActivity().getSupportFragmentManager().popBackStack();
           }
