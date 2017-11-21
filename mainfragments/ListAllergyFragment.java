@@ -23,17 +23,26 @@ import edu.cnm.deepdive.healthtracker.helpers.OrmHelper.OrmInteraction;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ *
+ */
 public class ListAllergyFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
 
+  /**                                */
   private Patient patient = null;
   private Allergy allergy = null;
 
-
+  /**
+   *
+   */
   public ListAllergyFragment() {
     // Required empty public constructor
   }
 
-
+  /**
+   *
+   * @param savedInstanceState
+   */
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -50,6 +59,13 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
     }
   }
 
+  /**
+   *
+   * @param inflater
+   * @param container
+   * @param savedInstanceState
+   * @return
+   */
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -74,13 +90,23 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
         Dao<Allergy, Integer> dao = helper.getAllergyDao();
         QueryBuilder<Allergy, Integer> builder = dao.queryBuilder();
         builder.where().eq("PATIENT_ID", patient.getId());
-        //builder.orderBy("DATE", false);
+        //TODO order in list : Latex, Medication, Food, Seasonal, Animal
+
+        builder.orderByRaw("CASE ALLERGY_TYPE "
+                  + "WHEN 'Latex' THEN 0 "
+                    + "WHEN 'Medication' THEN 1 "
+                     + "WHEN 'Food' THEN 2 "
+                    + "WHEN 'Seasonal' THEN 3 "
+                    + "ELSE 4 "
+                     + "END ASC, "
+            + "ALLERGY_NAME ASC");
+
         List<Allergy> visits = dao.query(builder.prepare());
         chart.setAdapter(new ArrayAdapter<Allergy>(getActivity(), R.layout.list_item,
             visits));
         chart.setOnItemClickListener(this);
       } catch (SQLException e) {
-        e.printStackTrace();
+       throw new RuntimeException(e);
       }
     }
   }

@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,6 +80,11 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener,
 
     View view = inflater.inflate(R.layout.fragment_allergy, container, false);
     allergyText = view.findViewById(R.id.allergy);
+    InputFilter[] oldFilters = allergyText.getFilters();
+    InputFilter[] newFilters = new InputFilter[oldFilters.length + 1];
+    System.arraycopy(oldFilters, 0, newFilters, 0, oldFilters.length);
+    newFilters [oldFilters.length] = new InputFilter.AllCaps();
+    allergyText.setFilters(newFilters);
     allergyTypes = getResources().getStringArray(R.array.allergy_types);
     spinner = view.findViewById(R.id.allergy_spinner);
     Button addButton = view.findViewById(R.id.save_allergy_record);
