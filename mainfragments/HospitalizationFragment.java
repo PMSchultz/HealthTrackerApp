@@ -31,24 +31,36 @@ import java.text.ParseException;
  */
 public class HospitalizationFragment extends Fragment implements Button.OnClickListener {
 
-
+  /*ID from Hospitalization entity*/
   public static final String HOSPITALIZATION_ID_KEY = "hospitalizationId";
-
+/* reason/diagnosis for hospital visit*/
   private EditText reason;
+  /* physician/specialist attending patient*/
   private EditText provider;
+  /* admission date of hospitalization*/
   private Button admitDate;
+  /* discharge date of hospitalization*/
   private Button dischargeDate;
+  /* Note about hospitalization*/
   private EditText note;
+  /* Hospital/facility name*/
   private EditText hospital;
+  /* Create a new patient instance*/
   private Patient patient = null;
+  /* Create a new hospitalization instance*/
   private Hospitalization hospitalization = null;
 
-
+  /**
+   *
+   */
   public HospitalizationFragment() {
     // Required empty public constructor
   }
 
-
+  /**
+   *
+   * @param savedInstanceState
+   */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -71,6 +83,13 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
     }
   }
 
+  /**
+   *
+   * @param inflater
+   * @param container
+   * @param savedInstanceState
+   * @return
+   */
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -111,13 +130,19 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
     return view;
   }
 
-
+  /**
+   *
+   * @param context
+   */
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
   }
 
-
+  /**
+   *
+   * @param view
+   */
   @Override
   public void onClick(View view) {
     DatePickerFragment datePickerFragment;
@@ -221,11 +246,21 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
     }
   }
 
+  /**
+   *
+   * @param string
+   * @return
+   */
   public static String nullifyEmptyString(String string) {
     return (string.equals("") ? null : string);
 
   }
 
+  /**
+   *
+   * @param string
+   * @return
+   */
   public static String emptyNullString(String string) {
     return (string == null) ? "" : string;
   }

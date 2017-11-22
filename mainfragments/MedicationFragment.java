@@ -33,24 +33,36 @@ import java.text.ParseException;
  *
  */
 public class MedicationFragment extends Fragment implements Button.OnClickListener {
-
+/* ID for Medication entity*/
   public static final String MEDICATION_ID_KEY = "medicationId";
-
+/*   */
   private EditText medicationName;
+  /*  */
   private EditText dose;
+  /*  */
   private EditText provider;
+  /*  */
   private EditText note;
+  /*  */
   private Button dateStarted;
+  /*  */
   private Button dateEnded;
+  /*  */
   private Patient patient = null;
+  /*  */
   private Medication medication = null;
 
-
+  /**
+   * Required empty public constructor
+   */
   public MedicationFragment() {
-    // Required empty public constructor
+
   }
 
-
+  /**
+   *
+   * @param savedInstanceState
+   */
   @Override
   public void onCreate(Bundle savedInstanceState) {
 
@@ -74,6 +86,13 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
     }
   }
 
+  /**
+   *
+   * @param inflater
+   * @param container
+   * @param savedInstanceState
+   * @return
+   */
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -123,17 +142,27 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
 
   }
 
-
+  /**
+   *
+   * @param context
+   */
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
   }
 
+  /**
+   *
+   */
   @Override
   public void onDetach() {
     super.onDetach();
   }
 
+  /**
+   *
+   * @param view
+   */
   @Override
   public void onClick(View view) {
     DatePickerFragment datePickerFragment;
@@ -242,11 +271,21 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
     }
   }
 
+  /**
+   *
+   * @param string
+   * @return
+   */
   public static String nullifyEmptyString(String string) {
     return (string.equals("") ? null : string);
 
   }
 
+  /**
+   *
+   * @param string
+   * @return
+   */
   public static String emptyNullString(String string) {
     return (string == null) ? "" : string;
   }

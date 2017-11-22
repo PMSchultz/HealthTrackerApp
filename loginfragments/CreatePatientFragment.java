@@ -28,14 +28,25 @@ import java.text.SimpleDateFormat;
  */
 public class CreatePatientFragment extends DialogFragment implements OnClickListener {
 
+  /* Patient name */
   private EditText name;
+  /* Patient date of birth*/
   private EditText dateOfBirth;
+  /*       */
   private OnFragmentInteractionListener mListener;
 
+  /**
+   * Required empty public constructor
+   */
   public CreatePatientFragment() {
-    // Required empty public constructor
+
   }
 
+  /**
+   *
+   * @param num
+   * @return
+   */
   public static CreatePatientFragment newInstance(int num) {
 
     CreatePatientFragment fragment = new CreatePatientFragment();
@@ -44,12 +55,23 @@ public class CreatePatientFragment extends DialogFragment implements OnClickList
     return fragment;
   }
 
+  /**
+   *
+   * @param savedInstanceState
+   */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
   }
 
+  /**
+   *
+   * @param inflater
+   * @param container
+   * @param savedInstanceState
+   * @return
+   */
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -63,6 +85,10 @@ public class CreatePatientFragment extends DialogFragment implements OnClickList
     return view;
   }
 
+  /**
+   *
+   * @param uri
+   */
   // TODO: Rename method, update argument and hook method into UI event
   public void onButtonPressed(Uri uri) {
     if (mListener != null) {
@@ -71,13 +97,19 @@ public class CreatePatientFragment extends DialogFragment implements OnClickList
   }
 
 
-
+  /**
+   *
+   */
   @Override
   public void onDetach() {
     super.onDetach();
     mListener = null;
   }
 
+  /**
+   *
+   * @param view
+   */
   @Override
   public void onClick(View view) {
     if (view.getId() == R.id.createPatient) {
@@ -112,7 +144,6 @@ public class CreatePatientFragment extends DialogFragment implements OnClickList
    */
   public interface OnFragmentInteractionListener {
 
-    // TODO: Update argument type and name
     void onFragmentInteraction(Uri uri);
   }
 }

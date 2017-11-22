@@ -38,20 +38,31 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ *
+ */
 public class MainActivity extends AppCompatActivity
     implements OnNavigationItemSelectedListener, OrmHelper.OrmInteraction, OnClickListener,
-OnItemSelectedListener {
-
+    OnItemSelectedListener {
+/* ID for Patient Entity*/
   public static final String PATIENT_ID_KEY = "patient_id";
-
+/*  */
   private OrmHelper helper = null;
+  /*  */
   private int patientSelected;
+  /*  */
   private Patient selectedPatient = null;
+  /*  */
   private Spinner spinner;
+  /*  */
   private Button createPatientButton;
+  /*  */
   private NavigationView navigationView;
 
+  /**
+   *
+   * @param savedInstanceState
+   */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -64,29 +75,26 @@ OnItemSelectedListener {
 
     //get the spinner from the xml
     spinner = (Spinner) findViewById(R.id.name_spinner);
-    createPatientButton = (Button)findViewById(R.id.createPatientButton);
+    createPatientButton = (Button) findViewById(R.id.createPatientButton);
     createPatientButton.setOnClickListener(this);
 
-
-
-
-
-
-  DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-  ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-      this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+    ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
     drawer.setDrawerListener(toggle);
     drawer.openDrawer(GravityCompat.START);//Set the drawer to open at start
     toggle.syncState();
 
-  navigationView = (NavigationView) findViewById(R.id.nav_view);
+    navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
 
-  addItemsOnSpinner();
-  spinner.setOnItemSelectedListener(this);
+    addItemsOnSpinner();
+    spinner.setOnItemSelectedListener(this);
+  }
 
-}
-
+  /**
+   *
+   */
   public void addItemsOnSpinner() {
     try {
       Dao<Patient, Integer> dao = getHelper().getPatientDao();
@@ -109,18 +117,28 @@ OnItemSelectedListener {
     }
   }
 
+  /**
+   *
+   */
   @Override
   protected void onStart() {
     super.onStart();
     getHelper();
   }
 
+  /**
+   *
+   */
   @Override
   protected void onStop() {
     releaseHelper();
     super.onStop();
   }
 
+  /**
+   *
+   * @return
+   */
   //creates an instance of OrmHelper
   @Override
   public synchronized OrmHelper getHelper() {
@@ -130,6 +148,9 @@ OnItemSelectedListener {
     return helper;
   }
 
+  /**
+   *
+   */
   // prevents memory leaks by setting the helper to null when not in use
   public synchronized void releaseHelper() {
     if (helper != null) {
@@ -138,6 +159,9 @@ OnItemSelectedListener {
     }
   }
 
+  /**
+   *
+   */
   @Override
   public void onBackPressed() {
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -148,6 +172,11 @@ OnItemSelectedListener {
     }
   }
 
+  /**
+   *
+   * @param menu
+   * @return
+   */
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
@@ -155,6 +184,11 @@ OnItemSelectedListener {
     return true;
   }
 
+  /**
+   *
+   * @param item
+   * @return
+   */
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     // Handle action bar item clicks here. The action bar will
@@ -170,6 +204,11 @@ OnItemSelectedListener {
     return super.onOptionsItemSelected(item);
   }
 
+  /**
+   *
+   * @param item
+   * @return
+   */
   @SuppressWarnings("StatementWithEmptyBody")
   @Override
   public boolean onNavigationItemSelected(MenuItem item) {
@@ -179,7 +218,6 @@ OnItemSelectedListener {
 
     int patientId = (selectedPatient != null) ? selectedPatient.getId() : 0;
     switch (id) {
-
       case R.id.nav_medications:
         loadFragment(new ListMedicationFragment(), patientId, false);
         break;
@@ -195,7 +233,6 @@ OnItemSelectedListener {
       case R.id.nav_office_visits:
         loadFragment(new ListOfficeVisitFragment(), patientId, false);
         break;
-//
     }
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -204,7 +241,10 @@ OnItemSelectedListener {
 
   }
 
-
+  /**
+   *
+   * @param view
+   */
   public void openRecord(View view) {
     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
     ft.replace(R.id.content_panel, new MedicationFragment());
@@ -212,19 +252,28 @@ OnItemSelectedListener {
 
   }
 
+  /**
+   *
+   * @param view
+   */
   public void editRecord(View view) {
     //TODO will need a checkbox or list view that highlights one selected
   }
 
 
-  public void cancelReturntoNavigation(View view) {
-    //TODO returns user to Navigation menu
-  }
+//  public void cancelReturntoNavigation(View view) {
+//    //TODO returns user to Navigation menu
+//  }
 
-  public void cancelRecordActivity(View view) {
-    //TODO return user to list view without adding or editing a record
-  }
-
+//  public void cancelRecordActivity(View view) {
+//    //TODO return user to list view without adding or editing a record
+//  }
+  /**
+   *
+   * @param fragment
+   * @param patientId
+   * @param addToBackstack
+   */
   public void loadFragment(Fragment fragment, int patientId, boolean addToBackstack) {
 
     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -253,6 +302,10 @@ OnItemSelectedListener {
     transaction.commit();
   }
 
+  /**
+   *
+   * @param view
+   */
   @Override
   public void onClick(View view) {
     DialogFragment dialogFragment = new CreatePatientFragment();
@@ -260,15 +313,26 @@ OnItemSelectedListener {
 
   }
 
+  /**
+   *
+   * @param adapterView
+   * @param view
+   * @param position
+   * @param id
+   */
   @Override
   public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
     Menu menu = navigationView.getMenu();
-    for (int i = 0; i < menu.size(); i++){
+    for (int i = 0; i < menu.size(); i++) {
       menu.getItem(i).setEnabled(position > 0);
     }
 
   }
 
+  /**
+   *
+   * @param adapterView
+   */
   @Override
   public void onNothingSelected(AdapterView<?> adapterView) {
 

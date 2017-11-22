@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.healthtracker.entities;
 
+import android.text.Html;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import java.util.Date;
@@ -65,7 +66,7 @@ public class Allergy {
 
   @Override
   public String toString() {
-    return allergyType + " : " + allergyName;
+    return "<b>" + allergyType + "</b> : " + allergyName;
 
   }
 }

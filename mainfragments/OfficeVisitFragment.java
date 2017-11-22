@@ -30,24 +30,37 @@ import java.text.ParseException;
  *
  */
 public class OfficeVisitFragment extends Fragment implements Button.OnClickListener {
-
+/* ID for Office Visit from entity*/
   public static final String OFFICE_VISIT_ID_KEY = "officeVisitId";
-
+/*  */
   private EditText reason;
+  /*  */
   private Button visitDate;
+  /*  */
   private EditText provider;
+  /*  */
   private EditText height;
+  /*  */
   private EditText weight;
+  /*  */
   private EditText bloodPressure;
+  /*  */
   private EditText note;
+  /*  */
   private OfficeVisit officeVisit = null;
+  /*  */
   private Patient patient = null;
 
-
+  /**
+   * Required empty public constructor
+   */
   public OfficeVisitFragment() {
-    // Required empty public constructor
   }
 
+  /**
+   *
+   * @param savedInstanceState
+   */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -70,6 +83,13 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
     }
   }
 
+  /**
+   *
+   * @param inflater
+   * @param container
+   * @param savedInstanceState
+   * @return
+   */
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -108,12 +128,19 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
     return view;
   }
 
+  /**
+   *
+   * @param context
+   */
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
   }
 
-
+  /**
+   *
+   * @param view
+   */
   @Override
   public void onClick(View view) {
     DatePickerFragment datePickerFragment;
@@ -199,11 +226,21 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
     }
   }
 
+  /**
+   *
+   * @param string
+   * @return
+   */
   public static String nullifyEmptyString(String string) {
     return (string.equals("") ? null : string);
 
   }
 
+  /**
+   *
+   * @param string
+   * @return
+   */
   public static String emptyNullString(String string) {
     return (string == null) ? "" : string;
   }

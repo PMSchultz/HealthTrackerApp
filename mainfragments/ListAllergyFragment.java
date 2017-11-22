@@ -1,9 +1,11 @@
 package edu.cnm.deepdive.healthtracker.mainfragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import edu.cnm.deepdive.healthtracker.MainActivity;
@@ -28,8 +31,9 @@ import java.util.List;
  */
 public class ListAllergyFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
 
-  /**                                */
+  /*   a patient instance */
   private Patient patient = null;
+  /* an allergy instance */
   private Allergy allergy = null;
 
   /**
@@ -78,6 +82,10 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
     return inflate;
   }
 
+  /**
+   *
+   * @param inflate
+   */
   private void setupList(View inflate) {
     if (patient != null) {
 
@@ -102,8 +110,7 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
             + "ALLERGY_NAME ASC");
 
         List<Allergy> visits = dao.query(builder.prepare());
-        chart.setAdapter(new ArrayAdapter<Allergy>(getActivity(), R.layout.list_item,
-            visits));
+        chart.setAdapter(new Adapter(getActivity(), R.layout.list_item, visits));
         chart.setOnItemClickListener(this);
       } catch (SQLException e) {
        throw new RuntimeException(e);
@@ -111,7 +118,10 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
     }
   }
 
-//set OnClickListener to buttons
+  /**
+   * Set onClickListener to buttons
+   * @param rootView
+   */
   private void setupButtons(View rootView) {
     Button addButton = rootView.findViewById(R.id.add_record);
     addButton.setOnClickListener(this);
@@ -121,6 +131,10 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
 
   }
 
+  /**
+   *
+   * @param view
+   */
   @Override
   public void onClick(View view) {
 
@@ -139,14 +153,60 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
     }
 
   }
-
-
-
+  /**
+   *
+   * @param adapterView
+   * @param view
+   * @param i
+   * @param l
+   */
   @Override
   public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
     allergy = (Allergy) adapterView.getItemAtPosition(i);
     Button editButton = getActivity().findViewById(R.id.edit_record);
     editButton.setEnabled(true);
   }
+
+  /**
+   *
+   */
+  private class Adapter extends ArrayAdapter<Allergy> {
+/*   */
+    private int resource;
+
+    /**
+     *
+     * @param context
+     * @param resource
+     * @param objects
+     */
+    public Adapter(Context context, int resource, List<Allergy> objects) {
+      super(context, resource, objects);
+      this.resource = resource;
+    }
+
+    /**
+     *
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+      Allergy item = getItem(position);
+      TextView view = (TextView) ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(resource, null);
+      view.setText(Html.fromHtml(item.toString()));
+      if (position < getCount() - 1){
+        Allergy nextItem = getItem(position + 1);
+        if (! item.getAllergyType().equals(nextItem.getAllergyType()))  {
+
+          view.setPadding(view.getPaddingStart(),view.getPaddingTop(),view.getPaddingEnd(),view.getPaddingBottom() + 20);
+        }
+      }
+      return view;
+    }
+  }
+
 }
 

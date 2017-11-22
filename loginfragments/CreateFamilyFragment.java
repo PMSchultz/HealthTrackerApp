@@ -29,6 +29,9 @@ public class CreateFamilyFragment extends Fragment {
 
   private OnFragmentInteractionListener mListener;
 
+  /**
+   *
+   */
   public CreateFamilyFragment() {
     // Required empty public constructor
   }
@@ -51,6 +54,10 @@ public class CreateFamilyFragment extends Fragment {
     return fragment;
   }
 
+  /**
+   *
+   * @param savedInstanceState
+   */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -60,6 +67,13 @@ public class CreateFamilyFragment extends Fragment {
     }
   }
 
+  /**
+   *
+   * @param inflater
+   * @param container
+   * @param savedInstanceState
+   * @return
+   */
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -67,6 +81,10 @@ public class CreateFamilyFragment extends Fragment {
     return inflater.inflate(R.layout.fragment_create_family, container, false);
   }
 
+  /**
+   *
+   * @param uri
+   */
   // TODO: Rename method, update argument and hook method into UI event
   public void onButtonPressed(Uri uri) {
     if (mListener != null) {
@@ -74,6 +92,10 @@ public class CreateFamilyFragment extends Fragment {
     }
   }
 
+  /**
+   *
+   * @param context
+   */
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
@@ -85,6 +107,9 @@ public class CreateFamilyFragment extends Fragment {
     }
   }
 
+  /**
+   *
+   */
   @Override
   public void onDetach() {
     super.onDetach();

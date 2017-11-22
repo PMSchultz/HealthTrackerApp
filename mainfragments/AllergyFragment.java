@@ -36,21 +36,33 @@ import java.util.Arrays;
 public class AllergyFragment extends Fragment implements Button.OnClickListener,
     OnItemSelectedListener {
 
+  /* ID from Allergy entity*/
   public static final String ALLERGY_ID_KEY = "allergy_id";
   // the fragment initialization parameters,
+  /*  */
   private Allergy allergy = null;
+  /* */
   private Patient patient = null;
+  /* */
   private Spinner spinner;
+  /*  */
   private EditText allergyText;
+  /*  */
   private String[] allergyTypes;
 
 //  private OnFragmentInteractionListener mListener;
 
+  /**
+   * Required empty public constructor
+   */
   public AllergyFragment() {
-    // Required empty public constructor
+
   }
 
-
+  /**
+   *
+   * @param savedInstanceState
+   */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -74,6 +86,13 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener,
     }
   }
 
+  /**
+   *
+   * @param inflater
+   * @param container
+   * @param savedInstanceState
+   * @return
+   */
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -83,7 +102,7 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener,
     InputFilter[] oldFilters = allergyText.getFilters();
     InputFilter[] newFilters = new InputFilter[oldFilters.length + 1];
     System.arraycopy(oldFilters, 0, newFilters, 0, oldFilters.length);
-    newFilters [oldFilters.length] = new InputFilter.AllCaps();
+    newFilters[oldFilters.length] = new InputFilter.AllCaps();
     allergyText.setFilters(newFilters);
     allergyTypes = getResources().getStringArray(R.array.allergy_types);
     spinner = view.findViewById(R.id.allergy_spinner);
@@ -106,17 +125,27 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener,
     return view;
   }
 
-
+  /**
+   *
+   * @param context
+   */
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
   }
 
+  /**
+   *
+   */
   @Override
   public void onDetach() {
     super.onDetach();
   }
 
+  /**
+   *
+   * @param view
+   */
   @Override
   public void onClick(View view) {
 
@@ -139,23 +168,14 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener,
               .queryForId(patientID);
           allergy.setAllergyName(allergyText.getText().toString());
           QueryBuilder queryBuilder = helper.getAllergyDao().queryBuilder();
-          queryBuilder.where().eq("ALLERGY_NAME",allergy.getAllergyName()).and()
+          queryBuilder.where().eq("ALLERGY_NAME", allergy.getAllergyName()).and()
               .eq("PATIENT_ID", patientID).and()
               .eq("ALLERGY_TYPE", allergy.getAllergyType());
-          if (helper.getAllergyDao().query(queryBuilder.prepare()).size() > 0){
+          if (helper.getAllergyDao().query(queryBuilder.prepare()).size() > 0) {
             Toast.makeText(getContext(), "This allergy already exist in the medical record",
                 Toast.LENGTH_LONG).show();
             break;
           }
-
-
-
-
-
-//          if(helper.getAllergyDao().query(queryBuilder.prepare()).size() > 0){
-//            Toast.makeText(getContext(), "This record is already in patient's chart", Toast.LENGTH_LONG).show();
-//            return;
-//          }
           allergy.setPatient(patient);
           if (allergy.getId() != 0) {
             helper.getAllergyDao().update(allergy);
@@ -191,7 +211,6 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener,
         });
         AlertDialog dialog = builder.create();
         dialog.show();
-
         break;
       case R.id.cancel_allergy_record:
         getActivity().getSupportFragmentManager().popBackStack();
@@ -200,11 +219,21 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener,
     }
   }
 
+  /**
+   *
+   * @param string
+   * @return
+   */
   public static String nullifyEmptyString(String string) {
     return (string.equals("") ? null : string);
 
   }
 
+  /**
+   *
+   * @param string
+   * @return
+   */
   public static String emptyNullString(String string) {
     return (string == null) ? "" : string;
   }
@@ -216,12 +245,16 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener,
       allergyText.setEnabled(false); //do not accept any user input in text field
     } else {
       allergyText.setEnabled(true);
-      if(allergyText.getText().toString().equals("Latex")){
+      if (allergyText.getText().toString().equals("Latex")) {
         allergyText.setText("");
       }
     }
   }
 
+  /**
+   *
+   * @param adapterView
+   */
   @Override
   public void onNothingSelected(AdapterView<?> adapterView) {
 

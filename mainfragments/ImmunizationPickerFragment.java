@@ -26,75 +26,73 @@ public class ImmunizationPickerFragment extends Fragment implements OnItemSelect
     OnClickListener{
 
 
-
-
+  /**
+   * Required empty public constructor
+   */
   public ImmunizationPickerFragment() {
-    // Required empty public constructor
+
   }
 
 
-
+  /**
+   *
+   * @param savedInstanceState
+   */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-
     }
 
-
+  /**
+   *
+   * @param inflater
+   * @param container
+   * @param savedInstanceState
+   * @return
+   */
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_immunization_picker,
         container, false);
-
     return view;
-    // Inflate the layout for this fragment
-
   }
 
-  // TODO: Rename method, update argument and hook method into UI event
+  /**
+   *
+   * @param uri
+   */
   public void onButtonPressed(Uri uri) {
 
     }
 
 
-
-
-
-
+  /**
+   *
+   * @param view
+   */
   @Override
   public void onClick(View view) {
 
-
-
-//    switch(spinner.getSelectedItemPosition()){
-//      case 0:
-//        allergy.setLatexAllergy(true);
-//
-//        break;
-//      case 1:
-//        allergy.setMedAllergy(allergyType.getText().toString());
-//        break;
-//      case 2:
-//        allergy.setFoodAllergy(allergyType.getText().toString());
-//        break;
-//      case 3:
-//        allergy.setSeasonalAllergy(allergyType.getText().toString());
-//        break;
-//        case 4:
-//        allergy.setAnimalAllergy(allergyType.getText().toString());
-//        break;
-//
-//    }
   }
 
+  /**
+   *
+   * @param adapterView
+   * @param view
+   * @param i
+   * @param l
+   */
   @Override
   public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
 
   }
 
+  /**
+   *
+   * @param adapterView
+   */
   @Override
   public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -112,6 +110,4 @@ public class ImmunizationPickerFragment extends Fragment implements OnItemSelect
     // TODO: Update argument type and name
     void onFragmentInteraction(Uri uri);
   }
-
-
 }

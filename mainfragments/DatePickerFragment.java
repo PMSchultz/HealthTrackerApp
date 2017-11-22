@@ -20,11 +20,18 @@ import java.util.Calendar;
 
 public class DatePickerFragment extends DialogFragment implements
     DatePickerDialog.OnDateSetListener {
-
+/*  */
   public static final String DATE_PICKER_FIELD_ID = "button_id";
+  /*   */
   public static final String DATE_PICKER_TAG = "date_picker";
+  /*  */
   private int fieldId;
 
+  /**
+   *
+   * @param savedInstanceState
+   * @return
+   */
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     //use the current date as the default date
     final Calendar c = Calendar.getInstance();
@@ -37,14 +44,21 @@ public class DatePickerFragment extends DialogFragment implements
     return new DatePickerDialog(getActivity(), this, year, month, day);
   }
 
-  @Override
+  /**
+   *   @Override
+   */
   public void onStart() {
     super.onStart();
-
   }
 
 
-  @Override
+  /**
+   * @Override
+   * @param view
+   * @param year
+   * @param month
+   * @param day
+   */
   public void onDateSet(DatePicker view, int year, int month, int day) {
     Calendar calendar = Calendar.getInstance();
     calendar.set(Calendar.YEAR, year);
@@ -55,6 +69,11 @@ public class DatePickerFragment extends DialogFragment implements
     ((Button) getActivity().findViewById(fieldId)).setText(format.format(calendar.getTime()));
   }
 
+  /**
+   *
+   * @param context
+   * @param view
+   */
   public static void showDialog(AppCompatActivity context, View view) {
     DatePickerFragment datePickerFragment = new DatePickerFragment();
     Bundle bundle = new Bundle();
@@ -63,5 +82,4 @@ public class DatePickerFragment extends DialogFragment implements
     datePickerFragment.setArguments(bundle);
     datePickerFragment.show(context.getSupportFragmentManager(), DATE_PICKER_TAG);
   }
-
 }

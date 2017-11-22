@@ -34,22 +34,32 @@ import java.text.ParseException;
  *
  */
 public class ImmunizationFragment extends Fragment implements Button.OnClickListener {
-
+/* ID from Immunization Entity*/
   public static final String IMMUNIZATION_ID_KEY = "immunizationId";
-
+/* immunization vaccine input*/
   private AutoCompleteTextView vaccine;
+  /* The facility or provider who administered the vaccine*/
   private EditText provider;
+  /* a note about the vaccine, i.e., reactions*/
   private EditText note;
+  /* The date a patient received the vaccine*/
   private Button dateAdministered;
+  /* an immunization instance*/
   private Immunization immunization = null;
+  /* a patient instance*/
   private Patient patient = null;
 
-
+  /**
+   *
+   */
   public ImmunizationFragment() {
     // Required empty public constructor
   }
 
-
+  /**
+   *
+   * @param savedInstanceState
+   */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -72,6 +82,13 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
     }
   }
 
+  /**
+   *
+   * @param inflater
+   * @param container
+   * @param savedInstanceState
+   * @return
+   */
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -113,12 +130,19 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
     return view;
   }
 
+  /**
+   *
+   * @param context
+   */
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
   }
 
-
+  /**
+   *
+   * @param view
+   */
   @Override
   public void onClick(View view) {
     switch (view.getId()) {
@@ -203,11 +227,20 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
     }
   }
 
+  /**
+   *
+   * @param string
+   * @return
+   */
   public static String nullifyEmptyString(String string) {
     return (string.equals("") ? null : string);
-
   }
 
+  /**
+   *
+   * @param string
+   * @return
+   */
   public static String emptyNullString(String string) {
     return (string == null) ? "" : string;
   }

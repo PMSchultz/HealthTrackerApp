@@ -101,7 +101,7 @@ public class Hospitalization {
   @Override
   public String toString() {
     DateFormat format = new SimpleDateFormat("M/d/yy");
-    return format.format(admitDate) +  ": "  + hospital +  ":  Reason:" + reason +  ": "
+    return format.format(admitDate) +  ": "  + hospital +  ":  Reason: " + reason +  " : "
         + ((dischargeDate != null) ? ("Discharge date: " + format.format(dischargeDate)) : "");
   }
 }

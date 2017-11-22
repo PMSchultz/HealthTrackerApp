@@ -23,17 +23,28 @@ import edu.cnm.deepdive.healthtracker.helpers.OrmHelper.OrmInteraction;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ *
+ */
 public class ListMedicationFragment extends Fragment implements View.OnClickListener,
     AdapterView.OnItemClickListener{
-
+/*  */
   private Patient patient = null;
+  /*  */
   private Medication medication = null;
 
+  /**
+   *
+   */
   public ListMedicationFragment() {
     // Required empty public constructor
   }
 
 
+  /**
+   *
+   * @param savedInstanceState
+   */
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -50,6 +61,10 @@ public class ListMedicationFragment extends Fragment implements View.OnClickList
     }
   }
 
+  /**
+   *
+   * @param inflate
+   */
   private void setupList(View inflate) {
     if (patient != null) {
 
@@ -74,7 +89,13 @@ public class ListMedicationFragment extends Fragment implements View.OnClickList
     }
   }
 
-
+  /**
+   *
+   * @param inflater
+   * @param container
+   * @param savedInstanceState
+   * @return
+   */
   //TODO attach onClick Listeners to buttons
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,7 +109,10 @@ public class ListMedicationFragment extends Fragment implements View.OnClickList
     return inflate;
   }
 
-
+  /**
+   *
+   * @param view
+   */
   public void onClick(View view) {
 
     switch (view.getId()){
@@ -106,6 +130,10 @@ public class ListMedicationFragment extends Fragment implements View.OnClickList
 
   }
 
+  /**
+   *
+   * @param rootView
+   */
   //set OnClickListener to buttons
   private void setupButtons(View rootView) {
     Button addButton = rootView.findViewById(R.id.add_record);
@@ -116,6 +144,13 @@ public class ListMedicationFragment extends Fragment implements View.OnClickList
 
   }
 
+  /**
+   *
+   * @param adapterView
+   * @param view
+   * @param i
+   * @param l
+   */
   @Override
   public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
     medication = (Medication) adapterView.getItemAtPosition(i);
