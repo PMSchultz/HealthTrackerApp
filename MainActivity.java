@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity
   /**
    *
    * @param fragment
-   * @param patientId
+   * @param patientId PATIENT_ID_KEY
    * @param addToBackstack
    */
   public void loadFragment(Fragment fragment, int patientId, boolean addToBackstack) {
@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity
 
   }
 
-  
+
   @Override
   public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
     Menu menu = navigationView.getMenu();
