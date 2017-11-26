@@ -23,26 +23,22 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- *
+ * A fragment which contains a list of a selected patient's hospitalization records.
  */
 public class ListHospitalizationFragment extends Fragment implements View.OnClickListener,
     AdapterView.OnItemClickListener{
-/*  */
+/* a patient instance */
   private Patient patient = null;
-  /*  */
+  /* a hospitalization instance */
   private Hospitalization hospitalization = null;
 
   /**
-   *
+   *Required empty public constructor
    */
   public ListHospitalizationFragment() {
-    // Required empty public constructor
   }
 
-  /**
-   *
-   * @param savedInstanceState
-   */
+
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -59,14 +55,6 @@ public class ListHospitalizationFragment extends Fragment implements View.OnClic
     }
   }
 
-  /**
-   *
-   * @param inflater
-   * @param container
-   * @param savedInstanceState
-   * @return
-   */
-  //TODO attach onClick Listeners to buttons
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -108,10 +96,9 @@ public class ListHospitalizationFragment extends Fragment implements View.OnClic
   }
 
   /**
-   *
+   * set OnClickListener to buttons
    * @param rootView
    */
-  //set OnClickListener to buttons
   private void setupButtons(View rootView) {
     Button addButton = rootView.findViewById(R.id.add_record);
     addButton.setOnClickListener(this);
@@ -144,13 +131,6 @@ public class ListHospitalizationFragment extends Fragment implements View.OnClic
 
   }
 
-  /**
-   *
-   * @param adapterView
-   * @param view
-   * @param i
-   * @param l
-   */
   @Override
   public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
     hospitalization = (Hospitalization) adapterView.getItemAtPosition(i);

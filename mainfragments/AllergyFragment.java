@@ -29,28 +29,24 @@ import java.sql.SQLException;
 import java.util.Arrays;
 
 /**
- * A simple {@link Fragment} subclass. Activities that contain this fragment must implement the
- * {@lerface to handle interaction events. Use the  factory method to create an instance of this
- * fragment.
+ * A fragment subclass which allows patients to create, edit and delete an allergy
  */
 public class AllergyFragment extends Fragment implements Button.OnClickListener,
     OnItemSelectedListener {
 
   /* ID from Allergy entity*/
   public static final String ALLERGY_ID_KEY = "allergy_id";
-  // the fragment initialization parameters,
-  /*  */
+  /* an allergy instance */
   private Allergy allergy = null;
-  /* */
+  /*Patient selected */
   private Patient patient = null;
-  /* */
+  /* Spinner which uses allergyTypes String[]*/
   private Spinner spinner;
-  /*  */
+  /* User input of allergy text */
   private EditText allergyText;
-  /*  */
+  /* Array list of allergy types used on spinner */
   private String[] allergyTypes;
 
-//  private OnFragmentInteractionListener mListener;
 
   /**
    * Required empty public constructor
@@ -59,10 +55,6 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener,
 
   }
 
-  /**
-   *
-   * @param savedInstanceState
-   */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -86,13 +78,6 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener,
     }
   }
 
-  /**
-   *
-   * @param inflater
-   * @param container
-   * @param savedInstanceState
-   * @return
-   */
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -125,27 +110,16 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener,
     return view;
   }
 
-  /**
-   *
-   * @param context
-   */
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
   }
 
-  /**
-   *
-   */
   @Override
   public void onDetach() {
     super.onDetach();
   }
 
-  /**
-   *
-   * @param view
-   */
   @Override
   public void onClick(View view) {
 
@@ -220,9 +194,10 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener,
   }
 
   /**
+   * method to set empty string to null
    *
-   * @param string
-   * @return
+   * @param string the string that is being evaluated
+   * @return if string is empty return null, else return the string
    */
   public static String nullifyEmptyString(String string) {
     return (string.equals("") ? null : string);
@@ -230,11 +205,13 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener,
   }
 
   /**
+   * method to evaluate if string is null
    *
-   * @param string
-   * @return
+   * @param string the string that is being evaluated
+   * @return if the string is null return empty string, else return the string
    */
   public static String emptyNullString(String string) {
+
     return (string == null) ? "" : string;
   }
 
@@ -251,10 +228,6 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener,
     }
   }
 
-  /**
-   *
-   * @param adapterView
-   */
   @Override
   public void onNothingSelected(AdapterView<?> adapterView) {
 

@@ -23,13 +23,20 @@ import edu.cnm.deepdive.healthtracker.helpers.OrmHelper.OrmInteraction;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * A fragment which contains a list of a selected patient's immunization records.
+ */
 public class ListImmunizationFragment extends Fragment implements View.OnClickListener,
     AdapterView.OnItemClickListener{
+  /* a patient instance */
   private Patient patient = null;
+  /* an immunization instance*/
   private Immunization immunization= null;
 
+  /**
+   * Required empty constructor
+   */
   public ListImmunizationFragment() {
-    // Required empty public constructor
   }
 
 
@@ -49,7 +56,7 @@ public class ListImmunizationFragment extends Fragment implements View.OnClickLi
     }
   }
 
-  //TODO attach onClick Listeners to buttons
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -62,7 +69,11 @@ public class ListImmunizationFragment extends Fragment implements View.OnClickLi
     return inflate;
   }
 
-  //set OnClickListener to buttons
+
+  /**
+   * method to set OnClickListener to buttons
+   * @param rootView
+   */
   private void setupButtons(View rootView) {
     Button addButton = rootView.findViewById(R.id.add_record);
     addButton.setOnClickListener(this);
@@ -71,6 +82,10 @@ public class ListImmunizationFragment extends Fragment implements View.OnClickLi
     editButton.setEnabled(false);
   }
 
+  /**
+   *
+   * @param inflate
+   */
   private void setupList(View inflate) {
     if (patient != null) {
 

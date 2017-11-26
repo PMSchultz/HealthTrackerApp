@@ -59,10 +59,7 @@ public class MainActivity extends AppCompatActivity
   /*  */
   private NavigationView navigationView;
 
-  /**
-   *
-   * @param savedInstanceState
-   */
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -93,7 +90,7 @@ public class MainActivity extends AppCompatActivity
   }
 
   /**
-   *
+   * method to add patient names on spinner
    */
   public void addItemsOnSpinner() {
     try {
@@ -117,29 +114,21 @@ public class MainActivity extends AppCompatActivity
     }
   }
 
-  /**
-   *
-   */
+
   @Override
   protected void onStart() {
     super.onStart();
     getHelper();
   }
 
-  /**
-   *
-   */
+
   @Override
   protected void onStop() {
     releaseHelper();
     super.onStop();
   }
 
-  /**
-   *
-   * @return
-   */
-  //creates an instance of OrmHelper
+
   @Override
   public synchronized OrmHelper getHelper() {
     if (helper == null) {
@@ -149,9 +138,8 @@ public class MainActivity extends AppCompatActivity
   }
 
   /**
-   *
+   * method to prevent memory leaks by setting the helper to null when not in use
    */
-  // prevents memory leaks by setting the helper to null when not in use
   public synchronized void releaseHelper() {
     if (helper != null) {
       OpenHelperManager.releaseHelper();
@@ -159,9 +147,6 @@ public class MainActivity extends AppCompatActivity
     }
   }
 
-  /**
-   *
-   */
   @Override
   public void onBackPressed() {
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -172,11 +157,6 @@ public class MainActivity extends AppCompatActivity
     }
   }
 
-  /**
-   *
-   * @param menu
-   * @return
-   */
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
@@ -184,11 +164,6 @@ public class MainActivity extends AppCompatActivity
     return true;
   }
 
-  /**
-   *
-   * @param item
-   * @return
-   */
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     // Handle action bar item clicks here. The action bar will
@@ -204,12 +179,6 @@ public class MainActivity extends AppCompatActivity
     return super.onOptionsItemSelected(item);
   }
 
-  /**
-   *
-   * @param item
-   * @return
-   */
-  @SuppressWarnings("StatementWithEmptyBody")
   @Override
   public boolean onNavigationItemSelected(MenuItem item) {
     // Handle navigation view item clicks here.
@@ -242,7 +211,7 @@ public class MainActivity extends AppCompatActivity
   }
 
   /**
-   *
+   * method to replace the content panel with a medication fragment
    * @param view
    */
   public void openRecord(View view) {
@@ -302,10 +271,7 @@ public class MainActivity extends AppCompatActivity
     transaction.commit();
   }
 
-  /**
-   *
-   * @param view
-   */
+
   @Override
   public void onClick(View view) {
     DialogFragment dialogFragment = new CreatePatientFragment();
@@ -313,13 +279,7 @@ public class MainActivity extends AppCompatActivity
 
   }
 
-  /**
-   *
-   * @param adapterView
-   * @param view
-   * @param position
-   * @param id
-   */
+  
   @Override
   public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
     Menu menu = navigationView.getMenu();
@@ -329,10 +289,7 @@ public class MainActivity extends AppCompatActivity
 
   }
 
-  /**
-   *
-   * @param adapterView
-   */
+
   @Override
   public void onNothingSelected(AdapterView<?> adapterView) {
 

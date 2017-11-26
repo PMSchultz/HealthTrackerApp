@@ -27,7 +27,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- *
+ * A fragment which contains a list of a selected patient's allergy records.
  */
 public class ListAllergyFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
 
@@ -37,16 +37,12 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
   private Allergy allergy = null;
 
   /**
-   *
+   *Required empty public constructor
    */
   public ListAllergyFragment() {
-    // Required empty public constructor
   }
 
-  /**
-   *
-   * @param savedInstanceState
-   */
+
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -63,13 +59,7 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
     }
   }
 
-  /**
-   *
-   * @param inflater
-   * @param container
-   * @param savedInstanceState
-   * @return
-   */
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -83,7 +73,7 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
   }
 
   /**
-   *
+   * Order allergy types for list view
    * @param inflate
    */
   private void setupList(View inflate) {
@@ -98,7 +88,6 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
         Dao<Allergy, Integer> dao = helper.getAllergyDao();
         QueryBuilder<Allergy, Integer> builder = dao.queryBuilder();
         builder.where().eq("PATIENT_ID", patient.getId());
-        //TODO order in list : Latex, Medication, Food, Seasonal, Animal
 
         builder.orderByRaw("CASE ALLERGY_TYPE "
                   + "WHEN 'Latex' THEN 0 "
@@ -131,10 +120,7 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
 
   }
 
-  /**
-   *
-   * @param view
-   */
+
   @Override
   public void onClick(View view) {
 
@@ -153,13 +139,7 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
     }
 
   }
-  /**
-   *
-   * @param adapterView
-   * @param view
-   * @param i
-   * @param l
-   */
+
   @Override
   public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
     allergy = (Allergy) adapterView.getItemAtPosition(i);
@@ -175,7 +155,7 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
     private int resource;
 
     /**
-     *
+     * Custom adapter to sort Allergy items and add padding between Allergy types
      * @param context
      * @param resource
      * @param objects
@@ -185,13 +165,7 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
       this.resource = resource;
     }
 
-    /**
-     *
-     * @param position
-     * @param convertView
-     * @param parent
-     * @return
-     */
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
       Allergy item = getItem(position);
@@ -201,7 +175,7 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
         Allergy nextItem = getItem(position + 1);
         if (! item.getAllergyType().equals(nextItem.getAllergyType()))  {
 
-          view.setPadding(view.getPaddingStart(),view.getPaddingTop(),view.getPaddingEnd(),view.getPaddingBottom() + 20);
+          view.setPadding(view.getPaddingStart(),view.getPaddingTop(),view.getPaddingEnd(),view.getPaddingBottom() + 40);
         }
       }
       return view;

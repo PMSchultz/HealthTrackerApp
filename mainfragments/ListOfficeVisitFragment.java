@@ -26,19 +26,20 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass. Activities that contain this fragment must implement the
- * {@link  interface to handle interaction events. Use the factory method to create an instance of
- * this fragment.
+ * A fragment which contains a list of a selected patient's office visit records.
  */
 public class ListOfficeVisitFragment extends Fragment implements View.OnClickListener,
     AdapterView.OnItemClickListener {
 
-
+  /* a patient instance*/
   private Patient patient = null;
+  /* an office visit instance */
   private OfficeVisit officeVisit = null;
 
+  /**
+   * Required empty public constructor
+   */
   public ListOfficeVisitFragment() {
-    // Required empty public constructor
   }
 
 
@@ -58,7 +59,6 @@ public class ListOfficeVisitFragment extends Fragment implements View.OnClickLis
     }
   }
 
-  //TODO attach onClick Listeners to buttons
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -73,7 +73,10 @@ public class ListOfficeVisitFragment extends Fragment implements View.OnClickLis
 
   }
 
-  //set OnClickListener to buttons
+  /**
+   * set OnClickListener to buttons
+   * @param rootView
+   */
   private void setupButtons(View rootView) {
     Button addButton = rootView.findViewById(R.id.add_record);
     addButton.setOnClickListener(this);
@@ -83,6 +86,10 @@ public class ListOfficeVisitFragment extends Fragment implements View.OnClickLis
 
   }
 
+  /**
+   *
+   * @param inflate
+   */
   private void setupList(View inflate) {
     if (patient != null) {
 

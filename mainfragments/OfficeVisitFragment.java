@@ -27,28 +27,29 @@ import java.text.DateFormat;
 import java.text.ParseException;
 
 /**
- *
+ * A fragment subclass which allows patients to create, edit and delete an office visit record
  */
 public class OfficeVisitFragment extends Fragment implements Button.OnClickListener {
-/* ID for Office Visit from entity*/
+
+  /* ID for Office Visit from entity*/
   public static final String OFFICE_VISIT_ID_KEY = "officeVisitId";
-/*  */
+  /* User input of the reason for the office visit */
   private EditText reason;
-  /*  */
+  /* The date of the office visit*/
   private Button visitDate;
-  /*  */
+  /* The name of the provider seen during the office visit */
   private EditText provider;
-  /*  */
+  /* height of the patient */
   private EditText height;
-  /*  */
+  /* weight of the patient */
   private EditText weight;
-  /*  */
+  /* blood pressure taken during office visit */
   private EditText bloodPressure;
-  /*  */
+  /* User input of any notes regarding office visit */
   private EditText note;
-  /*  */
+  /*  an instance of office visit*/
   private OfficeVisit officeVisit = null;
-  /*  */
+  /*  an instance of the patient*/
   private Patient patient = null;
 
   /**
@@ -57,10 +58,6 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
   public OfficeVisitFragment() {
   }
 
-  /**
-   *
-   * @param savedInstanceState
-   */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -83,13 +80,7 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
     }
   }
 
-  /**
-   *
-   * @param inflater
-   * @param container
-   * @param savedInstanceState
-   * @return
-   */
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -98,9 +89,9 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
     addButton.setOnClickListener(this);
     Button deleteButton = view.findViewById(R.id.delete_office_visit_record);
     deleteButton.setOnClickListener(this);
-    if (officeVisit == null){
+    if (officeVisit == null) {
       deleteButton.setEnabled(false);
-    }else {
+    } else {
       deleteButton.setOnClickListener(this);
     }
     Button cancelButton = view.findViewById(R.id.cancel_office_visit_record);
@@ -122,25 +113,18 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
       bloodPressure.setText(emptyNullString(officeVisit.getBloodPressure()));
       note.setText(emptyNullString(officeVisit.getNotes()));
 
-    }else {
+    } else {
       reason.requestFocus();
     }
     return view;
   }
 
-  /**
-   *
-   * @param context
-   */
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
   }
 
-  /**
-   *
-   * @param view
-   */
+
   @Override
   public void onClick(View view) {
     DatePickerFragment datePickerFragment;
@@ -168,16 +152,17 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
           DateFormat format = DateFormat.getDateInstance();
           try {
             officeVisit.setDate(format.parse(visitDate.getText().toString()));
-            if (officeVisit.getDate().toString().trim().isEmpty()){
+            if (officeVisit.getDate().toString().trim().isEmpty()) {
 
             }
-          }catch (ParseException e) {
+          } catch (ParseException e) {
             Toast.makeText(getContext(), "Appointment date is required", Toast.LENGTH_LONG).show();
             e.printStackTrace();
             break;
           }
-          if(officeVisit.getReason() == null || officeVisit.getProvider() == null){
-            Toast.makeText(getContext(), "Required input includes reason and provider", Toast.LENGTH_LONG).show();
+          if (officeVisit.getReason() == null || officeVisit.getProvider() == null) {
+            Toast.makeText(getContext(), "Required input includes reason and provider",
+                Toast.LENGTH_LONG).show();
             break;
           }
           Bundle args = getArguments();
@@ -227,9 +212,10 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
   }
 
   /**
+   * method to set empty string to null
    *
-   * @param string
-   * @return
+   * @param string the string that is being evaluated
+   * @return if string is empty return null, else return the string
    */
   public static String nullifyEmptyString(String string) {
     return (string.equals("") ? null : string);
@@ -237,9 +223,10 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
   }
 
   /**
+   * method to evaluate if string is null
    *
-   * @param string
-   * @return
+   * @param string the string that is being evaluated
+   * @return if the string is null return empty string, else return the string
    */
   public static String emptyNullString(String string) {
     return (string == null) ? "" : string;

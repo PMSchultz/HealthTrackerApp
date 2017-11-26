@@ -13,14 +13,14 @@ import java.util.Calendar;
 
 
 /**
- *
- *
- *
+ * DatePickerFragment is a fragment that is used for all instances that require a
+ * date to be entered by the user. The fragment is attached to buttons
  */
 
 public class DatePickerFragment extends DialogFragment implements
     DatePickerDialog.OnDateSetListener {
-/*  */
+
+  /* sets DatePicker to button */
   public static final String DATE_PICKER_FIELD_ID = "button_id";
   /*   */
   public static final String DATE_PICKER_TAG = "date_picker";
@@ -28,37 +28,28 @@ public class DatePickerFragment extends DialogFragment implements
   private int fieldId;
 
   /**
+   * Uses the current date as the default date
    *
-   * @param savedInstanceState
-   * @return
+   * @return creates a new instance of DatePickerDialog defaulting to the current date
    */
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    //use the current date as the default date
     final Calendar c = Calendar.getInstance();
     int year = c.get(Calendar.YEAR);
     int month = c.get(Calendar.MONTH);
     int day = c.get(Calendar.DAY_OF_MONTH);
     fieldId = getArguments().getInt(DATE_PICKER_FIELD_ID);
 
-    //create a new instance of DatePickerDialog and return it
     return new DatePickerDialog(getActivity(), this, year, month, day);
   }
 
-  /**
-   *   @Override
-   */
+
+  @Override
   public void onStart() {
     super.onStart();
   }
 
 
-  /**
-   * @Override
-   * @param view
-   * @param year
-   * @param month
-   * @param day
-   */
+  @Override
   public void onDateSet(DatePicker view, int year, int month, int day) {
     Calendar calendar = Calendar.getInstance();
     calendar.set(Calendar.YEAR, year);

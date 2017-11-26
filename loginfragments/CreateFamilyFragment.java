@@ -30,10 +30,9 @@ public class CreateFamilyFragment extends Fragment {
   private OnFragmentInteractionListener mListener;
 
   /**
-   *
+   * Required empty public constructor
    */
   public CreateFamilyFragment() {
-    // Required empty public constructor
   }
 
   /**

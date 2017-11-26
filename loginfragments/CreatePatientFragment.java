@@ -22,9 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
- * A simple {@link Fragment} subclass. Activities that contain this fragment must implement the // *
- *  interface to handle interaction events. Use the {@link CreatePatientFragment#newInstance}
- * factory method to create an instance of this fragment.
+ * A fragment used to create a patient
  */
 public class CreatePatientFragment extends DialogFragment implements OnClickListener {
 
@@ -55,23 +53,12 @@ public class CreatePatientFragment extends DialogFragment implements OnClickList
     return fragment;
   }
 
-  /**
-   *
-   * @param savedInstanceState
-   */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
   }
 
-  /**
-   *
-   * @param inflater
-   * @param container
-   * @param savedInstanceState
-   * @return
-   */
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -96,20 +83,12 @@ public class CreatePatientFragment extends DialogFragment implements OnClickList
     }
   }
 
-
-  /**
-   *
-   */
   @Override
   public void onDetach() {
     super.onDetach();
     mListener = null;
   }
 
-  /**
-   *
-   * @param view
-   */
   @Override
   public void onClick(View view) {
     if (view.getId() == R.id.createPatient) {

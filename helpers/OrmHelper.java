@@ -22,23 +22,22 @@ import java.util.Date;
  */
 public class OrmHelper extends OrmLiteSqliteOpenHelper {
 
-  //declare database name and version
   /* Database name*/
   private static final String DATABASE_NAME = "patients.db";
   /* Database version*/
   private static final int DATABASE_VERSION = 1;
 
-  /*  */
+  /* create an instance of a patientDao */
   private Dao<Patient, Integer> patientDao = null;
-  /*  */
+  /* create an instance of a medicationDao*/
   private Dao<Medication, Integer> medicationDao = null;
-  /*  */
+  /* create an instance of an immunizationDao */
   private Dao<Immunization, Integer> immunizationDao = null;
-  /*  */
+  /* create an instance of an allergyDao*/
   private Dao<Allergy, Integer> allergyDao = null;
-  /*  */
+  /* create an instance of a hospitalizationDao*/
   private Dao<Hospitalization, Integer> hospitalizationDao = null;
-  /*  */
+  /* create an instance of an officeVisitDao */
   private Dao<OfficeVisit, Integer> officeVisitDao = null;
 
   /**
@@ -49,11 +48,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
   }
 
-  /**
-   *
-   * @param database
-   * @param connectionSource
-   */
+
   @Override
   public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
     try {
@@ -69,21 +64,11 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
     }
   }
 
-  /**
-   *
-   * @param database
-   * @param connectionSource
-   * @param oldVersion
-   * @param newVersion
-   */
   @Override
   public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion,
       int newVersion) {
   }
 
-  /**
-   *
-   */
   @Override
   public void close() {
     patientDao = null;
@@ -99,12 +84,10 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
 
   }
 
-  //TODO onStart and onStop methods
-
   /**
-   *
-   * @return
-   * @throws SQLException
+   * method to access a patient data access object
+   * @return the patient data access object
+   * @throws SQLException if unable to get PatientDao
    */
   public synchronized Dao<Patient, Integer> getPatientDao() throws SQLException {
     if (patientDao == null) {
@@ -151,7 +134,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
 
   /**
    *
-   * @return
+   * @return hospitalization data access object
    * @throws SQLException
    */
   public synchronized Dao<Hospitalization, Integer> getHospitalizationDao() throws SQLException {

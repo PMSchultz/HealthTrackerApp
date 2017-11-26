@@ -31,7 +31,7 @@ import java.text.ParseException;
 
 /**
  *
- *
+ * A fragment subclass which allows patients to create, edit and delete an immunization record
  */
 public class ImmunizationFragment extends Fragment implements Button.OnClickListener {
 /* ID from Immunization Entity*/
@@ -50,16 +50,11 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
   private Patient patient = null;
 
   /**
-   *
+   * Required empty public constructor
    */
   public ImmunizationFragment() {
-    // Required empty public constructor
   }
 
-  /**
-   *
-   * @param savedInstanceState
-   */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -82,13 +77,6 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
     }
   }
 
-  /**
-   *
-   * @param inflater
-   * @param container
-   * @param savedInstanceState
-   * @return
-   */
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -130,19 +118,11 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
     return view;
   }
 
-  /**
-   *
-   * @param context
-   */
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
   }
 
-  /**
-   *
-   * @param view
-   */
   @Override
   public void onClick(View view) {
     switch (view.getId()) {
@@ -179,7 +159,8 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
           //check to see if immunization type and date are the same, if so do not add
           QueryBuilder queryBuilder = helper.getImmunizationDao().queryBuilder();
           queryBuilder.where().eq("VACCINE",immunization.getVaccine()).and()
-              .eq("DATE", immunization.getDate()).and().eq("PATIENT_ID", patientID);
+              .eq("DATE", immunization.getDate()).and().eq("PATIENT_ID", patientID)
+              .and().eq("PROVIDER", immunization.getProvider());
           if(helper.getImmunizationDao().query(queryBuilder.prepare()).size() > 0){
             Toast.makeText(getContext(), "This record is already in patient's chart", Toast.LENGTH_LONG).show();
             return;
@@ -228,18 +209,18 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
   }
 
   /**
-   *
-   * @param string
-   * @return
+   * method to set empty string to null
+   * @param string the string that is being evaluated
+   * @return if string is empty return null, else return the string
    */
   public static String nullifyEmptyString(String string) {
     return (string.equals("") ? null : string);
   }
 
   /**
-   *
-   * @param string
-   * @return
+   * method to evaluate if string is null
+   * @param string the string that is being evaluated
+   * @return if the string is null return empty string, else return the string
    */
   public static String emptyNullString(String string) {
     return (string == null) ? "" : string;

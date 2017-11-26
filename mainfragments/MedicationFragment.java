@@ -30,26 +30,27 @@ import java.text.DateFormat;
 import java.text.ParseException;
 
 /**
- *
+ * A fragment subclass which allows patients to create, edit and delete a medication record.
  */
 public class MedicationFragment extends Fragment implements Button.OnClickListener {
-/* ID for Medication entity*/
+
+  /* ID for Medication entity*/
   public static final String MEDICATION_ID_KEY = "medicationId";
-/*   */
+  /* The medication name  */
   private EditText medicationName;
-  /*  */
+  /* The dosage of medication */
   private EditText dose;
-  /*  */
+  /* The provider who prescribed the medication */
   private EditText provider;
-  /*  */
+  /* notes pertaining to medication */
   private EditText note;
-  /*  */
+  /* The date medication was started */
   private Button dateStarted;
-  /*  */
+  /* The date medication was stopped */
   private Button dateEnded;
-  /*  */
+  /* a patient instance */
   private Patient patient = null;
-  /*  */
+  /* a medication instance */
   private Medication medication = null;
 
   /**
@@ -59,10 +60,7 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
 
   }
 
-  /**
-   *
-   * @param savedInstanceState
-   */
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
 
@@ -86,13 +84,7 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
     }
   }
 
-  /**
-   *
-   * @param inflater
-   * @param container
-   * @param savedInstanceState
-   * @return
-   */
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -101,9 +93,9 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
     Button addButton = view.findViewById(R.id.save_medication_record);
     addButton.setOnClickListener(this);
     Button deleteButton = view.findViewById(R.id.delete_medication_record);
-    if (medication == null){
+    if (medication == null) {
       deleteButton.setEnabled(false);
-    }else {
+    } else {
       deleteButton.setOnClickListener(this);
     }
 
@@ -113,7 +105,7 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
     InputFilter[] oldFilters = medicationName.getFilters();
     InputFilter[] newFilters = new InputFilter[oldFilters.length + 1];
     System.arraycopy(oldFilters, 0, newFilters, 0, oldFilters.length);
-    newFilters [oldFilters.length] = new InputFilter.AllCaps();
+    newFilters[oldFilters.length] = new InputFilter.AllCaps();
     medicationName.setFilters(newFilters);
 
     provider = view.findViewById(R.id.provider);
@@ -134,7 +126,7 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
       }
 
 
-    }else {
+    } else {
       medicationName.requestFocus();
     }
 
@@ -142,27 +134,19 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
 
   }
 
-  /**
-   *
-   * @param context
-   */
+
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
   }
 
-  /**
-   *
-   */
+
   @Override
   public void onDetach() {
     super.onDetach();
   }
 
-  /**
-   *
-   * @param view
-   */
+
   @Override
   public void onClick(View view) {
     DatePickerFragment datePickerFragment;
@@ -196,23 +180,28 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
           DateFormat format = DateFormat.getDateInstance();
           try {
             medication.setStartDate(format.parse(dateStarted.getText().toString()));
-          } catch (ParseException e){
-            Toast.makeText(getContext(), "Start date is a required field", Toast.LENGTH_LONG).show();
+          } catch (ParseException e) {
+            Toast.makeText(getContext(), "Start date is a required field", Toast.LENGTH_LONG)
+                .show();
             e.printStackTrace();
             break;
           }
 
           try {
             medication.setStopDate(format.parse(dateEnded.getText().toString()));
-            if(medication.getStartDate().compareTo(medication.getStopDate()) > 0){
-              Toast.makeText(getContext(), "End date must be after start date", Toast.LENGTH_LONG).show();
+            if (medication.getStartDate().compareTo(medication.getStopDate()) > 0) {
+              Toast.makeText(getContext(), "End date must be after start date", Toast.LENGTH_LONG)
+                  .show();
               break;
             }
           } catch (ParseException e) {
             e.printStackTrace();
           }
-          if (medication.getMedicationName() == null || medication.getDose() == null){
-            Toast.makeText(getContext(), "Required input includes Medication Name and Dose", Toast.LENGTH_LONG).show();
+          if (medication.getMedicationName() == null || medication.getDose() == null
+              || medication.getProvider() == null) {
+            Toast.makeText(getContext(),
+                "Required input includes Medication Name, Dose, and Prescribing Physician",
+                Toast.LENGTH_LONG).show();
             break;
           }
           Bundle args = getArguments();
@@ -221,11 +210,15 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
               .queryForId(patientID);
           //check to see if medication and start date are the same to avoid duplicate entries
           QueryBuilder queryBuilder = helper.getMedicationDao().queryBuilder();
-          queryBuilder.where().eq("NAME",medication.getMedicationName()).and()
+          queryBuilder.where().eq("NAME", medication.getMedicationName()).and()
               .eq("START_DATE", medication.getStartDate()).and()
-              .eq("PATIENT_ID", patient).and().eq("DOSE", medication.getDose());
-          if(helper.getMedicationDao().query(queryBuilder.prepare()).size() > 0){
-            Toast.makeText(getContext(), "This record is already in patient's chart", Toast.LENGTH_LONG).show();
+              //.eq("STOP_DATE", medication.getStopDate()).and()
+              .eq("PROVIDER", medication.getProvider()).and()
+              .eq("PATIENT_ID", patient).and()
+              .eq("DOSE", medication.getDose());
+          if (helper.getMedicationDao().query(queryBuilder.prepare()).size() > 0) {
+            Toast.makeText(getContext(), "This record is already in patient's chart",
+                Toast.LENGTH_LONG).show();
             return;
           }
           medication.setPatient(patient);
@@ -272,9 +265,10 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
   }
 
   /**
+   * method to set empty string to null
    *
-   * @param string
-   * @return
+   * @param string the string that is being evaluated
+   * @return if string is empty return null, else return the string
    */
   public static String nullifyEmptyString(String string) {
     return (string.equals("") ? null : string);
@@ -282,9 +276,10 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
   }
 
   /**
+   * method to evaluate if string is null
    *
-   * @param string
-   * @return
+   * @param string the string that is being evaluated
+   * @return if the string is null return empty string, else return the string
    */
   public static String emptyNullString(String string) {
     return (string == null) ? "" : string;

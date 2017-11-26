@@ -27,7 +27,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 
 /**
- *
+ * A fragment subclass which allows patients to create, edit and delete a hospitalization
+ * record
  */
 public class HospitalizationFragment extends Fragment implements Button.OnClickListener {
 
@@ -51,16 +52,12 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
   private Hospitalization hospitalization = null;
 
   /**
-   *
+   * Required empty public constructor
    */
   public HospitalizationFragment() {
-    // Required empty public constructor
   }
 
-  /**
-   *
-   * @param savedInstanceState
-   */
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -83,13 +80,7 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
     }
   }
 
-  /**
-   *
-   * @param inflater
-   * @param container
-   * @param savedInstanceState
-   * @return
-   */
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -130,19 +121,13 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
     return view;
   }
 
-  /**
-   *
-   * @param context
-   */
+
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
   }
 
-  /**
-   *
-   * @param view
-   */
+
   @Override
   public void onClick(View view) {
     DatePickerFragment datePickerFragment;
@@ -247,9 +232,9 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
   }
 
   /**
-   *
-   * @param string
-   * @return
+   * method to set empty string to null
+   * @param string the string that is being evaluated
+   * @return if string is empty return null, else return the string
    */
   public static String nullifyEmptyString(String string) {
     return (string.equals("") ? null : string);
@@ -257,9 +242,9 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
   }
 
   /**
-   *
-   * @param string
-   * @return
+   * method to evaluate if string is null
+   * @param string the string that is being evaluated
+   * @return if the string is null return empty string, else return the string
    */
   public static String emptyNullString(String string) {
     return (string == null) ? "" : string;

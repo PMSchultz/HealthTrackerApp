@@ -24,27 +24,21 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- *
+ * A fragment which contains a list of a selected patient's medication records.
  */
 public class ListMedicationFragment extends Fragment implements View.OnClickListener,
     AdapterView.OnItemClickListener{
-/*  */
+/* a patient instance */
   private Patient patient = null;
-  /*  */
+  /* a medication instance */
   private Medication medication = null;
 
   /**
-   *
+   * Required empty public constructor
    */
   public ListMedicationFragment() {
-    // Required empty public constructor
   }
 
-
-  /**
-   *
-   * @param savedInstanceState
-   */
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -62,7 +56,7 @@ public class ListMedicationFragment extends Fragment implements View.OnClickList
   }
 
   /**
-   *
+   * method to create a medication list
    * @param inflate
    */
   private void setupList(View inflate) {
@@ -89,14 +83,7 @@ public class ListMedicationFragment extends Fragment implements View.OnClickList
     }
   }
 
-  /**
-   *
-   * @param inflater
-   * @param container
-   * @param savedInstanceState
-   * @return
-   */
-  //TODO attach onClick Listeners to buttons
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -110,7 +97,7 @@ public class ListMedicationFragment extends Fragment implements View.OnClickList
   }
 
   /**
-   *
+   * method to evaluate what button was clicked and response
    * @param view
    */
   public void onClick(View view) {
@@ -131,26 +118,17 @@ public class ListMedicationFragment extends Fragment implements View.OnClickList
   }
 
   /**
-   *
+   *set OnClickListener to buttons
    * @param rootView
    */
-  //set OnClickListener to buttons
   private void setupButtons(View rootView) {
     Button addButton = rootView.findViewById(R.id.add_record);
     addButton.setOnClickListener(this);
     Button editButton = rootView.findViewById(R.id.edit_record);
     editButton.setOnClickListener(this);
     editButton.setEnabled(false);
-
   }
 
-  /**
-   *
-   * @param adapterView
-   * @param view
-   * @param i
-   * @param l
-   */
   @Override
   public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
     medication = (Medication) adapterView.getItemAtPosition(i);
