@@ -66,7 +66,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
       TableUtils.createTable(connectionSource, OfficeVisit.class);
       TableUtils.createTable(connectionSource, Hospitalization.class);
       TableUtils.createTable(connectionSource, Radiology.class);
-      //TableUtils.createTable(connectionSource, Laboratory.class);
+      TableUtils.createTable(connectionSource, Laboratory.class);
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
