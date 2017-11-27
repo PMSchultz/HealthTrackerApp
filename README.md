@@ -28,9 +28,8 @@ The current version of HealthTracker features the following:
 * Nexus 5X API 22 Phone
 * Nexus 9 API 22 Tablet
 
-## Action Items
-* Immunization: if no provider is typed in, stops working
-* Medication: if go back to edit by adding a stop date, pop up message "medication is already in chart and does not edit"
+## Aesthetic Improvements
+* Add headings to medication list 
 
 ## Stretch Goals
 * Immunizations - change existing user input method. Use a check item list of immunizations obtained from a database.  Store each immunization in a separate record for ease of future editing
