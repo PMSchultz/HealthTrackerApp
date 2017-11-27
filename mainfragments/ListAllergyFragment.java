@@ -148,17 +148,17 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
   }
 
   /**
-   *
+   * Custom adapter
    */
   private class Adapter extends ArrayAdapter<Allergy> {
-/*   */
+/* layout to use for each item */
     private int resource;
 
     /**
      * Custom adapter to sort Allergy items and add padding between Allergy types
-     * @param context
-     * @param resource
-     * @param objects
+     * @param context android context for displaying list
+     * @param resource the layout to use for each item in list
+     * @param objects Allergy objects to be displayed in a list
      */
     public Adapter(Context context, int resource, List<Allergy> objects) {
       super(context, resource, objects);

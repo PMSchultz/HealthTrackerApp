@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import edu.cnm.deepdive.healthtracker.R;
 
 /**
- * A simple {@link Fragment} subclass. Activities that contain this fragment must implement the
+ * Unused class for creating a family group.  To be implemented A simple {@link Fragment} subclass. Activities that contain this fragment must implement the
  * {@link CreateFamilyFragment.OnFragmentInteractionListener} interface to handle interaction
  * events. Use the {@link CreateFamilyFragment#newInstance} factory method to create an instance of
  * this fragment.

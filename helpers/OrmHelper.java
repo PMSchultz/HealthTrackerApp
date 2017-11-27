@@ -18,7 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- *
+ *Helper class to access database tools
  */
 public class OrmHelper extends OrmLiteSqliteOpenHelper {
 
@@ -27,22 +27,23 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
   /* Database version*/
   private static final int DATABASE_VERSION = 1;
 
-  /* create an instance of a patientDao */
+  /* create a reference of a patientDao */
   private Dao<Patient, Integer> patientDao = null;
-  /* create an instance of a medicationDao*/
+  /* create a reference of a medicationDao*/
   private Dao<Medication, Integer> medicationDao = null;
-  /* create an instance of an immunizationDao */
+  /* create a reference of an immunizationDao */
   private Dao<Immunization, Integer> immunizationDao = null;
-  /* create an instance of an allergyDao*/
+  /* create a reference of an allergyDao*/
   private Dao<Allergy, Integer> allergyDao = null;
-  /* create an instance of a hospitalizationDao*/
+  /* create a reference of a hospitalizationDao*/
   private Dao<Hospitalization, Integer> hospitalizationDao = null;
-  /* create an instance of an officeVisitDao */
+  /* create a reference of an officeVisitDao */
   private Dao<OfficeVisit, Integer> officeVisitDao = null;
 
   /**
+   * constructor
    *
-   * @param context
+   * @param context context to store this database in
    */
   public OrmHelper(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -58,7 +59,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
       TableUtils.createTable(connectionSource, Allergy.class);
       TableUtils.createTable(connectionSource, OfficeVisit.class);
       TableUtils.createTable(connectionSource, Hospitalization.class);
-      populateDatabase();
+//      populateDatabase();
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -76,7 +77,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
   }
 
   /**
-   *
+   * interface for activities that provide a helper
    */
   public interface OrmInteraction {
 
@@ -86,6 +87,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
 
   /**
    * method to access a patient data access object
+   *
    * @return the patient data access object
    * @throws SQLException if unable to get PatientDao
    */
@@ -97,9 +99,10 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
   }
 
   /**
+   * method to access a medication data access object
    *
-   * @return
-   * @throws SQLException
+   * @return the medication data access object
+   * @throws SQLException if unable to get Medication Dao
    */
   public synchronized Dao<Medication, Integer> getMedicationDao() throws SQLException {
     if (medicationDao == null) {
@@ -133,9 +136,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
   }
 
   /**
-   *
    * @return hospitalization data access object
-   * @throws SQLException
    */
   public synchronized Dao<Hospitalization, Integer> getHospitalizationDao() throws SQLException {
     if (hospitalizationDao == null) {
@@ -155,15 +156,5 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
     }
     return officeVisitDao;
   }
-
-  /**
-   *
-   * @throws SQLException
-   */
-  private void populateDatabase() throws SQLException {
-    Calendar calendar = Calendar.getInstance(); //Calendar is a helper class for dates
-    {
-
-    }
-  }
 }
+
