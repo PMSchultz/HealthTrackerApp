@@ -39,24 +39,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * The parent activity for all application features
  */
 public class MainActivity extends AppCompatActivity
     implements OnNavigationItemSelectedListener, OrmHelper.OrmInteraction, OnClickListener,
     OnItemSelectedListener {
-/* ID for Patient Entity*/
+
+  /* ID for Patient Entity*/
   public static final String PATIENT_ID_KEY = "patient_id";
-/*  */
+  /* Object Relational Mapper helper class for database access*/
   private OrmHelper helper = null;
-  /*  */
-  private int patientSelected;
-  /*  */
+  /* a reference to the selected patient */
   private Patient selectedPatient = null;
-  /*  */
+  /* a reference to the spinner used to select a patient */
   private Spinner spinner;
-  /*  */
+  /* button selected to create a new Patient */
   private Button createPatientButton;
-  /*  */
+  /* the view for the navigation drawer */
   private NavigationView navigationView;
 
 
@@ -211,37 +210,11 @@ public class MainActivity extends AppCompatActivity
   }
 
   /**
-   * method to replace the content panel with a medication fragment
-   * @param view
-   */
-  public void openRecord(View view) {
-    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-    ft.replace(R.id.content_panel, new MedicationFragment());
-    ft.commit();
-
-  }
-
-  /**
+   * Convenience method to display list fragments
    *
-   * @param view
-   */
-  public void editRecord(View view) {
-    //TODO will need a checkbox or list view that highlights one selected
-  }
-
-
-//  public void cancelReturntoNavigation(View view) {
-//    //TODO returns user to Navigation menu
-//  }
-
-//  public void cancelRecordActivity(View view) {
-//    //TODO return user to list view without adding or editing a record
-//  }
-  /**
-   *
-   * @param fragment
+   * @param fragment fragment instance to display
    * @param patientId PATIENT_ID_KEY
-   * @param addToBackstack
+   * @param addToBackstack parameter set to true if back button functionality is needed
    */
   public void loadFragment(Fragment fragment, int patientId, boolean addToBackstack) {
 
@@ -257,6 +230,14 @@ public class MainActivity extends AppCompatActivity
     }
     transaction.commit();
   }
+
+  /**
+   * Convenience method to display fragments
+   *
+   * @param fragment fragment instance to display
+   * @param args arguments to send to fragment
+   * @param addToBackstack parameter set to true if back button functionality is needed
+   */
 
   public void loadFragment(Fragment fragment, Bundle args, boolean addToBackstack) {
 
@@ -276,7 +257,6 @@ public class MainActivity extends AppCompatActivity
   public void onClick(View view) {
     DialogFragment dialogFragment = new CreatePatientFragment();
     dialogFragment.show(getSupportFragmentManager(), "createPatient");
-
   }
 
 
@@ -286,7 +266,6 @@ public class MainActivity extends AppCompatActivity
     for (int i = 0; i < menu.size(); i++) {
       menu.getItem(i).setEnabled(position > 0);
     }
-
   }
 
 

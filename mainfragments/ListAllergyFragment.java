@@ -133,7 +133,6 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
         args.putInt(MainActivity.PATIENT_ID_KEY, patient.getId());
         args.putInt(AllergyFragment.ALLERGY_ID_KEY, allergy.getId());
         ((MainActivity)getActivity()).loadFragment(new AllergyFragment(), args,true);
-        //TODO display Allergy record fragment populating fields with item selected
         break;
 
     }

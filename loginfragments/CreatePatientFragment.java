@@ -30,8 +30,6 @@ public class CreatePatientFragment extends DialogFragment implements OnClickList
   private EditText name;
   /* Patient date of birth*/
   private EditText dateOfBirth;
-  /*       */
-  private OnFragmentInteractionListener mListener;
 
   /**
    * Required empty public constructor
@@ -40,18 +38,6 @@ public class CreatePatientFragment extends DialogFragment implements OnClickList
 
   }
 
-  /**
-   *
-   * @param num
-   * @return
-   */
-  public static CreatePatientFragment newInstance(int num) {
-
-    CreatePatientFragment fragment = new CreatePatientFragment();
-    Bundle args = new Bundle();
-    fragment.setArguments(args);
-    return fragment;
-  }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -72,22 +58,6 @@ public class CreatePatientFragment extends DialogFragment implements OnClickList
     return view;
   }
 
-  /**
-   *
-   * @param uri
-   */
-  // TODO: Rename method, update argument and hook method into UI event
-  public void onButtonPressed(Uri uri) {
-    if (mListener != null) {
-      mListener.onFragmentInteraction(uri);
-    }
-  }
-
-  @Override
-  public void onDetach() {
-    super.onDetach();
-    mListener = null;
-  }
 
   @Override
   public void onClick(View view) {
@@ -100,11 +70,11 @@ public class CreatePatientFragment extends DialogFragment implements OnClickList
 
         patient.setDateOfBirth(dateFormat.parse(dateOfBirth.getText().toString()));
         helper.getPatientDao().create(patient);
-        ((MainActivity)getActivity()).addItemsOnSpinner();
+        ((MainActivity) getActivity()).addItemsOnSpinner();
         dismiss();
       } catch (ParseException e) {
         e.printStackTrace();
-        Toast.makeText(getActivity(), "DOB format must be MM/DD/YY", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), getString(R.string.dob_format_warning), Toast.LENGTH_LONG).show();
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }
@@ -114,15 +84,4 @@ public class CreatePatientFragment extends DialogFragment implements OnClickList
     }
   }
 
-  /**
-   * This interface must be implemented by activities that contain this fragment to allow an
-   * interaction in this fragment to be communicated to the activity and potentially other fragments
-   * contained in that activity. <p> See the Android Training lesson <a href=
-   * "http://developer.android.com/training/basics/fragments/communicating.html" >Communicating with
-   * Other Fragments</a> for more information.
-   */
-  public interface OnFragmentInteractionListener {
-
-    void onFragmentInteraction(Uri uri);
-  }
 }

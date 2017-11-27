@@ -146,7 +146,7 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener,
               .eq("PATIENT_ID", patientID).and()
               .eq("ALLERGY_TYPE", allergy.getAllergyType());
           if (helper.getAllergyDao().query(queryBuilder.prepare()).size() > 0) {
-            Toast.makeText(getContext(), "This allergy already exist in the medical record",
+            Toast.makeText(getContext(), getString(R.string.duplicate_allergy),
                 Toast.LENGTH_LONG).show();
             break;
           }

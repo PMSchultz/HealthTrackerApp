@@ -20,11 +20,9 @@ import java.util.Calendar;
 public class DatePickerFragment extends DialogFragment implements
     DatePickerDialog.OnDateSetListener {
 
-  /* sets DatePicker to button */
+  /* key for passing the button id to the DatePicker*/
   public static final String DATE_PICKER_FIELD_ID = "button_id";
-  /*   */
-  public static final String DATE_PICKER_TAG = "date_picker";
-  /*  */
+  /* the id of the field that this date picker is changing */
   private int fieldId;
 
   /**
@@ -60,17 +58,4 @@ public class DatePickerFragment extends DialogFragment implements
     ((Button) getActivity().findViewById(fieldId)).setText(format.format(calendar.getTime()));
   }
 
-  /**
-   *
-   * @param context
-   * @param view
-   */
-  public static void showDialog(AppCompatActivity context, View view) {
-    DatePickerFragment datePickerFragment = new DatePickerFragment();
-    Bundle bundle = new Bundle();
-    bundle.putInt(DatePickerFragment.DATE_PICKER_FIELD_ID, view.getId());
-
-    datePickerFragment.setArguments(bundle);
-    datePickerFragment.show(context.getSupportFragmentManager(), DATE_PICKER_TAG);
-  }
 }
