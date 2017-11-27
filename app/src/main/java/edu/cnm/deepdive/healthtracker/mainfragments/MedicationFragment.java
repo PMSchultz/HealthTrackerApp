@@ -181,7 +181,7 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
           try {
             medication.setStartDate(format.parse(dateStarted.getText().toString()));
           } catch (ParseException e) {
-            Toast.makeText(getContext(), "Start date is a required field", Toast.LENGTH_LONG)
+            Toast.makeText(getContext(), getString(R.string.start_date_required), Toast.LENGTH_LONG)
                 .show();
             e.printStackTrace();
             break;
@@ -190,7 +190,7 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
           try {
             medication.setStopDate(format.parse(dateEnded.getText().toString()));
             if (medication.getStartDate().compareTo(medication.getStopDate()) > 0) {
-              Toast.makeText(getContext(), "End date must be after start date", Toast.LENGTH_LONG)
+              Toast.makeText(getContext(), getString(R.string.end_date_error), Toast.LENGTH_LONG)
                   .show();
               break;
             }
@@ -200,7 +200,7 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
           if (medication.getMedicationName() == null || medication.getDose() == null
               || medication.getProvider() == null) {
             Toast.makeText(getContext(),
-                "Required input includes Medication Name, Dose, and Prescribing Physician",
+                getString(R.string.med_required_input),
                 Toast.LENGTH_LONG).show();
             break;
           }
@@ -216,9 +216,9 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
               .eq("PROVIDER", medication.getProvider()).and()
               .eq("PATIENT_ID", patient).and()
               .eq("DOSE", medication.getDose()).and()
-          .not().eq("MEDICATION_ID", medication.getId());
+              .not().eq("MEDICATION_ID", medication.getId());
           if (helper.getMedicationDao().query(queryBuilder.prepare()).size() > 0) {
-            Toast.makeText(getContext(), "This record is already in patient's chart",
+            Toast.makeText(getContext(), R.string.record_exists,
                 Toast.LENGTH_LONG).show();
             return;
           }
@@ -235,20 +235,20 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
         break;
       case R.id.delete_medication_record:
         AlertDialog.Builder builder = new Builder(getActivity());
-        builder.setMessage("Permanently delete this record?").setTitle("");
-        builder.setPositiveButton("DELETE RECORD", new OnClickListener() {
+        builder.setMessage(R.string.delete_toast).setTitle("");
+        builder.setPositiveButton(R.string.delete_record, new OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
             OrmHelper helper = ((OrmInteraction) getActivity()).getHelper();
             try {
               helper.getMedicationDao().delete(medication);
             } catch (SQLException e) {
-              Toast.makeText(getContext(), "Unable to delete", Toast.LENGTH_SHORT).show();
+              Toast.makeText(getContext(), R.string.unable_delete, Toast.LENGTH_SHORT).show();
             }
             getActivity().getSupportFragmentManager().popBackStack();
           }
         });
-        builder.setNegativeButton("CANCEL", new OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
             //User clicked the Cancel Button

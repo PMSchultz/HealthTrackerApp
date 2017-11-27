@@ -147,7 +147,7 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
           try {
             immunization.setDate(format.parse(dateAdministered.getText().toString()));
           } catch (ParseException e){
-            Toast.makeText(getContext(), "Administered date is a required field", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), R.string.appt_date_required, Toast.LENGTH_LONG).show();
             e.printStackTrace();
             break;
           }
@@ -162,7 +162,7 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
               .eq("DATE", immunization.getDate()).and().eq("PATIENT_ID", patientID)
               .and().not().eq("IMMUNIZATION_ID", immunization.getId());
           if(helper.getImmunizationDao().query(queryBuilder.prepare()).size() > 0){
-            Toast.makeText(getContext(), "This record is already in patient's chart", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), getString(R.string.record_exists), Toast.LENGTH_LONG).show();
             return;
           }
           immunization.setPatient(patient);
@@ -175,20 +175,20 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
 
       case R.id.delete_immunization_record:
         AlertDialog.Builder builder = new Builder(getActivity());
-        builder.setMessage("Permanently delete this record?").setTitle("");
-        builder.setPositiveButton("DELETE RECORD", new OnClickListener() {
+        builder.setMessage(R.string.delete_toast).setTitle("");
+        builder.setPositiveButton(R.string.delete_record, new OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
             OrmHelper helper = ((OrmInteraction) getActivity()).getHelper();
             try {
               helper.getImmunizationDao().delete(immunization);
             } catch (SQLException e) {
-              Toast.makeText(getContext(), "Unable to delete", Toast.LENGTH_LONG);
+              Toast.makeText(getContext(), R.string.unable_delete, Toast.LENGTH_LONG);
             }
             getActivity().getSupportFragmentManager().popBackStack();
           }
         });
-        builder.setNegativeButton("CANCEL", new OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
             //User clicked the Cancel Button

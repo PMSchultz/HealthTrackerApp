@@ -45,35 +45,35 @@
     android:hint="xx/xx/xx"
     android:inputType="textPersonName"
     android:textAlignment="viewStart"/>
-<LinearLayout
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:orientation="vertical"
-  android:gravity="center">
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">
 
-  <Button
-    android:id="@+id/createPatient"
-    android:layout_width="175dp"
-    android:layout_height="50dp"
-    android:layout_centerInParent = "true"
-    android:layout_alignTop="@id/patientDOB"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
-    android:text="Create"/>
-</LinearLayout>
+    <Button
+      android:id="@+id/createPatient"
+      android:layout_width="175dp"
+      android:layout_height="50dp"
+      android:layout_centerInParent="true"
+      android:layout_alignTop="@id/patientDOB"
+      android:paddingTop="10dp"
+      android:paddingBottom="10dp"
+      android:text="Create"/>
+  </LinearLayout>
 
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="center">
-  <Button
-    android:id="@+id/cancelPatient"
-    android:layout_width="175dp"
-    android:layout_height="50dp"
-    android:layout_alignTop="@id/createPatient"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
-    android:text="Cancel"/>
+    <Button
+      android:id="@+id/cancelPatient"
+      android:layout_width="175dp"
+      android:layout_height="50dp"
+      android:layout_alignTop="@id/createPatient"
+      android:paddingTop="10dp"
+      android:paddingBottom="10dp"
+      android:text="Cancel"/>
   </LinearLayout>
 </LinearLayout>

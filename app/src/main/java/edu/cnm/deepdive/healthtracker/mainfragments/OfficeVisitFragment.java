@@ -156,12 +156,13 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
 
             }
           } catch (ParseException e) {
-            Toast.makeText(getContext(), "Appointment date is required", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), getString(R.string.appt_date_required), Toast.LENGTH_LONG)
+                .show();
             e.printStackTrace();
             break;
           }
           if (officeVisit.getReason() == null || officeVisit.getProvider() == null) {
-            Toast.makeText(getContext(), "Required input includes reason and provider",
+            Toast.makeText(getContext(), getString(R.string.office_required_input),
                 Toast.LENGTH_LONG).show();
             break;
           }
@@ -182,20 +183,20 @@ public class OfficeVisitFragment extends Fragment implements Button.OnClickListe
         break;
       case R.id.delete_office_visit_record:
         AlertDialog.Builder builder = new Builder(getActivity());
-        builder.setMessage("Permanently delete this record?").setTitle("");
-        builder.setPositiveButton("DELETE RECORD", new OnClickListener() {
+        builder.setMessage(R.string.delete_toast).setTitle("");
+        builder.setPositiveButton(R.string.delete_record, new OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
             OrmHelper helper = ((OrmInteraction) getActivity()).getHelper();
             try {
               helper.getOfficeVisitDao().delete(officeVisit);
             } catch (SQLException e) {
-              Toast.makeText(getContext(), "Unable to delete", Toast.LENGTH_SHORT);
+              Toast.makeText(getContext(), R.string.unable_delete, Toast.LENGTH_SHORT);
             }
             getActivity().getSupportFragmentManager().popBackStack();
           }
         });
-        builder.setNegativeButton("CANCEL", new OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
             //User clicked the Cancel Button

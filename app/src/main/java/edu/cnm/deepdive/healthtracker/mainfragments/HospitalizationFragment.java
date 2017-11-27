@@ -27,14 +27,13 @@ import java.text.DateFormat;
 import java.text.ParseException;
 
 /**
- * A fragment subclass which allows patients to create, edit and delete a hospitalization
- * record
+ * A fragment subclass which allows patients to create, edit and delete a hospitalization record
  */
 public class HospitalizationFragment extends Fragment implements Button.OnClickListener {
 
   /*ID from Hospitalization entity*/
   public static final String HOSPITALIZATION_ID_KEY = "hospitalizationId";
-/* reason/diagnosis for hospital visit*/
+  /* reason/diagnosis for hospital visit*/
   private EditText reason;
   /* physician/specialist attending patient*/
   private EditText provider;
@@ -115,7 +114,7 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
         dischargeDate.setText(DateFormat.getDateInstance()
             .format(hospitalization.getDischargeDate()));
       }
-    }else {
+    } else {
       reason.requestFocus();
     }
     return view;
@@ -161,26 +160,30 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
           DateFormat format = DateFormat.getDateInstance();
           try {
             hospitalization.setAdmitDate(format.parse(admitDate.getText().toString()));
-            if (hospitalization.getAdmitDate().toString().trim().isEmpty()){
+            if (hospitalization.getAdmitDate().toString().trim().isEmpty()) {
 
             }
-          }catch (ParseException e) {
-            Toast.makeText(getContext(), "Admit date is required", Toast.LENGTH_LONG).show();
+          } catch (ParseException e) {
+            Toast.makeText(getContext(), getString(R.string.date_required), Toast.LENGTH_LONG)
+                .show();
             e.printStackTrace();
             break;
           }
 
           try {
             hospitalization.setDischargeDate(format.parse(dischargeDate.getText().toString()));
-            if (hospitalization.getAdmitDate().compareTo(hospitalization.getDischargeDate()) > 0){
-              Toast.makeText(getContext(), "Discharge date must be after Admit date", Toast.LENGTH_LONG).show();
+            if (hospitalization.getAdmitDate().compareTo(hospitalization.getDischargeDate()) > 0) {
+              Toast.makeText(getContext(), getString(R.string.date_order), Toast.LENGTH_LONG)
+                  .show();
               break;
             }
           } catch (ParseException e) {
             e.printStackTrace();
           }
-          if(hospitalization.getAdmitDate() == null || hospitalization.getReason() == null || hospitalization.getHospital() == null){
-            Toast.makeText(getContext(), "Required input includes reason, hospital and admit date", Toast.LENGTH_LONG).show();
+          if (hospitalization.getAdmitDate() == null || hospitalization.getReason() == null
+              || hospitalization.getHospital() == null) {
+            Toast.makeText(getContext(), getString(R.string.required_input), Toast.LENGTH_LONG)
+                .show();
             break;
           }
           Bundle args = getArguments();
@@ -203,20 +206,20 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
         break;
       case R.id.delete_hospital_record:
         AlertDialog.Builder builder = new Builder(getActivity());
-        builder.setMessage("Permanently delete this record?").setTitle("");
-        builder.setPositiveButton("DELETE RECORD", new OnClickListener() {
+        builder.setMessage(R.string.delete_toast).setTitle("");
+        builder.setPositiveButton(R.string.delete_record, new OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
             OrmHelper helper = ((OrmInteraction) getActivity()).getHelper();
             try {
               helper.getHospitalizationDao().delete(hospitalization);
             } catch (SQLException e) {
-              Toast.makeText(getContext(), "Unable to delete", Toast.LENGTH_SHORT);
+              Toast.makeText(getContext(), R.string.unable_delete, Toast.LENGTH_SHORT);
             }
             getActivity().getSupportFragmentManager().popBackStack();
           }
         });
-        builder.setNegativeButton("CANCEL", new OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
             //User clicked the Cancel Button
@@ -233,6 +236,7 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
 
   /**
    * method to set empty string to null
+   *
    * @param string the string that is being evaluated
    * @return if string is empty return null, else return the string
    */
@@ -243,6 +247,7 @@ public class HospitalizationFragment extends Fragment implements Button.OnClickL
 
   /**
    * method to evaluate if string is null
+   *
    * @param string the string that is being evaluated
    * @return if the string is null return empty string, else return the string
    */

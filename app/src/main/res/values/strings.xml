@@ -8,6 +8,20 @@
 
   <string name="dob_format_warning">DOB format must be MM/DD/YY</string>
   <string name="duplicate_allergy">This allergy already exist in the medical record</string>
+  <string name="delete_toast">Permanently delete this record?</string>
+  <string name="delete_record">DELETE RECORD</string>
+  <string name="unable_delete">Unable to delete</string>
+  <string name="cancel">CANCEL</string>
+  <string name="date_required">Admit date is required</string>
+  <string name="date_order">Discharge date must be after Admit date</string>
+  <string name="required_input">Required input includes reason, hospital and admit date</string>
+  <string name="appt_date_required">Appointment date is required</string>
+  <string name="one_allergy_required">At least one allergy type must be entered</string>
+  <string name="record_exists">This record is already in patient\'s chart</string>
+  <string name="med_required_input">Required input includes Medication Name, Dose, and Prescribing Physician</string>
+  <string name="start_date_required">Start date is a required field</string>
+  <string name="end_date_error">End date must be after start date</string>
+  <string name="office_required_input">Required input includes reason and provider</string>
 
 
   <string-array name="allergy_types">

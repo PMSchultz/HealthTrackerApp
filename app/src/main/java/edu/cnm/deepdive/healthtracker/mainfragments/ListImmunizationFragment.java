@@ -27,11 +27,12 @@ import java.util.List;
  * A fragment which contains a list of a selected patient's immunization records.
  */
 public class ListImmunizationFragment extends Fragment implements View.OnClickListener,
-    AdapterView.OnItemClickListener{
+    AdapterView.OnItemClickListener {
+
   /* a patient instance */
   private Patient patient = null;
   /* an immunization instance*/
-  private Immunization immunization= null;
+  private Immunization immunization = null;
 
   /**
    * Required empty constructor
@@ -72,7 +73,6 @@ public class ListImmunizationFragment extends Fragment implements View.OnClickLi
 
   /**
    * method to set OnClickListener to buttons
-   * @param rootView
    */
   private void setupButtons(View rootView) {
     Button addButton = rootView.findViewById(R.id.add_record);
@@ -111,15 +111,16 @@ public class ListImmunizationFragment extends Fragment implements View.OnClickLi
 
   @Override
   public void onClick(View view) {
-    switch (view.getId()){
+    switch (view.getId()) {
       case R.id.add_record:
-        ((MainActivity)getActivity()).loadFragment(new ImmunizationFragment(), patient.getId(),true);
+        ((MainActivity) getActivity())
+            .loadFragment(new ImmunizationFragment(), patient.getId(), true);
         break;
       case R.id.edit_record:
         Bundle args = new Bundle();
         args.putInt(MainActivity.PATIENT_ID_KEY, patient.getId());
         args.putInt(ImmunizationFragment.IMMUNIZATION_ID_KEY, immunization.getId());
-        ((MainActivity)getActivity()).loadFragment(new ImmunizationFragment(), args,true);
+        ((MainActivity) getActivity()).loadFragment(new ImmunizationFragment(), args, true);
         break;
     }
   }

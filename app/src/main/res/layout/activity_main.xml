@@ -15,8 +15,6 @@
     android:layout_height="match_parent"/>
 
 
-
-
   <android.support.design.widget.NavigationView
     android:id="@+id/nav_view"
     android:layout_width="wrap_content"
@@ -25,33 +23,33 @@
     android:fitsSystemWindows="true"
     app:headerLayout="@layout/nav_header_main"
     app:menu="@menu/activity_main_drawer">
-<LinearLayout
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:paddingTop="50dp"
-  android:orientation="vertical">
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingTop="50dp"
+      android:orientation="vertical">
 
-  <Button
-    android:id="@+id/createPatientButton"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginRight="30dp"
-    android:layout_marginLeft="30dp"
+      <Button
+        android:id="@+id/createPatientButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
 
 
-    android:text="Create New Patient"/>
+        android:text="Create New Patient"/>
 
-  <Spinner
-    android:id="@+id/name_spinner"
-    android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:layout_marginRight="30dp"
-    android:layout_marginLeft="30dp"
-    android:background="@android:drawable/btn_dropdown"
-    android:spinnerMode="dropdown">
-  </Spinner>
+      <Spinner
+        android:id="@+id/name_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown">
+      </Spinner>
 
-</LinearLayout>
+    </LinearLayout>
   </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

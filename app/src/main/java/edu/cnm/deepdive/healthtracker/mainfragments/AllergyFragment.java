@@ -132,7 +132,7 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener,
           }
           allergy.setAllergyType(spinner.getSelectedItem().toString());
           if (allergyText.getText().toString().trim().length() == 0) {
-            Toast.makeText(getContext(), "At least one allergy type must be entered",
+            Toast.makeText(getContext(), getString(R.string.one_allergy_required),
                 Toast.LENGTH_LONG).show();
             break;
           }
@@ -163,21 +163,21 @@ public class AllergyFragment extends Fragment implements Button.OnClickListener,
         break;
       case R.id.delete_allergy_record:
         AlertDialog.Builder builder = new Builder(getActivity());
-        builder.setMessage("Permanently delete this record?").setTitle("");
-        builder.setPositiveButton("DELETE RECORD", new OnClickListener() {
+        builder.setMessage(getString(R.string.delete_toast)).setTitle("");
+        builder.setPositiveButton(getString(R.string.delete_record), new OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
             OrmHelper helper = ((OrmInteraction) getActivity()).getHelper();
             try {
               helper.getAllergyDao().delete(allergy);
             } catch (SQLException e) {
-              Toast.makeText(getContext(), "Unable to delete", Toast.LENGTH_SHORT);
+              Toast.makeText(getContext(), getString(R.string.unable_delete), Toast.LENGTH_SHORT);
             }
             getActivity().getSupportFragmentManager().popBackStack();
           }
         });
 
-        builder.setNegativeButton("CANCEL", new OnClickListener() {
+        builder.setNegativeButton(getString(R.string.cancel), new OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int i) {
             //User clicked the Cancel Button

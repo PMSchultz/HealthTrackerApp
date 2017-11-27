@@ -18,7 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- *Helper class to access database tools
+ * Helper class to access database tools
  */
 public class OrmHelper extends OrmLiteSqliteOpenHelper {
 
@@ -59,7 +59,6 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
       TableUtils.createTable(connectionSource, Allergy.class);
       TableUtils.createTable(connectionSource, OfficeVisit.class);
       TableUtils.createTable(connectionSource, Hospitalization.class);
-//      populateDatabase();
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -82,7 +81,6 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
   public interface OrmInteraction {
 
     OrmHelper getHelper();
-
   }
 
   /**
@@ -113,6 +111,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
 
   /**
    * method to access an allergy data access object
+   *
    * @return the allergy data access object
    * @throws SQLException if unable to get Allergy Dao
    */
@@ -125,6 +124,7 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
 
   /**
    * method to access an immunization data access object
+   *
    * @return the immunization data access object
    * @throws SQLException if unable to get Immunization Dao
    */
@@ -136,7 +136,10 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
   }
 
   /**
+   * method to access a hospitalization data access object
+   *
    * @return hospitalization data access object
+   * @throws SQLException if unable to get Hospitalization Dao
    */
   public synchronized Dao<Hospitalization, Integer> getHospitalizationDao() throws SQLException {
     if (hospitalizationDao == null) {
@@ -146,9 +149,10 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
   }
 
   /**
+   * method to access an office visit data access object
    *
-   * @return
-   * @throws SQLException
+   * @return office visit data access object
+   * @throws SQLException if unable to get an Office Visit Dao
    */
   public synchronized Dao<OfficeVisit, Integer> getOfficeVisitDao() throws SQLException {
     if (officeVisitDao == null) {

@@ -26,14 +26,15 @@ import java.util.List;
  * A fragment which contains a list of a selected patient's hospitalization records.
  */
 public class ListHospitalizationFragment extends Fragment implements View.OnClickListener,
-    AdapterView.OnItemClickListener{
-/* a patient instance */
+    AdapterView.OnItemClickListener {
+
+  /* a patient instance */
   private Patient patient = null;
   /* a hospitalization instance */
   private Hospitalization hospitalization = null;
 
   /**
-   *Required empty public constructor
+   * Required empty public constructor
    */
   public ListHospitalizationFragment() {
   }
@@ -97,7 +98,6 @@ public class ListHospitalizationFragment extends Fragment implements View.OnClic
 
   /**
    * set OnClickListener to buttons
-   * @param rootView
    */
   private void setupButtons(View rootView) {
     Button addButton = rootView.findViewById(R.id.add_record);
@@ -116,15 +116,16 @@ public class ListHospitalizationFragment extends Fragment implements View.OnClic
 
   public void onClick(View view) {
 
-    switch (view.getId()){
+    switch (view.getId()) {
       case R.id.add_record:
-        ((MainActivity)getActivity()).loadFragment(new HospitalizationFragment(), patient.getId(),true);
+        ((MainActivity) getActivity())
+            .loadFragment(new HospitalizationFragment(), patient.getId(), true);
         break;
       case R.id.edit_record:
         Bundle args = new Bundle();
         args.putInt(MainActivity.PATIENT_ID_KEY, patient.getId());
         args.putInt(HospitalizationFragment.HOSPITALIZATION_ID_KEY, hospitalization.getId());
-        ((MainActivity)getActivity()).loadFragment(new HospitalizationFragment(), args,true);
+        ((MainActivity) getActivity()).loadFragment(new HospitalizationFragment(), args, true);
         break;
 
     }

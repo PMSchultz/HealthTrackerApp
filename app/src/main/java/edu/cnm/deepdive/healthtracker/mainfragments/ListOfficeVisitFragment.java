@@ -75,7 +75,6 @@ public class ListOfficeVisitFragment extends Fragment implements View.OnClickLis
 
   /**
    * set OnClickListener to buttons
-   * @param rootView
    */
   private void setupButtons(View rootView) {
     Button addButton = rootView.findViewById(R.id.add_record);
@@ -124,7 +123,7 @@ public class ListOfficeVisitFragment extends Fragment implements View.OnClickLis
         Bundle args = new Bundle();
         args.putInt(MainActivity.PATIENT_ID_KEY, patient.getId());
         args.putInt(OfficeVisitFragment.OFFICE_VISIT_ID_KEY, officeVisit.getId());
-        ((MainActivity)getActivity()).loadFragment(new OfficeVisitFragment(), args,true);
+        ((MainActivity) getActivity()).loadFragment(new OfficeVisitFragment(), args, true);
         break;
 
     }

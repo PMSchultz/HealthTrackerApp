@@ -13,8 +13,8 @@ import java.util.Calendar;
 
 
 /**
- * DatePickerFragment is a fragment that is used for all instances that require a
- * date to be entered by the user. The fragment is attached to buttons
+ * DatePickerFragment is a fragment that is used for all instances that require a date to be entered
+ * by the user. The fragment is attached to buttons
  */
 
 public class DatePickerFragment extends DialogFragment implements

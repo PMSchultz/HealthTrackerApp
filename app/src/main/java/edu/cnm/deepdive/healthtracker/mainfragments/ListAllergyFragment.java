@@ -29,7 +29,8 @@ import java.util.List;
 /**
  * A fragment which contains a list of a selected patient's allergy records.
  */
-public class ListAllergyFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class ListAllergyFragment extends Fragment implements View.OnClickListener,
+    AdapterView.OnItemClickListener {
 
   /*   a patient instance */
   private Patient patient = null;
@@ -37,7 +38,7 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
   private Allergy allergy = null;
 
   /**
-   *Required empty public constructor
+   * Required empty public constructor
    */
   public ListAllergyFragment() {
   }
@@ -74,7 +75,6 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
 
   /**
    * Order allergy types for list view
-   * @param inflate
    */
   private void setupList(View inflate) {
     if (patient != null) {
@@ -90,26 +90,25 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
         builder.where().eq("PATIENT_ID", patient.getId());
 
         builder.orderByRaw("CASE ALLERGY_TYPE "
-                  + "WHEN 'Latex' THEN 0 "
-                    + "WHEN 'Medication' THEN 1 "
-                     + "WHEN 'Food' THEN 2 "
-                    + "WHEN 'Seasonal' THEN 3 "
-                    + "ELSE 4 "
-                     + "END ASC, "
+            + "WHEN 'Latex' THEN 0 "
+            + "WHEN 'Medication' THEN 1 "
+            + "WHEN 'Food' THEN 2 "
+            + "WHEN 'Seasonal' THEN 3 "
+            + "ELSE 4 "
+            + "END ASC, "
             + "ALLERGY_NAME ASC");
 
         List<Allergy> visits = dao.query(builder.prepare());
         chart.setAdapter(new Adapter(getActivity(), R.layout.list_item, visits));
         chart.setOnItemClickListener(this);
       } catch (SQLException e) {
-       throw new RuntimeException(e);
+        throw new RuntimeException(e);
       }
     }
   }
 
   /**
    * Set onClickListener to buttons
-   * @param rootView
    */
   private void setupButtons(View rootView) {
     Button addButton = rootView.findViewById(R.id.add_record);
@@ -124,15 +123,15 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
   @Override
   public void onClick(View view) {
 
-    switch (view.getId()){
+    switch (view.getId()) {
       case R.id.add_record:
-        ((MainActivity)getActivity()).loadFragment(new AllergyFragment(), patient.getId(),true);
+        ((MainActivity) getActivity()).loadFragment(new AllergyFragment(), patient.getId(), true);
         break;
       case R.id.edit_record:
         Bundle args = new Bundle();
         args.putInt(MainActivity.PATIENT_ID_KEY, patient.getId());
         args.putInt(AllergyFragment.ALLERGY_ID_KEY, allergy.getId());
-        ((MainActivity)getActivity()).loadFragment(new AllergyFragment(), args,true);
+        ((MainActivity) getActivity()).loadFragment(new AllergyFragment(), args, true);
         break;
 
     }
@@ -150,11 +149,13 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
    * Custom adapter
    */
   private class Adapter extends ArrayAdapter<Allergy> {
-/* layout to use for each item */
+
+    /* layout to use for each item */
     private int resource;
 
     /**
      * Custom adapter to sort Allergy items and add padding between Allergy types
+     *
      * @param context android context for displaying list
      * @param resource the layout to use for each item in list
      * @param objects Allergy objects to be displayed in a list
@@ -168,13 +169,15 @@ public class ListAllergyFragment extends Fragment implements View.OnClickListene
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
       Allergy item = getItem(position);
-      TextView view = (TextView) ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(resource, null);
+      TextView view = (TextView) ((LayoutInflater) getContext()
+          .getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(resource, null);
       view.setText(Html.fromHtml(item.toString()));
-      if (position < getCount() - 1){
+      if (position < getCount() - 1) {
         Allergy nextItem = getItem(position + 1);
-        if (! item.getAllergyType().equals(nextItem.getAllergyType()))  {
+        if (!item.getAllergyType().equals(nextItem.getAllergyType())) {
 
-          view.setPadding(view.getPaddingStart(),view.getPaddingTop(),view.getPaddingEnd(),view.getPaddingBottom() + 40);
+          view.setPadding(view.getPaddingStart(), view.getPaddingTop(), view.getPaddingEnd(),
+              view.getPaddingBottom() + 40);
         }
       }
       return view;

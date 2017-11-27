@@ -74,7 +74,8 @@ public class CreatePatientFragment extends DialogFragment implements OnClickList
         dismiss();
       } catch (ParseException e) {
         e.printStackTrace();
-        Toast.makeText(getActivity(), getString(R.string.dob_format_warning), Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), getString(R.string.dob_format_warning), Toast.LENGTH_LONG)
+            .show();
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }

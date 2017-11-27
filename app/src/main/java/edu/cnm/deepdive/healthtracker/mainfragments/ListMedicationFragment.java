@@ -31,8 +31,9 @@ import java.util.List;
  * A fragment which contains a list of a selected patient's medication records.
  */
 public class ListMedicationFragment extends Fragment implements View.OnClickListener,
-    AdapterView.OnItemClickListener{
-/* a patient instance */
+    AdapterView.OnItemClickListener {
+
+  /* a patient instance */
   private Patient patient = null;
   /* a medication instance */
   private Medication medication = null;
@@ -61,7 +62,6 @@ public class ListMedicationFragment extends Fragment implements View.OnClickList
 
   /**
    * method to create a medication list
-   * @param inflate
    */
   private void setupList(View inflate) {
     if (patient != null) {
@@ -101,19 +101,19 @@ public class ListMedicationFragment extends Fragment implements View.OnClickList
 
   /**
    * method to evaluate what button was clicked and response
-   * @param view
    */
   public void onClick(View view) {
 
-    switch (view.getId()){
+    switch (view.getId()) {
       case R.id.add_record:
-        ((MainActivity)getActivity()).loadFragment(new MedicationFragment(), patient.getId(),true);
+        ((MainActivity) getActivity())
+            .loadFragment(new MedicationFragment(), patient.getId(), true);
         break;
       case R.id.edit_record:
         Bundle args = new Bundle();
         args.putInt(MainActivity.PATIENT_ID_KEY, patient.getId());
         args.putInt(MedicationFragment.MEDICATION_ID_KEY, medication.getId());
-        ((MainActivity)getActivity()).loadFragment(new MedicationFragment(), args,true);
+        ((MainActivity) getActivity()).loadFragment(new MedicationFragment(), args, true);
         break;
 
     }
@@ -121,8 +121,7 @@ public class ListMedicationFragment extends Fragment implements View.OnClickList
   }
 
   /**
-   *set OnClickListener to buttons
-   * @param rootView
+   * set OnClickListener to buttons
    */
   private void setupButtons(View rootView) {
     Button addButton = rootView.findViewById(R.id.add_record);
@@ -139,15 +138,19 @@ public class ListMedicationFragment extends Fragment implements View.OnClickList
     editButton.setEnabled(true);
 
   }
+
   /**
    * Custom adapter
    */
   private class Adapter extends ArrayAdapter<Medication> {
+
     /* layout to use for each item */
     private int resource;
 
     /**
-     * Custom adapter to sort Medication items and add padding between current and discontinued Medication
+     * Custom adapter to sort Medication items and add padding between current and discontinued
+     * Medication
+     *
      * @param context android context for displaying list
      * @param resource the layout to use for each item in list
      * @param objects Medication objects to be displayed in a list
@@ -161,13 +164,15 @@ public class ListMedicationFragment extends Fragment implements View.OnClickList
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
       Medication item = getItem(position);
-      TextView view = (TextView) ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(resource, null);
+      TextView view = (TextView) ((LayoutInflater) getContext()
+          .getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(resource, null);
       view.setText(Html.fromHtml(item.toString()));
-      if (position < getCount() - 1){
+      if (position < getCount() - 1) {
         Medication nextItem = getItem(position + 1);
-        if (item.getStopDate() == null && (nextItem.getStopDate() != null))  {
+        if (item.getStopDate() == null && (nextItem.getStopDate() != null)) {
 
-          view.setPadding(view.getPaddingStart(),view.getPaddingTop(),view.getPaddingEnd(),view.getPaddingBottom() + 40);
+          view.setPadding(view.getPaddingStart(), view.getPaddingTop(), view.getPaddingEnd(),
+              view.getPaddingBottom() + 40);
         }
       }
       return view;

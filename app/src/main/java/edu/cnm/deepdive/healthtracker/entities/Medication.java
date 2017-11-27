@@ -121,7 +121,8 @@ public class Medication {
   @Override
   public String toString() {
     DateFormat format = new SimpleDateFormat("M/d/yy");
-    return "<b>" + medicationName + "</b>"+ "    " + ((dose != null) ? (dose) : "") + "   Start date: " + format
+    return "<b>" + medicationName + "</b>" + "    " + ((dose != null) ? (dose) : "")
+        + "   Start date: " + format
         .format(startDate)
         + ((stopDate != null) ? ("    Stop date: " + format.format(stopDate)) : "");
   }
