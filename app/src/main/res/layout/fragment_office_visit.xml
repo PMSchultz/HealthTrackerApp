@@ -1,0 +1,123 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:orientation="vertical"
+  android:layout_margin="16dp"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="edu.cnm.deepdive.healthtracker.mainfragments.OfficeVisitFragment">
+
+  <EditText
+    android:id="@+id/reason"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="70dp"
+    android:paddingBottom="10dp"
+    android:hint="Reason"
+    android:textSize="20dp"/>
+
+  <Button
+    android:id="@+id/visit_date"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@id/reason"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:text="Date"
+    android:textAlignment="viewStart"
+    android:textSize="20dp"/>
+
+  <EditText
+    android:id="@+id/provider"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@+id/visit_date"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:hint="Provider/Facility"
+    android:textSize="20dp"/>
+
+
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:paddingTop="10dp">
+
+        <EditText
+          android:id="@+id/height_input"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:hint="Height:"/>
+
+  </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:paddingTop="10dp">
+
+
+      <EditText
+        android:id="@+id/weight_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Weight:"/>
+
+    </LinearLayout>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="10dp">
+
+    <EditText
+      android:id="@+id/blood_pressure_input"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:hint="Blood Pressure:"/>
+
+  </LinearLayout>
+  <EditText
+    android:id="@+id/note"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:inputType="textMultiLine"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:hint="Notes:"
+    android:textSize="20dp"/>
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignBottom="@+id/parentPanel"
+    android:orientation="horizontal" >
+    <Button
+      android:id="@+id/save_office_visit_record"
+      android:layout_width="100dp"
+      android:layout_height="wrap_content"
+      android:layout_marginRight="25dp"
+      android:paddingRight="10dp"
+      android:paddingLeft="10dp"
+      android:text="Save"/>
+
+    <Button
+      android:id="@+id/delete_office_visit_record"
+      android:layout_width="100dp"
+      android:layout_height="wrap_content"
+      android:paddingRight="10dp"
+      android:paddingLeft="10dp"
+      android:text="Delete"/>
+
+    <Button
+      android:id="@+id/cancel_office_visit_record"
+      android:layout_width="100dp"
+      android:layout_height="wrap_content"
+      android:paddingRight="10dp"
+      android:paddingLeft="10dp"
+      android:layout_marginLeft="25dp"
+      android:text="Cancel"/>
+  </LinearLayout>
+</LinearLayout>

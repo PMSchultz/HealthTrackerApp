@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="Android SQLite">
+  <database-model serializer="dbm" rdbms="SQLITE" format-version="4.4">
+    <root id="1"/>
+    <schema id="2" parent="1" name="main">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <collation id="3" parent="1" name="BINARY"/>
+    <collation id="4" parent="1" name="NOCASE"/>
+    <collation id="5" parent="1" name="RTRIM"/>
+    <table id="6" parent="2" name="2017_FDA_List"/>
+    <table id="7" parent="2" name="ALLERGY"/>
+    <table id="8" parent="2" name="HOSPITALIZATION"/>
+    <table id="9" parent="2" name="IMMUNIZATION"/>
+    <table id="10" parent="2" name="MEDICATION"/>
+    <table id="11" parent="2" name="OFFICE_VISIT"/>
+    <table id="12" parent="2" name="PATIENT"/>
+    <table id="13" parent="2" name="android_metadata"/>
+    <table id="14" parent="2" name="sqlite_master">
+      <System>1</System>
+    </table>
+    <table id="15" parent="2" name="sqlite_sequence">
+      <System>1</System>
+    </table>
+    <column id="16" parent="6" name="Form">
+      <DataType>TEXT|0</DataType>
+    </column>
+    <column id="17" parent="6" name="Strength">
+      <Position>1</Position>
+      <DataType>TEXT|0</DataType>
+    </column>
+    <column id="18" parent="6" name="DrugName">
+      <Position>2</Position>
+      <DataType>TEXT|0</DataType>
+    </column>
+    <column id="19" parent="6" name="ActiveIngredient">
+      <Position>3</Position>
+      <DataType>TEXT|0</DataType>
+    </column>
+    <column id="20" parent="7" name="ANIMAL_ALLERGY">
+      <DataType>VARCHAR|0</DataType>
+    </column>
+    <column id="21" parent="7" name="FOOD_ALLERGY">
+      <Position>1</Position>
+      <DataType>VARCHAR|0</DataType>
+    </column>
+    <column id="22" parent="7" name="ALLERGY_ID">
+      <Position>2</Position>
+      <DataType>INTEGER|0</DataType>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="23" parent="7" name="LATEX_ALLERGY">
+      <Position>3</Position>
+      <DataType>SMALLINT|0</DataType>
+    </column>
+    <column id="24" parent="7" name="MEDICATION_ID">
+      <Position>4</Position>
+      <DataType>INTEGER|0</DataType>
+    </column>
+    <column id="25" parent="7" name="NOTES">
+      <Position>5</Position>
+      <DataType>VARCHAR|0</DataType>
+    </column>
+    <column id="26" parent="7" name="PATIENT_ID">
+      <Position>6</Position>
+      <DataType>INTEGER|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="27" parent="7" name="SEASONAL_ALLERGY">
+      <Position>7</Position>
+      <DataType>VARCHAR|0</DataType>
+    </column>
+    <key id="28" parent="7">
+      <ColNames>ALLERGY_ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="29" parent="8" name="ADMIT_DATE">
+      <DataType>VARCHAR|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="30" parent="8" name="DISCHARGE_DATE">
+      <Position>1</Position>
+      <DataType>VARCHAR|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="31" parent="8" name="HOSPITAL">
+      <Position>2</Position>
+      <DataType>VARCHAR|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="32" parent="8" name="HOSPITALIZATION_ID">
+      <Position>3</Position>
+      <DataType>INTEGER|0</DataType>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="33" parent="8" name="NOTES">
+      <Position>4</Position>
+      <DataType>VARCHAR|0</DataType>
+    </column>
+    <column id="34" parent="8" name="PATIENT_ID">
+      <Position>5</Position>
+      <DataType>INTEGER|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="35" parent="8" name="PROVIDER">
+      <Position>6</Position>
+      <DataType>VARCHAR|0</DataType>
+    </column>
+    <column id="36" parent="8" name="REASON">
+      <Position>7</Position>
+      <DataType>VARCHAR|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="37" parent="8">
+      <ColNames>HOSPITALIZATION_ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="38" parent="9" name="DATE">
+      <DataType>VARCHAR|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="39" parent="9" name="IMMUNIZATION_ID">
+      <Position>1</Position>
+      <DataType>INTEGER|0</DataType>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="40" parent="9" name="NOTES">
+      <Position>2</Position>
+      <DataType>VARCHAR|0</DataType>
+    </column>
+    <column id="41" parent="9" name="PATIENT_ID">
+      <Position>3</Position>
+      <DataType>INTEGER|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="42" parent="9" name="PROVIDER">
+      <Position>4</Position>
+      <DataType>VARCHAR|0</DataType>
+    </column>
+    <column id="43" parent="9" name="VACCINE">
+      <Position>5</Position>
+      <DataType>VARCHAR|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="44" parent="9">
+      <ColNames>IMMUNIZATION_ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="45" parent="10" name="MEDICATION_ID">
+      <DataType>INTEGER|0</DataType>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="46" parent="10" name="NAME">
+      <Position>1</Position>
+      <DataType>VARCHAR|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="47" parent="10" name="NOTES">
+      <Position>2</Position>
+      <DataType>VARCHAR|0</DataType>
+    </column>
+    <column id="48" parent="10" name="PATIENT_ID">
+      <Position>3</Position>
+      <DataType>INTEGER|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="49" parent="10" name="PROVIDER">
+      <Position>4</Position>
+      <DataType>VARCHAR|0</DataType>
+    </column>
+    <column id="50" parent="10" name="START_DATE">
+      <Position>5</Position>
+      <DataType>VARCHAR|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="51" parent="10" name="STOP_DATE">
+      <Position>6</Position>
+      <DataType>VARCHAR|0</DataType>
+    </column>
+    <key id="52" parent="10">
+      <ColNames>MEDICATION_ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="53" parent="11" name="BLOOD_PRESSURE">
+      <DataType>VARCHAR|0</DataType>
+    </column>
+    <column id="54" parent="11" name="DATE">
+      <Position>1</Position>
+      <DataType>DATE OF OFFICE VISIT|0</DataType>
+    </column>
+    <column id="55" parent="11" name="HEIGHT">
+      <Position>2</Position>
+      <DataType>VARCHAR|0</DataType>
+    </column>
+    <column id="56" parent="11" name="OFFICE_VISIT_ID">
+      <Position>3</Position>
+      <DataType>INTEGER|0</DataType>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="57" parent="11" name="NOTES">
+      <Position>4</Position>
+      <DataType>VARCHAR|0</DataType>
+    </column>
+    <column id="58" parent="11" name="PATIENT_ID">
+      <Position>5</Position>
+      <DataType>INTEGER|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="59" parent="11" name="PROVIDER">
+      <Position>6</Position>
+      <DataType>VARCHAR|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="60" parent="11" name="REASON">
+      <Position>7</Position>
+      <DataType>VARCHAR|0</DataType>
+    </column>
+    <column id="61" parent="11" name="WEIGHT">
+      <Position>8</Position>
+      <DataType>VARCHAR|0</DataType>
+    </column>
+    <key id="62" parent="11">
+      <ColNames>OFFICE_VISIT_ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="63" parent="12" name="CREATED">
+      <DataType>TIMESTAMP|0</DataType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+    </column>
+    <column id="64" parent="12" name="DOB_DATE">
+      <Position>1</Position>
+      <DataType>VARCHAR|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="65" parent="12" name="PATIENT_ID">
+      <Position>2</Position>
+      <DataType>INTEGER|0</DataType>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="66" parent="12" name="NAME">
+      <Position>3</Position>
+      <DataType>VARCHAR|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="67" parent="12">
+      <ColNames>PATIENT_ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="68" parent="13" name="locale">
+      <DataType>TEXT|0</DataType>
+    </column>
+    <column id="69" parent="14" name="type">
+      <DataType>text|0</DataType>
+    </column>
+    <column id="70" parent="14" name="name">
+      <Position>1</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="71" parent="14" name="tbl_name">
+      <Position>2</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="72" parent="14" name="rootpage">
+      <Position>3</Position>
+      <DataType>integer|0</DataType>
+    </column>
+    <column id="73" parent="14" name="sql">
+      <Position>4</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="74" parent="15" name="name"/>
+    <column id="75" parent="15" name="seq">
+      <Position>1</Position>
+    </column>
+  </database-model>
+</dataSource>

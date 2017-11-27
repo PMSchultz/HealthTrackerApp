@@ -1,0 +1,82 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:orientation="vertical"
+  android:layout_margin="16dp"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="edu.cnm.deepdive.healthtracker.mainfragments.AllergyFragment"
+  android:weightSum="1">
+  <TextView
+    android:id="@+id/allergy_message"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+
+    android:text="Please select a type of allergy:"/>
+  <Spinner
+    android:id="@+id/allergy_spinner"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:layout_marginTop="50dp"
+    android:background="@android:drawable/btn_dropdown"
+    android:entries="@array/allergy_types"
+    android:spinnerMode="dropdown">
+  </Spinner>
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="vertical"
+    android:paddingTop="20dp">
+
+
+  </LinearLayout>
+  <EditText
+      android:id="@+id/allergy"
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:hint = "Enter allergy"/>
+
+
+
+  <EditText
+    android:id="@+id/note"
+    android:layout_width="match_parent"
+    android:layout_height="107dp"
+    android:inputType="textMultiLine"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:hint="Notes"
+    android:layout_weight="0.08"/>
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:orientation="horizontal"
+    android:gravity="center">
+    <Button
+      android:id="@+id/save_allergy_record"
+      android:layout_width="75dp"
+      android:layout_height="wrap_content"
+      android:layout_marginRight="25dp"
+      android:paddingRight="10dp"
+      android:paddingLeft="10dp"
+      android:text="Save"/>
+
+    <Button
+      android:id="@+id/delete_allergy_record"
+      android:layout_width="75dp"
+      android:layout_height="wrap_content"
+      android:paddingRight="10dp"
+      android:paddingLeft="10dp"
+      android:text="Delete"/>
+
+    <Button
+      android:id="@+id/cancel_allergy_record"
+      android:layout_width="75dp"
+      android:layout_height="wrap_content"
+      android:paddingRight="10dp"
+      android:paddingLeft="10dp"
+      android:layout_marginLeft="25dp"
+      android:text="Cancel"/>
+  </LinearLayout>
+
+</LinearLayout>

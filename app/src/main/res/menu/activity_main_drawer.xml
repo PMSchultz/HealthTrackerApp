@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <group android:checkableBehavior="none">
+    <item
+      android:id="@+id/nav_allergies"
+      android:title="Allergies"
+      android:enabled="false"/>
+    <item
+      android:id="@+id/nav_immunizations"
+      android:title="Immunizations"
+      android:enabled="false"/>
+    <item
+      android:id="@+id/nav_medications"
+      android:title="Medications"
+      android:enabled="false"/>
+    <item
+      android:id="@+id/nav_office_visits"
+      android:title="Office Visits"
+      android:enabled="false"/>
+    <item
+      android:id="@+id/nav_hospitalizations"
+      android:title="Hospitalizations"
+      android:enabled="false"/>
+  </group>
+
+</menu>

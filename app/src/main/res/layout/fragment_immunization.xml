@@ -1,0 +1,76 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:orientation="vertical"
+  android:layout_margin="16dp"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="edu.cnm.deepdive.healthtracker.mainfragments.ImmunizationFragment">
+
+  <AutoCompleteTextView
+    android:id="@+id/vaccine"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="100dp"
+    android:paddingBottom="10dp"
+    android:hint="Vaccine"
+    android:textSize="20dp"/>
+
+  <Button
+    android:id="@+id/date_administered"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@id/vaccine"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:onClick="showDatePickerDialog"
+    android:text="Date administered"
+    android:textAlignment="viewStart"/>
+
+  <EditText
+    android:id="@+id/provider"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@+id/date_administered"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:hint="Provider/Facility"/>
+  <EditText
+    android:id="@+id/note"
+    android:layout_width="match_parent"
+    android:layout_height="291dp"
+    android:inputType="textMultiLine"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:hint="Notes:"/>
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignBottom="@+id/parentPanel"
+    android:orientation="horizontal" >
+    <Button
+      android:id="@+id/save_immunization_record"
+      android:layout_width="100dp"
+      android:layout_height="wrap_content"
+      android:layout_marginRight="25dp"
+      android:paddingRight="10dp"
+      android:paddingLeft="10dp"
+      android:text="Save"/>
+
+    <Button
+      android:id="@+id/delete_immunization_record"
+      android:layout_width="100dp"
+      android:layout_height="wrap_content"
+      android:paddingRight="10dp"
+      android:paddingLeft="10dp"
+      android:text="Delete"/>
+
+    <Button
+      android:id="@+id/cancel_immunization_record"
+      android:layout_width="100dp"
+      android:layout_height="wrap_content"
+      android:paddingRight="10dp"
+      android:paddingLeft="10dp"
+      android:layout_marginLeft="25dp"
+      android:text="Cancel"/>
+  </LinearLayout>
+</LinearLayout>

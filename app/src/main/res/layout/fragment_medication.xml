@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:orientation="vertical"
+  android:layout_margin="16dp"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="edu.cnm.deepdive.healthtracker.mainfragments.MedicationFragment">
+
+  <EditText
+    android:id="@+id/product"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="70dp"
+    android:paddingBottom="10dp"
+    android:hint="Medication"
+    android:textSize="20dp"/>
+
+  <EditText
+    android:id="@+id/dose"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@id/product"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:hint="Dose"/>
+
+  <Button
+    android:id="@+id/date_started"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@id/dose"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:text="Date Started"
+    android:textAlignment="viewStart"/>
+
+  <Button
+    android:id="@+id/date_ended"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@id/date_started"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:text="Date Stopped"
+    android:textAlignment="viewStart"/>
+
+  <EditText
+    android:id="@+id/provider"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@+id/date_ended"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:hint="Prescribing Physician"/>
+  <EditText
+    android:id="@+id/note"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:inputType="textMultiLine"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:text="Notes:"/>
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignBottom="@+id/parentPanel"
+    android:orientation="horizontal" >
+    <Button
+      android:id="@+id/save_medication_record"
+      android:layout_width="100dp"
+      android:layout_height="wrap_content"
+      android:layout_marginRight="25dp"
+      android:paddingRight="10dp"
+      android:paddingLeft="10dp"
+      android:text="Save"/>
+
+    <Button
+      android:id="@+id/delete_medication_record"
+      android:layout_width="100dp"
+      android:layout_height="wrap_content"
+      android:paddingRight="10dp"
+      android:paddingLeft="10dp"
+      android:text="Delete"/>
+
+    <Button
+      android:id="@+id/cancel_medication_record"
+      android:layout_width="100dp"
+      android:layout_height="wrap_content"
+      android:paddingRight="10dp"
+      android:paddingLeft="10dp"
+      android:layout_marginLeft="25dp"
+      android:text="Cancel"/>
+  </LinearLayout>
+</LinearLayout>

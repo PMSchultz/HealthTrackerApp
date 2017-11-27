@@ -1,0 +1,79 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  tools:context="edu.cnm.deepdive.healthtracker.loginfragments.CreatePatientFragment">
+
+  <TextView
+    android:id="@+id/createPatientInfo"
+    android:textStyle="bold"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:text="Name:"
+    android:textSize="18sp"/>
+  <EditText
+    android:id="@+id/newPatientName"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_alignTop="@id/createPatientInfo"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:hint="name"
+    android:inputType="textPersonName"
+    android:textAlignment="viewStart"/>
+
+  <TextView
+    android:id="@+id/patientDOBInfo"
+    android:textStyle="bold"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_alignTop="@id/newPatientName"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:text="Date of birth:"
+    android:textSize="18sp"/>
+  <EditText
+    android:id="@+id/patientDOB"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_alignTop="@id/patientDOBInfo"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:hint="xx/xx/xx"
+    android:inputType="textPersonName"
+    android:textAlignment="viewStart"/>
+<LinearLayout
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical"
+  android:gravity="center">
+
+  <Button
+    android:id="@+id/createPatient"
+    android:layout_width="175dp"
+    android:layout_height="50dp"
+    android:layout_centerInParent = "true"
+    android:layout_alignTop="@id/patientDOB"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:text="Create"/>
+</LinearLayout>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">
+  <Button
+    android:id="@+id/cancelPatient"
+    android:layout_width="175dp"
+    android:layout_height="50dp"
+    android:layout_alignTop="@id/createPatient"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:text="Cancel"/>
+  </LinearLayout>
+</LinearLayout>
