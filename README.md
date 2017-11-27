@@ -45,6 +45,7 @@ supplement fields.
 * Login with email and password
 * Add a FAQ section 
 * Add ability to share/print/email/fax chart
+* Add ability to display all medical charts or selected (more than one type) of medical record at once
 * Add a private option for patient to keep chart items from showing in history
 * Add a secure server so that medical charts are not lost if person changes devices, etc.
 * Develop app for ios

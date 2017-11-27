@@ -215,7 +215,8 @@ public class MedicationFragment extends Fragment implements Button.OnClickListen
               //.eq("STOP_DATE", medication.getStopDate()).and()
               .eq("PROVIDER", medication.getProvider()).and()
               .eq("PATIENT_ID", patient).and()
-              .eq("DOSE", medication.getDose());
+              .eq("DOSE", medication.getDose()).and()
+          .not().eq("MEDICATION_ID", medication.getId());
           if (helper.getMedicationDao().query(queryBuilder.prepare()).size() > 0) {
             Toast.makeText(getContext(), "This record is already in patient's chart",
                 Toast.LENGTH_LONG).show();

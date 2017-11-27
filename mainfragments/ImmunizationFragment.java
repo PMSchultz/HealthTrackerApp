@@ -160,18 +160,13 @@ public class ImmunizationFragment extends Fragment implements Button.OnClickList
           QueryBuilder queryBuilder = helper.getImmunizationDao().queryBuilder();
           queryBuilder.where().eq("VACCINE",immunization.getVaccine()).and()
               .eq("DATE", immunization.getDate()).and().eq("PATIENT_ID", patientID)
-              .and().eq("PROVIDER", immunization.getProvider());
+              .and().not().eq("IMMUNIZATION_ID", immunization.getId());
           if(helper.getImmunizationDao().query(queryBuilder.prepare()).size() > 0){
             Toast.makeText(getContext(), "This record is already in patient's chart", Toast.LENGTH_LONG).show();
             return;
           }
           immunization.setPatient(patient);
           helper.getImmunizationDao().createOrUpdate(immunization);
-//          if (immunization.getId() != 0) {
-//            helper.getImmunizationDao().update(immunization);
-//          } else {
-//            helper.getImmunizationDao().create(immunization);
-//          }
         } catch (SQLException e) {
           throw new RuntimeException(e);
         }
