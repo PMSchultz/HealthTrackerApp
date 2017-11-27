@@ -22,6 +22,14 @@
       android:id="@+id/nav_hospitalizations"
       android:title="Hospitalizations"
       android:enabled="false"/>
+    <item
+      android:id="@+id/nav_radiology_exams"
+      android:title="Imaging Exams"
+      android:enabled="false"/>
+    <item
+      android:id="@+id/nav_lab_exams"
+      android:title="Laboratory Tests"
+      android:enabled="false"/>
   </group>
 
 </menu>

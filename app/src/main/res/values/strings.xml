@@ -32,4 +32,20 @@
     <item>Animal</item>
 
   </string-array>
+
+  <string-array name="radiology_types">
+    <item>Xray </item>
+    <item>Mammography</item>
+    <item>DEXA (Bone density)</item>
+    <item>Fluoroscopy</item>
+    <item>Angiography</item>
+    <item>CT (Computed Tomography)</item>
+    <item>Ultrasound</item>
+    <item>MRI (Magnetic Resonance Imaging)</item>
+    <item>Nuclear Medicine</item>
+    <item>PET (Positron Emission Tomography)</item>
+  </string-array>
+
+  <!-- TODO: Remove or change this placeholder text -->
+  <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -28,12 +28,16 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import edu.cnm.deepdive.healthtracker.entities.Patient;
 import edu.cnm.deepdive.healthtracker.helpers.OrmHelper;
 import edu.cnm.deepdive.healthtracker.loginfragments.CreatePatientFragment;
+import edu.cnm.deepdive.healthtracker.mainfragments.LabResultsFragment;
 import edu.cnm.deepdive.healthtracker.mainfragments.ListAllergyFragment;
 import edu.cnm.deepdive.healthtracker.mainfragments.ListHospitalizationFragment;
 import edu.cnm.deepdive.healthtracker.mainfragments.ListImmunizationFragment;
+import edu.cnm.deepdive.healthtracker.mainfragments.ListLabResultsFragment;
 import edu.cnm.deepdive.healthtracker.mainfragments.ListMedicationFragment;
+import edu.cnm.deepdive.healthtracker.mainfragments.ListRadiologyFragment;
 import edu.cnm.deepdive.healthtracker.mainfragments.MedicationFragment;
 import edu.cnm.deepdive.healthtracker.mainfragments.ListOfficeVisitFragment;
+import edu.cnm.deepdive.healthtracker.mainfragments.RadiologyFragment;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -200,6 +204,12 @@ public class MainActivity extends AppCompatActivity
         break;
       case R.id.nav_office_visits:
         loadFragment(new ListOfficeVisitFragment(), patientId, false);
+        break;
+      case R.id.nav_radiology_exams:
+        loadFragment(new ListRadiologyFragment(), patientId, false);
+        break;
+      case R.id.nav_lab_exams:
+        loadFragment(new ListLabResultsFragment(), patientId, false);
         break;
     }
 

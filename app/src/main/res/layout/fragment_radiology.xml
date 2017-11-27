@@ -1,0 +1,111 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  android:layout_margin="16dp"
+  tools:context="edu.cnm.deepdive.healthtracker.mainfragments.RadiologyFragment">
+  <TextView
+    android:id="@+id/radiology_message"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+android:layout_marginTop="20dp"
+    android:text="Please select a type of radiology exam:"/>
+  <Spinner
+    android:id="@+id/radiology_exam_spinner"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:paddingTop="5dp"
+    android:background="@android:drawable/btn_dropdown"
+    android:entries="@array/radiology_types"
+    android:spinnerMode="dropdown">
+  </Spinner>
+
+  <EditText
+    android:id="@+id/exam_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@+id/radiology_exam_spinner"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:hint="Exam name"/>
+
+  <EditText
+    android:id="@+id/body_part"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@+id/exam_name"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:hint="Body part imaged"/>
+
+
+  <Button
+    android:id="@+id/exam_date"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@id/body_part"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:text="Exam date"
+    android:textAlignment="viewStart"/>
+
+  <EditText
+    android:id="@+id/facility"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@+id/exam_date"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:hint="Facility"/>
+
+  <EditText
+    android:id="@+id/provider"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@+id/facility"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:hint="Ordering provider"/>
+  <EditText
+    android:id="@+id/note"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:hint="Notes:"
+    android:inputType="textMultiLine"
+    android:textAlignment="viewStart"/>
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignBottom="@+id/parentPanel"
+    android:orientation="horizontal">
+    <Button
+      android:id="@+id/save_radiology_record"
+      android:layout_width="100dp"
+      android:layout_height="wrap_content"
+      android:layout_marginRight="25dp"
+      android:paddingRight="10dp"
+      android:paddingLeft="10dp"
+      android:text="Save"/>
+
+    <Button
+      android:id="@+id/delete_radiology_record"
+      android:layout_width="100dp"
+      android:layout_height="wrap_content"
+      android:paddingRight="10dp"
+      android:paddingLeft="10dp"
+      android:text="Delete"/>
+
+    <Button
+      android:id="@+id/cancel_radiology_record"
+      android:layout_width="100dp"
+      android:layout_height="wrap_content"
+      android:paddingRight="10dp"
+      android:paddingLeft="10dp"
+      android:layout_marginLeft="25dp"
+      android:text="Cancel"/>
+  </LinearLayout>
+
+</LinearLayout>

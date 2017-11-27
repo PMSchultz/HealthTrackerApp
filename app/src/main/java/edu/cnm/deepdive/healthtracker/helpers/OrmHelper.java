@@ -10,9 +10,11 @@ import com.j256.ormlite.table.TableUtils;
 import edu.cnm.deepdive.healthtracker.entities.Allergy;
 import edu.cnm.deepdive.healthtracker.entities.Hospitalization;
 import edu.cnm.deepdive.healthtracker.entities.Immunization;
+import edu.cnm.deepdive.healthtracker.entities.Laboratory;
 import edu.cnm.deepdive.healthtracker.entities.Medication;
 import edu.cnm.deepdive.healthtracker.entities.OfficeVisit;
 import edu.cnm.deepdive.healthtracker.entities.Patient;
+import edu.cnm.deepdive.healthtracker.entities.Radiology;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,6 +41,10 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
   private Dao<Hospitalization, Integer> hospitalizationDao = null;
   /* create a reference of an officeVisitDao */
   private Dao<OfficeVisit, Integer> officeVisitDao = null;
+  /* create a reference of a radiologyDao */
+  private Dao<Radiology, Integer> radiologyDao = null;
+  /* create a reference of a labDao */
+  private Dao<Laboratory, Integer> labDao = null;
 
   /**
    * constructor
@@ -59,6 +65,8 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
       TableUtils.createTable(connectionSource, Allergy.class);
       TableUtils.createTable(connectionSource, OfficeVisit.class);
       TableUtils.createTable(connectionSource, Hospitalization.class);
+      TableUtils.createTable(connectionSource, Radiology.class);
+      //TableUtils.createTable(connectionSource, Laboratory.class);
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -160,5 +168,31 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper {
     }
     return officeVisitDao;
   }
+  /**
+   * method to access a radiology data access object
+   *
+   * @return radiology data access object
+   * @throws SQLException if unable to get an Radiology Dao
+   */
+  public synchronized Dao<Radiology, Integer> getRadiologyDao() throws SQLException {
+    if (radiologyDao == null) {
+      radiologyDao = getDao(Radiology.class);
+    }
+    return radiologyDao;
+  }
+
+  /**
+   * method to access an laboratory data access object
+   *
+   * @return lab data access object
+   * @throws SQLException if unable to get an Laboratory Dao
+   */
+  public synchronized Dao<Laboratory, Integer> getLabDao() throws SQLException {
+    if (labDao == null) {
+     labDao = getDao(Laboratory.class);
+    }
+    return labDao;
+  }
+
 }
 
