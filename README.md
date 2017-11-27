@@ -3,6 +3,9 @@
 ## Overview
 HealthTracker is a covenient app that keeps medical records for you and your family.  Easily create charts for yourself and individual family members.  Enter allergies, medications, immunizations, office visits, and hospitalizations and have that information available anytime. Can't remember how long it's been since you had a tetanus shot...find the date easily on HealthTracker.  The daycare or school needs a copy of your child's immunization record...the information you need is on your child's immunization chart on HealthTracker.  Perhaps you are on vacation and find yourself after hours in an Urgent Care or Emergency Room with no access to your doctor's office or medical records...you always have your chart with you with HealthTracker.  
 
+## Docs
+(https://pmschultz.github.io/HealthTrackerApp/docs/)
+
 ## Purpose
 
 HealthTracker is a personal health record (PHR), similar to the electronic health record (EHR) that your doctor might keep, except that you store your most important health information and have control over who can access it.
@@ -28,9 +31,8 @@ The current version of HealthTracker features the following:
 * Nexus 5X API 22 Phone
 * Nexus 9 API 22 Tablet
 
-## Action Items
-* Immunization: if no provider is typed in, stops working
-* Medication: if go back to edit by adding a stop date, pop up message "medication is already in chart and does not edit"
+## Aesthetic Improvements
+* Add headings to medication list 
 
 ## Stretch Goals
 * Immunizations - change existing user input method. Use a check item list of immunizations obtained from a database.  Store each immunization in a separate record for ease of future editing
